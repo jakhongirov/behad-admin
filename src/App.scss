@@ -1,0 +1,37 @@
+@font-face {font-family: "DINOT-Regular"; src: url("//db.onlinewebfonts.com/t/1c587cd97662ab09cb8ba96867f212e7.eot"); src: url("//db.onlinewebfonts.com/t/1c587cd97662ab09cb8ba96867f212e7.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/1c587cd97662ab09cb8ba96867f212e7.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/1c587cd97662ab09cb8ba96867f212e7.woff") format("woff"), url("//db.onlinewebfonts.com/t/1c587cd97662ab09cb8ba96867f212e7.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/1c587cd97662ab09cb8ba96867f212e7.svg#DINOT-Regular") format("svg"); }
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    text-decoration: none;
+  }
+  
+  body{
+    font-family: "DINOT-Regular";
+  }
+
+  #root {
+    display: flex;
+    width: 100%;
+    /* justify-content: space-around; */
+  }
+  
+  main{
+    width: 100%;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 20px;
+  }
