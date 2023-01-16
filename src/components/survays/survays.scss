@@ -1,0 +1,78 @@
+.survays{
+    table {
+        width: calc(1486px + 30px);
+        padding: 30px 0 0 30px;
+        display: flex;
+        flex-direction: column;
+      }
+}
+
+.customers_checkbox_wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.customers_checkbox-container {
+    height: 100%;
+    display: flex;
+}
+
+.customer_input {
+    display: none;
+}
+
+.customers_checkmark {
+    bottom: 0;
+    left: 0;
+    margin: 0 auto;
+}
+
+.date {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.checkbox-container {
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 24px;
+    background: rgba($color: #01384d, $alpha: 0.2);
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    div {
+        width: 18px;
+        height: 18px;
+        background: #fff;
+        margin: 3px;
+        border-radius: 50%;
+        transition: 300ms ease-in-out;
+    }
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background: rgba($color: #12af18, $alpha: 0.2);
+    div {
+        background: #12af18;
+        margin-left: 24px;
+    }
+}

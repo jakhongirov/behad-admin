@@ -19,17 +19,23 @@ function Search({ link, value, setValue, setSearch }) {
                                     <option value="age">Age</option>
                                     <option value="phone">Phone</option>
                                 </>
-                            ) : (
-                                <>
-                                    <option value="id">id</option>
-                                    <option value="name">Name</option>
-                                    <option value="app_key">Key</option>
-                                </>
-                            )
+                            ) : link === "survey"
+                                ? (
+                                    <>
+                                        <option value="id">id</option>
+                                    </>
+                                )
+                                : (
+                                    <>
+                                        <option value="id">id</option>
+                                        <option value="name">Name</option>
+                                        <option value="key">Key</option>
+                                    </>
+                                )
                         }
                     </select>
                     <div className="">
-                        <input className="search-input" onChange={(e) => setSearch(e.target.value.trim())} type={value === "id" || value === "age" ? "number"  : "text"} placeholder="Search" />
+                        <input className="search-input" onChange={(e) => setSearch(e.target.value.trim())} type={value === "id" || value === "age" ? "number" : "text"} placeholder="Search" />
                     </div>
                 </div>
             </section>

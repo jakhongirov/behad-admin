@@ -25,7 +25,7 @@ function Login() {
             redirect: 'follow',
         };
 
-        fetch('http://192.168.7.168:8000/api/admin', requestOptions)
+        fetch('https://users.behad.uz/api/v1/admin', requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === 401) {

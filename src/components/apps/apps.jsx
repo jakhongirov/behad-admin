@@ -7,7 +7,7 @@ import Search from '../search/search';
 
 function Apps() {
     const [data, setData] = useState()
-    const [token] = useToken()
+    const [token, setToken] = useToken()
     const [value, setValue] = useState('')
     const [search, setSearch] = useState('')
     const [deleted, setDelete] = useState(0)
@@ -19,7 +19,7 @@ function Apps() {
 
 
     useEffect(() => {
-        fetch('http://192.168.7.168:8000/api' + '/apps?' + value + "=" + search, {
+        fetch('https://users.behad.uz/api/v1/apps?' + value + "=" + search, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -27,22 +27,28 @@ function Apps() {
             },
         })
             .then(res => res.json())
-            .then(data => data.status === 200 ? setData(data.data) : console.log(data))
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
             .catch((e) => console.log(e))
-    }, [value, search, deleted])
-
+    }, [value, search, token, deleted])
 
     const HandlePost = (e) => {
         e.preventDefault();
-        const { name, key, cur_vs, min_vs } = e.target.elements
+        const { name, key, cur_vs, min_vs, price } = e.target.elements
 
-        fetch("http://192.168.7.168:8000/api" + '/addApp', {
+        fetch("https://users.behad.uz/api/v1/addApp", {
             method: "POST",
             body: JSON.stringify({
                 name: name.value.trim(),
                 current_vs: cur_vs.value.trim(),
                 min_vs: min_vs.value.trim(),
-                key: key.value.trim()
+                key: key.value.trim(),
+                price: price.value.trim()
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
@@ -51,6 +57,8 @@ function Apps() {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
                     setAdd(false)
+                } else if (data.status === 401) {
+                    setToken(false)
                 } else {
                     console.log(data);
                 }
@@ -60,16 +68,17 @@ function Apps() {
 
     const HandlePut = (e) => {
         e.preventDefault();
-        const { name, key, cur_vs, min_vs } = e.target.elements
+        const { name, key, cur_vs, min_vs, price } = e.target.elements
 
-        fetch("http://192.168.7.168:8000/api" + '/updeteApp', {
+        fetch("https://users.behad.uz/api/v1/updeteApp", {
             method: "PUT",
             body: JSON.stringify({
                 id: id,
                 name: name.value.trim(),
                 current_vs: cur_vs.value.trim(),
                 min_vs: min_vs.value.trim(),
-                key: key.value.trim()
+                key: key.value.trim(),
+                price: price.value.trim()
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
@@ -78,6 +87,8 @@ function Apps() {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
                     setEdit(false)
+                } else if (data.status === 401) {
+                    setToken(false)
                 } else {
                     console.log(data);
                 }
@@ -88,7 +99,7 @@ function Apps() {
     const HandleDelete = (e) => {
         const id = JSON.parse(e.target.dataset.id);
 
-        fetch("http://192.168.7.168:8000/api" + '/deleteApp', {
+        fetch("https://users.behad.uz/api/v1/deleteApp", {
             method: "Delete",
             body: JSON.stringify({
                 id: id
@@ -96,7 +107,15 @@ function Apps() {
             headers: { token: token, "Content-Type": "application/json", },
         })
             .then((res) => res.json())
-            .then((data) => data.status === 200 ? setDelete(deleted + 1) : console.log(data))
+            .then((data) => {
+                if (data.status === 200) {
+                    setDelete(deleted + 1)
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
+                }
+            })
             .catch((err) => console.log(err));
     }
 
@@ -117,6 +136,7 @@ function Apps() {
                                     <th>Current Version</th>
                                     <th>Min Version</th>
                                     <th>Key</th>
+                                    <th>Price</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -131,6 +151,7 @@ function Apps() {
                                             <td>{e.app_current_version}</td>
                                             <td>{e.app_min_version}</td>
                                             <td>{e.app_key}</td>
+                                            <td>{`${e.app_price} sum`}</td>
                                             <td>
                                                 <button
                                                     className='edit__btn'
@@ -141,7 +162,8 @@ function Apps() {
                                                                 name: e.app_name,
                                                                 cur_vs: e.app_current_version,
                                                                 min_vs: e.app_min_version,
-                                                                key: e.app_key
+                                                                key: e.app_key,
+                                                                price: e.app_price
                                                             }
                                                         )
                                                         setEdit(!edit)
@@ -179,6 +201,8 @@ function Apps() {
                                         <input className='login__phone__input app__input app__input--width' type="number" name='cur_vs' placeholder='current version' required />
                                         <input className='login__phone__input app__input app__input--width' type="number" name='min_vs' placeholder='min version' required />
                                     </div>
+                                    <input className='login__phone__input app__input' type="text" name='price' placeholder='Price' required />
+
 
                                     <button className='login__btn'>Add</button>
                                 </form>
@@ -196,6 +220,8 @@ function Apps() {
                                         <input className='login__phone__input app__input app__input--width' type="number" name='cur_vs' placeholder='current version' defaultValue={found?.cur_vs} required />
                                         <input className='login__phone__input app__input app__input--width' type="number" name='min_vs' placeholder='min version' defaultValue={found?.min_vs} required />
                                     </div>
+
+                                    <input className='login__phone__input app__input' type="text" name='price' placeholder='Price' defaultValue={found?.price} required />
 
                                     <button className='login__btn'>Edit</button>
                                 </form>

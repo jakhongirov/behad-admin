@@ -7,15 +7,15 @@ import Search from "../search/search";
 
 function AppUser() {
     const [data, setData] = useState()
-    const [token] = useToken()
+    const [token, setToken] = useToken()
     const [value, setValue] = useState('')
     const [search, setSearch] = useState('')
 
 
-    console.log(data);
+    console.log(value, search);
 
     useEffect(() => {
-        fetch('http://192.168.7.168:8000/api' + '/appUsers?' + value + "=" + search, {
+        fetch('http://users.behad.uz/api/v1/appUsers?' + value + "=" + search, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -23,11 +23,15 @@ function AppUser() {
             },
         })
             .then(res => res.json())
-            .then(data => data.status === 200 ? setData(data.data) : console.log(data))
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
             .catch((e) => console.log(e))
-    }, [value, search])
-
-    console.log(data );
+    }, [value, search, token])
 
     return (
         <>
@@ -35,20 +39,20 @@ function AppUser() {
             <main className="main">
                 <Search link={"app"} value={value} setValue={setValue} setSearch={setSearch} />
                 <main className="main">
-                    <section className="app_user">
+                    <section className="apps_user">
                         <div className="container">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>№</th>
-                                        <th>User Id</th>
                                         <th>App Name</th>
                                         <th>User Name</th>
                                         <th>User Phone</th>
                                         <th>Current Version</th>
                                         <th>Min Version</th>
-                                        <th>Key</th>
+                                        <th>Buy</th>
                                         <th>PRO version</th>
+                                        <th>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,14 +60,14 @@ function AppUser() {
                                         data && data.map((e, i) => (
                                             <tr key={i}>
                                                 <td>{++i}</td>
-                                                <td>{e.user_id}</td>
                                                 <td>{e.app_name}</td>
                                                 <td>{e.user_name}</td>
                                                 <td>{e.user_phone}</td>
                                                 <td>{e.app_current_version}</td>
                                                 <td>{e.app_min_version}</td>
-                                                <td>{e.app_key}</td>
-                                                <td>{e.app_user_isPayed ? "yes" : "no"}</td>
+                                                <td>{e.app_user_isterested_to_buy}</td>
+                                                <td>{e.app_user_ispayed ? "Yes" : "No"}</td>
+                                                <td style={{"paddingRight": "5px"}}>{e.to_char}</td>
                                             </tr>
                                         ))
                                     }

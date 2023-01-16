@@ -43,6 +43,38 @@ function Header() {
                                 </NavLink>
                             </li>
                             <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
+                                    to="/survays"
+                                >
+                                    Surveys
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
+                                    to="/answers"
+                                >
+                                    Answers
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
+                                    to="/category"
+                                >
+                                    Category
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
+                                    to="/posts"
+                                >
+                                    Posts
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
                                 <button
                                     className='logout-modal__button'
                                     onClick={() => {
