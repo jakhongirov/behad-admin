@@ -50,7 +50,10 @@ function Apps() {
                 key: key.value.trim(),
                 price: price.value.trim()
             }),
-            headers: { token: token, "Content-Type": "application/json", },
+            headers: {
+                'Content-Type': 'application/json',
+                token: token
+            },
         })
             .then((res) => res.json())
             .then((data) => {

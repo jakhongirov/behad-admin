@@ -15,10 +15,12 @@ function AppUser() {
     console.log(value, search);
 
     useEffect(() => {
-        fetch('http://users.behad.uz/api/v1/appUsers?' + value + "=" + search, {
+        fetch('https://users.behad.uz/api/v1/appUsers?' + value + "=" + search, {
             method: "GET",
             headers: {
+                "Accep": "application/json",
                 "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
                 token: token
             },
         })
@@ -67,7 +69,7 @@ function AppUser() {
                                                 <td>{e.app_min_version}</td>
                                                 <td>{e.app_user_isterested_to_buy}</td>
                                                 <td>{e.app_user_ispayed ? "Yes" : "No"}</td>
-                                                <td style={{"paddingRight": "5px"}}>{e.to_char}</td>
+                                                <td style={{ "paddingRight": "5px" }}>{e.to_char}</td>
                                             </tr>
                                         ))
                                     }
