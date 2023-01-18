@@ -1,14 +1,15 @@
+import "./news.scss"
 import { useState, useEffect } from "react";
 import useToken from '../../Hooks/useToken';
 import axios from "axios";
-
+import parse from "html-react-parser";
 
 import Header from "../header/header"
 import Search from '../search/search';
 
-function Category() {
+function News() {
     const [data, setData] = useState([])
-    const [apps, setApps] = useState([])
+    const [news, setNew] = useState([])
     const [token, setToken] = useToken()
     const [add, setAdd] = useState(false)
     const [value, setValue] = useState('')
@@ -20,7 +21,7 @@ function Category() {
     const [edit, setEdit] = useState(false)
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/v1/categories', {
+        fetch('https://users.behad.uz/api/v1/news', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -38,35 +39,16 @@ function Category() {
             .catch((e) => console.log(e))
     }, [deleted])
 
-    useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/apps', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setApps(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }, [])
-
     const HandlePost = (evt) => {
         evt.preventDefault();
         const formData = new FormData();
-        const { title, app_key, photo } = evt.target.elements
+        const { title, photo, desc } = evt.target.elements
 
         formData.append("photo", photo.files[0]);
-        formData.append("name", title.value.trim());
-        formData.append("app_key", app_key.value);
+        formData.append("title", title.value.trim());
+        formData.append("desc", desc.value);
 
-        axios.post("http://localhost:8000/api/v1/addCategory", formData, {
+        axios.post("https://users.behad.uz/api/v1/addnew", formData, {
             headers: {
                 'Content-Type': 'form-data',
                 "type": "formData",
@@ -77,6 +59,7 @@ function Category() {
             }
         })
             .then((data) => {
+                console.log(data);
                 if (data) {
                     if (data.status === 200) {
                         setAdd(false)
@@ -92,19 +75,20 @@ function Category() {
             });
     }
 
-    const HandleEdit = (evt) => {
+    const HandlePut = (evt) => {
         evt.preventDefault();
         const formData = new FormData();
-        const { photo, title, app_key } = evt.target.elements
+        const { title, photo, desc } = evt.target.elements
 
         formData.append("id", id);
-        formData.append("name", title.value.trim());
-        formData.append("app_key", app_key.value);
         formData.append("photo", photo.files[0]);
+        formData.append("title", title.value.trim());
+        formData.append("desc", desc.value);
 
-        axios.put("http://localhost:8000/api/v1/updateCategory", formData, {
+        axios.put("https://users.behad.uz/api/v1/updatenew", formData, {
             headers: {
                 'Content-Type': 'form-data',
+                "type": "formData",
                 'Accept': 'application/json',
                 "type": "formData",
                 "Access-Control-Allow-Origin": "*",
@@ -112,6 +96,7 @@ function Category() {
             }
         })
             .then((data) => {
+                console.log(data);
                 if (data) {
                     if (data.status === 200) {
                         setEdit(false)
@@ -125,13 +110,11 @@ function Category() {
                     }
                 }
             });
-
-
     }
 
     const HandleDelete = (e) => {
         const id = JSON.parse(e.target.dataset.id);
-        fetch("http://localhost:8000/api/v1/deleteCategory", {
+        fetch("https://users.behad.uz/api/v1/deletenew", {
             method: "Delete",
             body: JSON.stringify({
                 id: id
@@ -151,20 +134,46 @@ function Category() {
             .catch((err) => console.log(err));
     }
 
+    const HandleNews = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch('https://users.behad.uz/api/v1/news?id=' + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 200) {
+                    setNew(data.data);
+                    setShow(true)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
     return (
         <>
             <Header />
             <main className="main">
-                <Search link={"none"} value={value} setValue={setValue} setSearch={setSearch} />
-                <section className="category">
+                <Search link={"post"} value={value} setValue={setValue} setSearch={setSearch} />
+                <section className="news">
                     <div className="container">
+
                         <table>
                             <thead>
                                 <tr>
                                     <th>№</th>
                                     <th>id</th>
-                                    <th>Name</th>
-                                    <th>App key</th>
+                                    <th>Title</th>
+                                    <th>Likes</th>
+                                    <th>Disikes</th>
+                                    <th>Views</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -174,18 +183,28 @@ function Category() {
                                     data && data.map((e, i) => (
                                         <tr key={i}>
                                             <td>{++i}</td>
-                                            <td>{e.category_id}</td>
-                                            <td>{e.category_name.split(' ').length > 3 ? e.category_name.split(' ').slice(0, 3).join(' ') + '...' : e.category_name}</td>
-                                            <td>{e.app_key}</td>
+                                            <td>{e.new_id}</td>
+                                            <td>{e.new_title.split(' ').length > 3 ? e.new_title.split(' ').slice(0, 3).join(' ') + '...' : e.new_title}</td>
+                                            <td>{e.likes_count}</td>
+                                            <td>{e.dislike_count}</td>
+                                            <td>{e.views_count}</td>
+                                            <td>
+                                                <button
+                                                    className='more__btn'
+                                                    data-id={e.new_id}
+                                                    onClick={HandleNews}>
+                                                    •••
+                                                </button>
+                                            </td>
                                             <td>
                                                 <button
                                                     className='edit__btn'
                                                     onClick={() => {
-                                                        setId(e.category_id)
+                                                        setId(e.new_id)
                                                         setFound(
                                                             {
-                                                                title: e.category_name,
-                                                                app_key: e.app_key
+                                                                title: e.new_title,
+                                                                desc: e.new_description
                                                             }
                                                         )
                                                         setEdit(!edit)
@@ -195,7 +214,7 @@ function Category() {
                                                 </button>
                                                 <button
                                                     className='delete__btn'
-                                                    data-id={e.category_id}
+                                                    data-id={e.new_id}
                                                     onClick={HandleDelete}
                                                 >
                                                     Delete
@@ -216,20 +235,16 @@ function Category() {
                                 <form onSubmit={HandlePost}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' required />
 
-                                    <select name="app_key" multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
-                                        {
-                                            apps.map((e, i) => (
-                                                <option key={i} value={e.app_key}>{e.app_name}</option>
-                                            ))
-                                        }
-                                    </select>
-
                                     <input
                                         className='login__phone__input app__input'
                                         type="file"
                                         name="photo"
                                         placeholder="Imge"
                                         required />
+
+                                    <textarea name="desc" cols="46" rows="10"></textarea>
+
+                                    <a style={{ "display": "block", "marginBottom": "10px" }} href="https://html5-editor.net/" target="_blank" rel="noopener noreferrer">Editor</a>
 
                                     <button className='login__btn'>Add</button>
                                 </form>
@@ -239,16 +254,8 @@ function Category() {
 
                         <div className={edit ? "modal" : "modal--close"}>
                             <div className="modal__item">
-                                <form onSubmit={HandleEdit}>
+                                <form onSubmit={HandlePut}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
-
-                                    <select name="app_key" defaultValue={found?.app_key} style={{ 'marginBottom': "10px", "padding": "10px" }}>
-                                        {
-                                            apps.map((e, i) => (
-                                                <option key={i} value={e.app_key}>{e.app_name}</option>
-                                            ))
-                                        }
-                                    </select>
 
                                     <input
                                         className='login__phone__input app__input'
@@ -257,9 +264,29 @@ function Category() {
                                         placeholder="Imge"
                                     />
 
+                                    <textarea name="desc" cols="46" rows="10" defaultValue={found?.desc}></textarea>
+
+                                    <a style={{ "display": "block", "marginBottom": "10px" }} href="https://html5-editor.net/" target="_blank" rel="noopener noreferrer">Editor</a>
+
                                     <button className='login__btn'>Edit</button>
                                 </form>
                                 <button className='login__btn' onClick={() => setEdit(!edit)}>Close</button>
+                            </div>
+                        </div>
+
+                        <div className={show ? "modal" : "modal--close"}>
+                            <div className="modal__item modal__item--show" style={{ "max-width": "800px" }}>
+                                <h2 style={{ "display": "block", "marginBottom": "10px" }}>{news?.new_title}</h2>
+                                <div style={{ "display": "block", "marginBottom": "10px" }}>
+                                    <h4 style={{ "display": "block", "marginBottom": "10px" }}>Image: </h4>
+                                    <img src={news?.new_img} alt={news?.new_img_name} width={600} height={300} />
+                                </div>
+
+                                <div style={{ "display": "block", "marginBottom": "10px" }}>
+                                    {parse(`${news?.new_description}`)}
+                                </div>
+
+                                <button className='login__btn' onClick={() => setShow(!show)}>Close</button>
                             </div>
                         </div>
                     </div>
@@ -269,4 +296,4 @@ function Category() {
     )
 }
 
-export default Category 
+export default News

@@ -7,6 +7,7 @@ import Survays from "./components/survays/survays";
 import Posts from "./components/posts/posts";
 import Answers from "./components/answers/answers";
 import Category from "./components/category/category";
+import News from "./components/news/news";
 
 function AuthenticatedApp() {
   return (
@@ -16,8 +17,9 @@ function AuthenticatedApp() {
       <Route path="/app-user" element={<AppUser />} />
       <Route path="/survays" element={<Survays />} />
       <Route path="/answers" element={<Answers />} />
-      <Route path="/posts" element={<Posts />} />
+      <Route path="/news" element={<News />} />
       <Route path="/category" element={<Category />} />
+      <Route path="/posts" element={<Posts />} />
     </Routes>
   );
 }

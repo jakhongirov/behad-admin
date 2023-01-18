@@ -2,8 +2,6 @@ import { Link, NavLink } from "react-router-dom";
 import "./header.scss";
 import useToken from '../../Hooks/useToken';
 
-// import logo from "../../assets/images/logo.jpg";
-
 function Header() {
     const [, setToken] = useToken();
 
@@ -56,6 +54,14 @@ function Header() {
                                     to="/answers"
                                 >
                                     Answers
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
+                                    to="/news"
+                                >
+                                    News
                                 </NavLink>
                             </li>
                             <li className="nav_list_item">
