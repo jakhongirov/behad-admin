@@ -95,7 +95,7 @@ function Survays() {
                 city: city.value.trim(),
                 filter: arr,
                 main: main.checked,
-                app_key: selected.join(", ")
+                app_key: selected.join(", ") ? selected.join(", ") : "all"
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
@@ -151,7 +151,7 @@ function Survays() {
                 city: city.value.trim(),
                 filter: arr,
                 main: main.checked,
-                app_key: selected.join(", ")
+                app_key: selected.join(", ") ? selected.join(", ") : "all"
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
