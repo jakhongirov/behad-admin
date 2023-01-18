@@ -69,8 +69,7 @@ function Survays() {
         }
 
         let selected = [];
-        for (let option of app_key.options)
-        {
+        for (let option of app_key.options) {
             if (option.selected) {
                 selected.push(option.value);
             }
@@ -117,7 +116,7 @@ function Survays() {
     const HandlePut = (e) => {
         e.preventDefault();
         const { title, v1, v2, v3, v4, v5, limit, who, min_age, max_age, commment, country, city, filter, main, user_comment, app_key } = e.target.elements
-        
+
         let arr = []
         const a = filter.value.split(',')
         for (let i = 0; i < a.length; i++) {
@@ -125,8 +124,7 @@ function Survays() {
         }
 
         let selected = [];
-        for (let option of app_key.options)
-        {
+        for (let option of app_key.options) {
             if (option.selected) {
                 selected.push(option.value);
             }
@@ -407,11 +405,11 @@ function Survays() {
                                         </div>
                                     </div>
 
-                                    <select name="app_key" multiple style={{ 'marginBottom': "10px" }}>
+                                    <select name="app_key" multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
                                         <option value="all">Hammasi</option>
                                         {
                                             apps && apps.map((e, i) => (
-                                                    <option key={i} value={e.app_key}>{e.app_name}</option>
+                                                <option key={i} value={e.app_key}>{e.app_name}</option>
                                             ))
                                         }
                                     </select>

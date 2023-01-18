@@ -17,6 +17,7 @@ function Answers() {
     const [v3, setV3] = useState()
     const [v4, setV4] = useState()
     const [v5, setV5] = useState()
+    const [v6, setV6] = useState()
     const [status, setStatus] = useState(false)
 
     useEffect(() => {
@@ -140,6 +141,23 @@ function Answers() {
                     }
                 })
                 .catch((e) => console.log(e))
+
+            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=6', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setV6(data);
+                        setStatus(true)
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
         }
     }
 
@@ -224,6 +242,12 @@ function Answers() {
                                             <p>{`count : ${v5?.count}`}</p>
                                             <p>{`male : ${v5?.male}`}</p>
                                             <p style={{ "marginBottom": "5px" }}>{`female : ${v5?.female}`}</p>
+
+                                            <h3 style={{ "marginBottom": "5px" }}>Opiton 6</h3>
+                                            <p>{`count : ${v6?.count}`}</p>
+                                            <p>{`male : ${v6?.male}`}</p>
+                                            <p style={{ "marginBottom": "5px" }}>{`female : ${v6?.female}`}</p>
+
                                         </>
                                     ) : "none"
                                 }
