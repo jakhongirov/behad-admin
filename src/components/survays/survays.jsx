@@ -384,7 +384,7 @@ function Survays() {
                                         <input className='login__phone__input app__input app__input--width' type="number" name='max_age' placeholder='max age' defaultValue={100} required />
                                     </div>
                                     <div className='app__form-box' style={{ 'marginBottom': "10px" }}>
-                                        <select name="who">
+                                        <select name="who" defaultValue={"all"}>
                                             <option value="all">Hamma</option>
                                             <option value="survay_male">Erkak</option>
                                             <option value="survay_female">Ayol</option>
@@ -405,12 +405,12 @@ function Survays() {
                                         </div>
                                     </div>
 
-                                    <select name="app_key" multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
+                                    <select name="app_key" defaultValue={"all"} multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
                                         <option value="all">Hammasi</option>
                                         {
                                             apps && apps.map((e, i) => (
                                                 <option key={i} value={e.app_key}>{e.app_name}</option>
-                                            ))
+                                            )) 
                                         }
                                     </select>
 

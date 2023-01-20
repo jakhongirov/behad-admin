@@ -10,6 +10,7 @@ import Search from '../search/search';
 function News() {
     const [data, setData] = useState([])
     const [news, setNew] = useState([])
+    const [apps, setApps] = useState()
     const [token, setToken] = useToken()
     const [add, setAdd] = useState(false)
     const [value, setValue] = useState('')
@@ -39,14 +40,41 @@ function News() {
             .catch((e) => console.log(e))
     }, [deleted])
 
+    useEffect(() => {
+        fetch('https://users.behad.uz/api/v1/apps', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setApps(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [])
+
     const HandlePost = (evt) => {
         evt.preventDefault();
         const formData = new FormData();
-        const { title, photo, desc } = evt.target.elements
+        const { title, photo, desc, app_key } = evt.target.elements
+        let selected = [];
+        for (let option of app_key.options) {
+            if (option.selected) {
+                selected.push(option.value);
+            }
+        }
 
         formData.append("photo", photo.files[0]);
         formData.append("title", title.value.trim());
         formData.append("desc", desc.value);
+        formData.append("app_key", selected.join(", ") ? selected.join(", ") : "all");
+
 
         axios.post("https://users.behad.uz/api/v1/addnew", formData, {
             headers: {
@@ -78,12 +106,19 @@ function News() {
     const HandlePut = (evt) => {
         evt.preventDefault();
         const formData = new FormData();
-        const { title, photo, desc } = evt.target.elements
+        const { title, photo, desc, app_key } = evt.target.elements
+        let selected = [];
+        for (let option of app_key.options) {
+            if (option.selected) {
+                selected.push(option.value);
+            }
+        }
 
         formData.append("id", id);
         formData.append("photo", photo.files[0]);
         formData.append("title", title.value.trim());
         formData.append("desc", desc.value);
+        formData.append("app_key", selected.join(", ") ? selected.join(", ") : "all");
 
         axios.put("https://users.behad.uz/api/v1/updatenew", formData, {
             headers: {
@@ -204,7 +239,8 @@ function News() {
                                                         setFound(
                                                             {
                                                                 title: e.new_title,
-                                                                desc: e.new_description
+                                                                desc: e.new_description,
+                                                                app_key: e.app_key
                                                             }
                                                         )
                                                         setEdit(!edit)
@@ -235,6 +271,15 @@ function News() {
                                 <form onSubmit={HandlePost}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' required />
 
+                                    <select name="app_key" multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
+                                        <option value="all">Hammasi</option>
+                                        {
+                                            apps && apps.map((e, i) => (
+                                                <option key={i} value={e.app_key}>{e.app_name}</option>
+                                            ))
+                                        }
+                                    </select>
+
                                     <input
                                         className='login__phone__input app__input'
                                         type="file"
@@ -257,6 +302,15 @@ function News() {
                                 <form onSubmit={HandlePut}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
 
+                                    <select name="app_key" multiple style={{ 'marginBottom': "10px", "padding": "10px" }} defaultValue={found?.app_key}>
+                                        <option value="all">Hammasi</option>
+                                        {
+                                            apps && apps.map((e, i) => (
+                                                <option key={i} value={e.app_key}>{e.app_name}</option>
+                                            ))
+                                        }
+                                    </select>
+
                                     <input
                                         className='login__phone__input app__input'
                                         type="file"
@@ -275,7 +329,7 @@ function News() {
                         </div>
 
                         <div className={show ? "modal" : "modal--close"}>
-                            <div className="modal__item modal__item--show" style={{ "max-width": "800px" }}>
+                            <div className="modal__item modal__item--show" style={{ "maxWidth": "800px" }}>
                                 <h2 style={{ "display": "block", "marginBottom": "10px" }}>{news?.new_title}</h2>
                                 <div style={{ "display": "block", "marginBottom": "10px" }}>
                                     <h4 style={{ "display": "block", "marginBottom": "10px" }}>Image: </h4>

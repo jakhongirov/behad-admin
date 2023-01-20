@@ -78,9 +78,10 @@ function Category() {
         })
             .then((data) => {
                 if (data) {
+                    setDelete(Number(deleted) + 1) 
                     if (data.status === 200) {
+                        console.log(data.status);
                         setAdd(false)
-                        setDelete(deleted + 1)
                     }
                     if (data.data.status === 401) {
                         setToken(false)

@@ -16,6 +16,9 @@ function Users() {
     const [deleted, setDelete] = useState(0)
     const [show, setShow] = useState(false)
     const [id, setId] = useState(0)
+    const [edit, setEdit] = useState(false)
+    const [found, setFound] = useState({})
+
 
 
     useEffect(() => {
@@ -110,6 +113,38 @@ function Users() {
             .catch((err) => console.log(err));
     }
 
+
+    const HandlePut = (e) => {
+        e.preventDefault();
+        const { name, surname, age, phone, who, password } = e.target.elements
+
+        fetch("https://users.behad.uz/api/v1/editUser", {
+            method: "PUT",
+            body: JSON.stringify({
+                id: id,
+                name: name.value.trim(),
+                surname: surname.value.trim(),
+                age: age.value - 0,
+                phone: phone.value,
+                who: who.value,
+                password: password.value ? password.value : null
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status === 200) {
+                    setDelete(deleted + 1)
+                    setEdit(false)
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
     return (
         <>
             <Header />
@@ -126,11 +161,12 @@ function Users() {
                                     <th>Name</th>
                                     <th>Surname</th>
                                     <th>Age</th>
+                                    <th>Who</th>
                                     <th>Phone</th>
-                                    <th>Date</th>
                                     <th>Country</th>
                                     <th>Capital</th>
                                     <th>Comment</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -143,16 +179,36 @@ function Users() {
                                             <td>{e.user_name}</td>
                                             <td>{e.user_surname}</td>
                                             <td>{e.user_age}</td>
+                                            <td>{e.user_who}</td>
                                             <td>{e.user_phone}</td>
                                             <td>{e.user_country}</td>
                                             <td>{e.user_capital}</td>
-                                            <td>{e.to_char}</td>
                                             <td>
                                                 <button
                                                     className='more__btn'
                                                     data-id={e.user_id}
                                                     onClick={HandleComment}>
                                                     •••
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    className='edit__btn'
+                                                    onClick={() => {
+                                                        setId(e.user_id)
+                                                        setFound(
+                                                            {
+                                                                name: e.user_name,
+                                                                surname: e.user_surname,
+                                                                age: e.user_age,
+                                                                who: e.user_who,
+                                                                phone: e.user_phone,
+                                                            }
+                                                        )
+                                                        setEdit(!edit)
+                                                    }}
+                                                >
+                                                    Edit
                                                 </button>
                                             </td>
                                             <td>
@@ -172,17 +228,42 @@ function Users() {
 
 
                         <div className={show ? "modal" : "modal--close"}>
-                            <div className='modal__item' style={{ "mwaxWidth": "800px" }}>
+                            <div className='modal__item' style={{ "maxWidth": "500px" }}>
                                 <h2 style={{ "marginBottom": "10px" }}>User comment</h2>
                                 <form onSubmit={AddComment}>
                                     <textarea
-                                        style={{ "display": "block", "width": "350px", "marginBottom": "20px", "padding": "10px", "fontSize": "17px" }}
+                                        cols={45}
+                                        rows={15}
+                                        style={{ "display": "block", "marginBottom": "20px", "padding": "10px", "fontSize": "17px" }}
                                         defaultValue={comment?.user_comment}
                                         name="comment"></textarea>
                                     <button style={{ "marginBottom": "10px" }} className='login__btn'>Save</button>
                                 </form>
                                 <button style={{ "marginBottom": "0px" }} className='login__btn' onClick={() => setShow(!show)}>Close</button>
                             </div>
+                        </div>
+                    </div>
+
+
+                    <div className={edit ? "modal" : "modal--close"}>
+                        <div className='modal__item' >
+                            <form onSubmit={HandlePut}>
+                                <input className='login__phone__input app__input' type="text" name='name' placeholder='Name' defaultValue={found?.name} required />
+                                <input className='login__phone__input app__input' type="text" name='surname' placeholder='Surname' defaultValue={found?.surname} required />
+                                <div style={{ "width": "100%", "display": "flex", "justifyContent": "space-between", "marginBottom": "10px" }}>
+                                    <input className='login__phone__input app__input' style={{ "width": "120px" }} type="number" name='age' placeholder='age' defaultValue={found?.age} required />
+                                    <select name="who" style={{ "width": "100px", "padding": "10px" }} defaultValue={found?.who}>
+                                        <option value="erkak">Erkak</option>
+                                        <option value="ayol">Ayol</option>
+                                    </select>
+                                </div>
+                                <input className='login__phone__input app__input' type="tel" name='phone' placeholder='phone' defaultValue={found?.phone} required />
+                                <input className='login__phone__input app__input' type="tel" name='password' placeholder='password' />
+                                <button style={{ "marginBottom": "10px" }} className='login__btn'>Edit</button>
+
+                            </form>
+                            <button style={{ "marginBottom": "0px" }} className='login__btn' onClick={() => setEdit(!edit)}>Close</button>
+
                         </div>
                     </div>
                 </section>
