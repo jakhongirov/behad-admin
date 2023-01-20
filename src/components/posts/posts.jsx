@@ -5,15 +5,15 @@ import parse from "html-react-parser";
 
 
 import Header from "../header/header"
-import Search from '../search/search';
+// import Search from '../search/search';
 
 function Posts() {
     const [data, setData] = useState()
     const [categories, setCategoties] = useState([])
     const [token, setToken] = useToken()
     const [add, setAdd] = useState(false)
-    const [value, setValue] = useState('')
-    const [search, setSearch] = useState('')
+    // const [value, setValue] = useState('')
+    // const [search, setSearch] = useState('')
     const [deleted, setDelete] = useState(0)
     const [show, setShow] = useState(false)
     const [id, setId] = useState(0)
@@ -23,7 +23,7 @@ function Posts() {
 
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/v1/posts', {
+        fetch('https://posts.behad.uz/api/v1/posts', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +42,7 @@ function Posts() {
     }, [deleted])
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/v1/categories', {
+        fetch('https://posts.behad.uz/api/v1/categories', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -70,12 +70,11 @@ function Posts() {
         formData.append("categoryId", categoryId.value);
         formData.append("desc", desc.value);
 
-        axios.post("http://localhost:8000/api/v1/addPost", formData, {
+        axios.post("https://posts.behad.uz/api/v1/addPost", formData, {
             headers: {
                 'Content-Type': 'form-data',
                 "type": "formData",
                 'Accept': 'application/json',
-                "type": "formData",
                 "Access-Control-Allow-Origin": "*",
                 token: token
             }
@@ -113,10 +112,9 @@ function Posts() {
         formData.append("desc", desc.value);
         formData.append("categoryId", selected.join(", ") ? selected.join(", ") : "all");
 
-        axios.put("http://localhost:8000/api/v1/updatePost", formData, {
+        axios.put("https://posts.behad.uz/api/v1/updatePost", formData, {
             headers: {
                 'Content-Type': 'form-data',
-                "type": "formData",
                 'Accept': 'application/json',
                 "type": "formData",
                 "Access-Control-Allow-Origin": "*",
@@ -142,7 +140,7 @@ function Posts() {
 
     const HandleDelete = (e) => {
         const id = JSON.parse(e.target.dataset.id);
-        fetch("http://localhost:8000/api/v1/deletePost", {
+        fetch("https://posts.behad.uz/api/v1/deletePost", {
             method: "Delete",
             body: JSON.stringify({
                 id: id
@@ -165,7 +163,7 @@ function Posts() {
     const HandleSingePost = (e) => {
         const id = JSON.parse(e.target.dataset.id);
 
-        fetch('http://localhost:8000/api/v1/posts?id=' + id, {
+        fetch('https://posts.behad.uz/api/v1/posts?id=' + id, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -188,7 +186,7 @@ function Posts() {
         <>
             <Header />
             <main className="main">
-                <Search link={"post"} value={value} setValue={setValue} setSearch={setSearch} />
+                {/* <Search link={"post"} value={value} setValue={setValue} setSearch={setSearch} /> */}
                 <section className="users">
                     <div className="container">
 

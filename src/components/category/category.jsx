@@ -4,23 +4,23 @@ import axios from "axios";
 
 
 import Header from "../header/header"
-import Search from '../search/search';
+// import Search from '../search/search';
 
 function Category() {
     const [data, setData] = useState([])
     const [apps, setApps] = useState([])
     const [token, setToken] = useToken()
     const [add, setAdd] = useState(false)
-    const [value, setValue] = useState('')
-    const [search, setSearch] = useState('')
+    // const [value, setValue] = useState('')
+    // const [search, setSearch] = useState('')
     const [deleted, setDelete] = useState(0)
-    const [show, setShow] = useState(false)
+    // const [show, setShow] = useState(false)
     const [id, setId] = useState(0)
     const [found, setFound] = useState({})
     const [edit, setEdit] = useState(false)
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/v1/categories', {
+        fetch('https://posts.behad.uz/api/v1/categories', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -36,7 +36,7 @@ function Category() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [deleted])
+    }, [deleted, token])
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/apps', {
@@ -66,19 +66,18 @@ function Category() {
         formData.append("name", title.value.trim());
         formData.append("app_key", app_key.value);
 
-        axios.post("http://localhost:8000/api/v1/addCategory", formData, {
+        axios.post("https://posts.behad.uz/api/v1/addCategory", formData, {
             headers: {
                 'Content-Type': 'form-data',
                 "type": "formData",
                 'Accept': 'application/json',
-                "type": "formData",
                 "Access-Control-Allow-Origin": "*",
                 token: token
             }
         })
             .then((data) => {
                 if (data) {
-                    setDelete(Number(deleted) + 1) 
+                    setDelete(Number(deleted) + 1)
                     if (data.status === 200) {
                         console.log(data.status);
                         setAdd(false)
@@ -103,7 +102,7 @@ function Category() {
         formData.append("app_key", app_key.value);
         formData.append("photo", photo.files[0]);
 
-        axios.put("http://localhost:8000/api/v1/updateCategory", formData, {
+        axios.put("https://posts.behad.uz/api/v1/updateCategory", formData, {
             headers: {
                 'Content-Type': 'form-data',
                 'Accept': 'application/json',
@@ -132,7 +131,7 @@ function Category() {
 
     const HandleDelete = (e) => {
         const id = JSON.parse(e.target.dataset.id);
-        fetch("http://localhost:8000/api/v1/deleteCategory", {
+        fetch("https://posts.behad.uz/api/v1/deleteCategory", {
             method: "Delete",
             body: JSON.stringify({
                 id: id
@@ -156,7 +155,7 @@ function Category() {
         <>
             <Header />
             <main className="main">
-                <Search link={"none"} value={value} setValue={setValue} setSearch={setSearch} />
+                {/* <Search link={"none"} value={value} setValue={setValue} setSearch={setSearch} /> */}
                 <section className="category">
                     <div className="container">
                         <table>
