@@ -60,13 +60,11 @@ function Survays() {
 
     const HandlePost = (e) => {
         e.preventDefault();
-        const { title, v1, v2, v3, v4, v5, limit, who, min_age, max_age, commment, country, city, filter, main, user_comment, app_key } = e.target.elements
-        let arr = []
-        const a = filter.value.split(',')
-
-        for (let i = 0; i < a.length; i++) {
-            arr.push(Number(a[i]));
-        }
+        const { title, v1, v2, v3, v4, v5, limit, who, min_age, max_age, commment, country, city, filter, main, user_comment, app_key, user_id } = e.target.elements
+       
+        let arr = filter.value.split(',').map(e => Number(e))
+        let arr2 = user_id.value.split(',').map(e => Number(e))
+        
 
         let selected = [];
         for (let option of app_key.options) {
@@ -95,7 +93,8 @@ function Survays() {
                 city: city.value.trim(),
                 filter: arr,
                 main: main.checked,
-                app_key: selected.join(", ") ? selected.join(", ") : "all"
+                app_key: selected.join(", ") ? selected.join(", ") : "all",
+                user_id: arr2
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
@@ -115,13 +114,11 @@ function Survays() {
 
     const HandlePut = (e) => {
         e.preventDefault();
-        const { title, v1, v2, v3, v4, v5, limit, who, min_age, max_age, commment, country, city, filter, main, user_comment, app_key } = e.target.elements
+        const { title, v1, v2, v3, v4, v5, limit, who, min_age, max_age, commment, country, city, filter, main, user_comment, app_key, user_id } = e.target.elements
 
-        let arr = []
-        const a = filter.value.split(',')
-        for (let i = 0; i < a.length; i++) {
-            arr.push(Number(a[i]));
-        }
+        let arr = filter.value.split(',').map(e => Number(e))
+        let arr2 = user_id.value.split(',').map(e => Number(e))
+        
 
         let selected = [];
         for (let option of app_key.options) {
@@ -151,7 +148,8 @@ function Survays() {
                 city: city.value.trim(),
                 filter: arr,
                 main: main.checked,
-                app_key: selected.join(", ") ? selected.join(", ") : "all"
+                app_key: selected.join(", ") ? selected.join(", ") : found?.app_key,
+                user_id: arr2
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
@@ -334,7 +332,8 @@ function Survays() {
                                                                 comment: e.survay_iscomment,
                                                                 limit: e.survay_limit,
                                                                 filter: e.survay_filter,
-                                                                app_key: e.app_key
+                                                                app_key: e.app_key.split(", "),
+                                                                user_id: e.user_id
                                                             }
                                                         )
                                                         setEdit(!edit)
@@ -405,18 +404,19 @@ function Survays() {
                                         </div>
                                     </div>
 
-                                    <select name="app_key" defaultValue={"all"} multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
+                                    <select name="app_key" defaultValue={["all"]} multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
                                         <option value="all">Hammasi</option>
                                         {
                                             apps && apps.map((e, i) => (
                                                 <option key={i} value={e.app_key}>{e.app_name}</option>
-                                            )) 
+                                            ))
                                         }
                                     </select>
 
                                     <input className='login__phone__input app__input' type="text" name='country' placeholder='country' defaultValue={'all'} required />
                                     <input className='login__phone__input app__input' type="text" name='city' placeholder='city' defaultValue={'all'} required />
                                     <input className='login__phone__input app__input' type="text" name='filter' placeholder='filter' defaultValue={0} />
+                                    <input className='login__phone__input app__input' type="text" name='user_id' placeholder='user id' defaultValue={0} />
 
 
                                     <button className='login__btn'>Add</button>
@@ -467,7 +467,7 @@ function Survays() {
                                         </div>
                                     </div>
 
-                                    <select name="app_key" multiple style={{ 'marginBottom': "10px" }} defaultValue={found?.app_key}>
+                                    <select name="app_key" defaultValue={found?.app_key} multiple style={{ 'marginBottom': "10px" }}>
                                         <option value="all">Hammasi</option>
                                         {
                                             apps && apps.map((e, i) => (
@@ -479,6 +479,7 @@ function Survays() {
                                     <input className='login__phone__input app__input' type="text" name='country' placeholder='country' required defaultValue={found?.country} />
                                     <input className='login__phone__input app__input' type="text" name='city' placeholder='city' required defaultValue={found?.city} />
                                     <input className='login__phone__input app__input' type="text" name='filter' placeholder='filter' defaultValue={found?.filter} />
+                                    <input className='login__phone__input app__input' type="text" name='user_id' placeholder='user id' defaultValue={found?.user_id} />
 
 
                                     <button className='login__btn'>Edit</button>
@@ -502,7 +503,8 @@ function Survays() {
                                 <p>{`Min: ${single[0]?.survay_min_age} years old`}</p>
                                 <p>{`Max: ${single[0]?.survay_max_age} years old`}</p>
                                 <p>{`Limit: ${single[0]?.survay_limit}`}</p>
-                                <p>{`Filter: ${single[0]?.survay_filter.join(' ')}`}</p>
+                                <p>{`Filter: ${single[0]?.survay_filter.join(', ')}`}</p>
+                                <p>{`User id: ${single[0]?.user_id.join(', ')}`}</p>
                                 <p>{`App key: ${single[0]?.app_key ? single[0]?.app_key : "-"}`}</p>
                                 <p>{`Country: ${single[0]?.survay_country}`}</p>
                                 <p>{`City: ${single[0]?.survay_city}`}</p>
