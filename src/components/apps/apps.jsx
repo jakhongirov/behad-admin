@@ -39,7 +39,7 @@ function Apps() {
 
     const HandlePost = (e) => {
         e.preventDefault();
-        const { name, key, cur_vs, min_vs, price, payment } = e.target.elements
+        const { name, key, cur_vs, min_vs, price, payment, app_post } = e.target.elements
 
         fetch("https://users.behad.uz/api/v1/addApp", {
             method: "POST",
@@ -49,7 +49,8 @@ function Apps() {
                 min_vs: min_vs.value.trim(),
                 key: key.value.trim(),
                 price: price.value.trim(),
-                payment: payment.value.trim()
+                payment: payment.value.trim(),
+                app_post: app_post.checked
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -208,6 +209,7 @@ function Apps() {
                                         <input className='login__phone__input app__input app__input--width' type="number" name='min_vs' placeholder='min version' required />
                                     </div>
                                     <input className='login__phone__input app__input' type="text" name='price' placeholder='Price' required />
+                                    <input  type="checkbox" name='app_post'/>
                                     <input className='login__phone__input app__input' type="text" name='payment' placeholder='Payment link' required />
 
 

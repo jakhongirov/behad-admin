@@ -35,6 +35,30 @@ function AppUser() {
             .catch((e) => console.log(e))
     }, [value, search, token])
 
+    const checkboxChange = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+        const status = e.target.checked
+
+        fetch("https://users.behad.uz/api/v1/editProVersion", {
+            method: "PUT",
+            body: JSON.stringify({
+                id: id,
+                pro_v: status
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status === 200) {
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
     return (
         <>
             <Header />
@@ -68,7 +92,23 @@ function AppUser() {
                                                 <td>{e.app_current_version}</td>
                                                 <td>{e.app_min_version}</td>
                                                 <td>{e.app_user_isterested_to_buy}</td>
-                                                <td>{e.app_user_ispayed ? "Yes" : "No"}</td>
+                                                <td>
+                                                    <div className="customers_checkbox_wrapper">
+                                                        <label className="checkbox-container customers_checkbox-container">
+                                                            <input
+                                                                defaultChecked={e.app_user_ispayed}
+                                                                required
+                                                                className="customer_input"
+                                                                type="checkbox"
+                                                                data-id={e.app_user_id}
+                                                                onChange={checkboxChange}
+                                                            />
+                                                            <span className="checkmark customers_checkmark">
+                                                                <div></div>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </td>
                                                 <td style={{ "paddingRight": "5px" }}>{e.to_char}</td>
                                             </tr>
                                         ))
