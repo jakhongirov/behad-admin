@@ -27,6 +27,14 @@ function Header() {
                             <li className="nav_list_item">
                                 <NavLink
                                     className="nav_link"
+                                    to="/tracking"
+                                >
+                                    Tracking
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
                                     to="/apps"
                                 >
                                     Apps
@@ -62,22 +70,6 @@ function Header() {
                                     to="/news"
                                 >
                                     News
-                                </NavLink>
-                            </li>
-                            <li className="nav_list_item">
-                                <NavLink
-                                    className="nav_link"
-                                    to="/category"
-                                >
-                                    Category
-                                </NavLink>
-                            </li>
-                            <li className="nav_list_item">
-                                <NavLink
-                                    className="nav_link"
-                                    to="/posts"
-                                >
-                                    Posts
                                 </NavLink>
                             </li>
                             <li className="nav_list_item">

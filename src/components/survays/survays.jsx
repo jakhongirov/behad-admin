@@ -73,6 +73,8 @@ function Survays() {
             }
         }
 
+        console.log(selected.join(', '));
+
         fetch("https://survey.behad.uz/api/v1/Addsurvay", {
             method: "POST",
             body: JSON.stringify({
@@ -93,7 +95,7 @@ function Survays() {
                 city: city.value.trim(),
                 filter: arr,
                 main: main.checked,
-                app_key: selected.join(", ") ? selected.join(", ") : "all",
+                app_key: selected ? selected.join(", ") : "all",
                 user_id: arr2
             }),
             headers: { token: token, "Content-Type": "application/json", },
@@ -148,7 +150,7 @@ function Survays() {
                 city: city.value.trim(),
                 filter: arr,
                 main: main.checked,
-                app_key: selected.join(", ") ? selected.join(", ") : found?.app_key,
+                app_key: selected ? selected.join(", ") : found?.app_key,
                 user_id: arr2
             }),
             headers: { token: token, "Content-Type": "application/json", },
@@ -472,7 +474,7 @@ function Survays() {
                                         {
                                             apps && apps.map((e, i) => (
                                                 <option key={i} value={e.app_key}>{e.app_name}</option>
-                                            ))
+                                            )) 
                                         }
                                     </select>
 

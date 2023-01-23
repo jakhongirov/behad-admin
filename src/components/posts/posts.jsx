@@ -4,7 +4,8 @@ import axios from "axios";
 import parse from "html-react-parser";
 
 
-import Header from "../header/header"
+import AppPost from "../appPost/appPost";
+// import Header from "../header/header"
 // import Search from '../search/search';
 
 function Posts() {
@@ -39,7 +40,7 @@ function Posts() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [deleted])
+    }, [token, deleted])
 
     useEffect(() => {
         fetch('https://posts.behad.uz/api/v1/categories', {
@@ -58,7 +59,7 @@ function Posts() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [deleted])
+    }, [token, deleted])
 
     const HandlePost = (evt) => {
         evt.preventDefault();
@@ -184,7 +185,7 @@ function Posts() {
 
     return (
         <>
-            <Header />
+            <AppPost />
             <main className="main">
                 {/* <Search link={"post"} value={value} setValue={setValue} setSearch={setSearch} /> */}
                 <section className="users">

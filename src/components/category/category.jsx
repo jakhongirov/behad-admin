@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom'
 import useToken from '../../Hooks/useToken';
 import axios from "axios";
 
 
-import Header from "../header/header"
+import AppPost from "../appPost/appPost";
+// import Header from "../header/header"
 // import Search from '../search/search';
 
 function Category() {
+    const { app_key } = useParams()
     const [data, setData] = useState([])
-    const [apps, setApps] = useState([])
     const [token, setToken] = useToken()
     const [add, setAdd] = useState(false)
     // const [value, setValue] = useState('')
-    // const [search, setSearch] = useState('')
+    // const [search, setSearch] = useState('') 
     const [deleted, setDelete] = useState(0)
-    // const [show, setShow] = useState(false)
     const [id, setId] = useState(0)
     const [found, setFound] = useState({})
     const [edit, setEdit] = useState(false)
@@ -36,35 +37,16 @@ function Category() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [deleted, token])
-
-    useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/apps', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setApps(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }, [])
+    }, [token, deleted])
 
     const HandlePost = (evt) => {
         evt.preventDefault();
         const formData = new FormData();
-        const { title, app_key, photo } = evt.target.elements
+        const { title, photo } = evt.target.elements
 
         formData.append("photo", photo.files[0]);
         formData.append("name", title.value.trim());
-        formData.append("app_key", app_key.value);
+        formData.append("app_key", app_key);
 
         axios.post("https://posts.behad.uz/api/v1/addCategory", formData, {
             headers: {
@@ -95,11 +77,11 @@ function Category() {
     const HandleEdit = (evt) => {
         evt.preventDefault();
         const formData = new FormData();
-        const { photo, title, app_key } = evt.target.elements
+        const { photo, title } = evt.target.elements
 
         formData.append("id", id);
         formData.append("name", title.value.trim());
-        formData.append("app_key", app_key.value);
+        formData.append("app_key", app_key);
         formData.append("photo", photo.files[0]);
 
         axios.put("https://posts.behad.uz/api/v1/updateCategory", formData, {
@@ -153,7 +135,7 @@ function Category() {
 
     return (
         <>
-            <Header />
+            <AppPost />
             <main className="main">
                 {/* <Search link={"none"} value={value} setValue={setValue} setSearch={setSearch} /> */}
                 <section className="category">
@@ -184,8 +166,7 @@ function Category() {
                                                         setId(e.category_id)
                                                         setFound(
                                                             {
-                                                                title: e.category_name,
-                                                                app_key: e.app_key
+                                                                title: e.category_name
                                                             }
                                                         )
                                                         setEdit(!edit)
@@ -216,14 +197,6 @@ function Category() {
                                 <form onSubmit={HandlePost}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' required />
 
-                                    <select name="app_key" multiple style={{ 'marginBottom': "10px", "padding": "10px" }}>
-                                        {
-                                            apps.map((e, i) => (
-                                                <option key={i} value={e.app_key}>{e.app_name}</option>
-                                            ))
-                                        }
-                                    </select>
-
                                     <input
                                         className='login__phone__input app__input'
                                         type="file"
@@ -241,14 +214,6 @@ function Category() {
                             <div className="modal__item">
                                 <form onSubmit={HandleEdit}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
-
-                                    <select name="app_key" defaultValue={found?.app_key} style={{ 'marginBottom': "10px", "padding": "10px" }}>
-                                        {
-                                            apps.map((e, i) => (
-                                                <option key={i} value={e.app_key}>{e.app_name}</option>
-                                            ))
-                                        }
-                                    </select>
 
                                     <input
                                         className='login__phone__input app__input'

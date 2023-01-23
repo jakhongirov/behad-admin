@@ -1,6 +1,7 @@
 import './apps.scss'
 import { useState, useEffect } from "react";
 import useToken from '../../Hooks/useToken';
+import { useNavigate } from 'react-router-dom';
 
 import Header from "../header/header"
 import Search from '../search/search';
@@ -15,6 +16,7 @@ function Apps() {
     const [found, setFound] = useState({})
     const [add, setAdd] = useState(false)
     const [edit, setEdit] = useState(false)
+    const navigate = useNavigate()
 
 
 
@@ -73,7 +75,7 @@ function Apps() {
 
     const HandlePut = (e) => {
         e.preventDefault();
-        const { name, key, cur_vs, min_vs, price, payment } = e.target.elements
+        const { name, key, cur_vs, min_vs, price, payment, app_post } = e.target.elements
 
         fetch("https://users.behad.uz/api/v1/updeteApp", {
             method: "PUT",
@@ -84,7 +86,8 @@ function Apps() {
                 min_vs: min_vs.value.trim(),
                 key: key.value.trim(),
                 price: price.value.trim(),
-                payment: payment.value.trim()
+                payment: payment.value.trim(),
+                app_post: app_post.checked
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
@@ -131,7 +134,7 @@ function Apps() {
 
             <main className='main'>
                 <Search link={"app"} value={value} setValue={setValue} setSearch={setSearch} />
-                <section className="app">
+                <section className="users">
                     <div className="container">
                         <table>
                             <thead>
@@ -143,6 +146,7 @@ function Apps() {
                                     <th>Min Version</th>
                                     <th>Key</th>
                                     <th>Price</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -170,7 +174,8 @@ function Apps() {
                                                                 min_vs: e.app_min_version,
                                                                 key: e.app_key,
                                                                 price: e.app_price,
-                                                                payment: e.app_payment
+                                                                payment: e.app_payment,
+                                                                app_post: e.app_post
                                                             }
                                                         )
                                                         setEdit(!edit)
@@ -187,6 +192,19 @@ function Apps() {
                                                 >
                                                     Delete
                                                 </button>
+                                            </td>
+                                            <td>
+                                                {
+                                                    e.app_post ? (
+                                                        <button
+                                                            className='edit__btn'
+                                                            style={{"background" : "green"}}
+                                                            onClick={()=> navigate('/category/' + e.app_key)}
+                                                        >
+                                                            Post
+                                                        </button>
+                                                    ) : ""
+                                                }
                                             </td>
                                         </tr>
                                     ))
@@ -209,7 +227,10 @@ function Apps() {
                                         <input className='login__phone__input app__input app__input--width' type="number" name='min_vs' placeholder='min version' required />
                                     </div>
                                     <input className='login__phone__input app__input' type="text" name='price' placeholder='Price' required />
-                                    <input  type="checkbox" name='app_post'/>
+                                    <div style={{ "marginBottom": "15px", "display": "flex", "alignItems": "center", 'maxWidth': "90px", "justifyContent": "space-between" }}>
+                                        <label htmlFor="app_post">App post</label>
+                                        <input type="checkbox" id='app_post' name='app_post' defaultChecked={found?.app_post} />
+                                    </div>
                                     <input className='login__phone__input app__input' type="text" name='payment' placeholder='Payment link' required />
 
 
@@ -231,6 +252,10 @@ function Apps() {
                                     </div>
 
                                     <input className='login__phone__input app__input' type="text" name='price' placeholder='Price' defaultValue={found?.price} required />
+                                    <div style={{ "marginBottom": "15px", "display": "flex", "alignItems": "center", 'maxWidth': "90px", "justifyContent": "space-between" }}>
+                                        <label htmlFor="app_post">App post</label>
+                                        <input type="checkbox" id='app_post' name='app_post' defaultChecked={found?.app_post} />
+                                    </div>
                                     <input className='login__phone__input app__input' type="text" name='payment' placeholder='Payment link' defaultValue={found?.payment} />
 
 

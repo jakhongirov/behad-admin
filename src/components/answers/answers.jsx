@@ -61,7 +61,7 @@ function Answers() {
             setStatus(true)
 
         } else {
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=1', {
+          await  fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=1', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,7 +77,7 @@ function Answers() {
                 })
                 .catch((e) => console.log(e))
 
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=2', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=2', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,7 +93,7 @@ function Answers() {
                 })
                 .catch((e) => console.log(e))
 
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=3', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=3', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -109,7 +109,7 @@ function Answers() {
                 })
                 .catch((e) => console.log(e))
 
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=4', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=4', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -125,7 +125,7 @@ function Answers() {
                 })
                 .catch((e) => console.log(e))
 
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=5', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=5', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -142,7 +142,7 @@ function Answers() {
                 })
                 .catch((e) => console.log(e))
 
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=6', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=6', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -150,6 +150,7 @@ function Answers() {
             })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     if (data.status === 200) {
                         setV6(data);
                         setStatus(true)
