@@ -91,7 +91,7 @@ function AppUser() {
                                                 <td>{e.user_phone}</td>
                                                 <td>{e.app_current_version}</td>
                                                 <td>{e.app_min_version}</td>
-                                                <td>{e.app_user_isterested_to_buy}</td>
+                                                <td>{e.app_user_interested_to_buy}</td>
                                                 <td>
                                                     <div className="customers_checkbox_wrapper">
                                                         <label className="checkbox-container customers_checkbox-container">

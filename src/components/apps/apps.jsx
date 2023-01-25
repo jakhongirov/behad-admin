@@ -9,7 +9,7 @@ import Search from '../search/search';
 function Apps() {
     const [data, setData] = useState()
     const [token, setToken] = useToken()
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState('id')
     const [search, setSearch] = useState('')
     const [deleted, setDelete] = useState(0)
     const [id, setId] = useState()
