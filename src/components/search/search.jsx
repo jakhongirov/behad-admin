@@ -7,6 +7,7 @@ function Search({ link, value, setValue, setSearch }) {
             <section className="search">
                 <div className='search__box'>
                     <select className=''
+                        defaultValue={"phone"}
                         onChange={(evt) => {
                             setValue(evt.target.value);
                         }} >

@@ -11,15 +11,13 @@ function Users() {
     const [data, setData] = useState()
     const [comment, setComment] = useState()
     const [token, setToken] = useToken()
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState('phone')
     const [search, setSearch] = useState('')
     const [deleted, setDelete] = useState(0)
     const [show, setShow] = useState(false)
     const [id, setId] = useState(0)
     const [edit, setEdit] = useState(false)
     const [found, setFound] = useState({})
-
-
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/users?' + value + "=" + search, {
@@ -39,8 +37,6 @@ function Users() {
             })
             .catch((e) => console.log(e))
     }, [value, search, token, deleted])
-
-
 
     const HandleDelete = (e) => {
         const id = JSON.parse(e.target.dataset.id);
