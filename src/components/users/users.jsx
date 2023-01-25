@@ -87,7 +87,7 @@ function Users() {
         e.preventDefault();
         const { comment } = e.target.elements
 
-        fetch("https://users.behad.uz/api/v1/adminAddcommment", {
+        fetch("https://users.behad.uz/api/v1/adminAddcomment", {
             method: "PUT",
             body: JSON.stringify({
                 id: id,
