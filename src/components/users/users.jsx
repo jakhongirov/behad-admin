@@ -83,6 +83,7 @@ function Users() {
             .catch((e) => console.log(e))
     }
 
+
     const AddComment = (e) => {
         e.preventDefault();
         const { comment } = e.target.elements
@@ -231,7 +232,7 @@ function Users() {
                                         cols={45}
                                         rows={15}
                                         style={{ "display": "block", "marginBottom": "20px", "padding": "10px", "fontSize": "17px" }}
-                                        defaultValue={comment?.user_comment}
+                                        defaultValue={comment[0]?.user_comment}
                                         name="comment"></textarea>
                                     <button style={{ "marginBottom": "10px" }} className='login__btn'>Save</button>
                                 </form>
