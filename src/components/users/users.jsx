@@ -1,15 +1,17 @@
 import './users.scss'
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import useToken from '../../Hooks/useToken';
 
 
 import Header from "../header/header"
 import Search from '../search/search';
-
+ 
 
 function Users() {
-    const [data, setData] = useState()
-    const [comment, setComment] = useState()
+    const [data, setData] = useState([])
+    const [user, setUser] = useState([])
+    const [appUser, setAppUser] = useState([])
     const [token, setToken] = useToken()
     const [value, setValue] = useState('phone')
     const [search, setSearch] = useState('')
@@ -18,6 +20,8 @@ function Users() {
     const [id, setId] = useState(0)
     const [edit, setEdit] = useState(false)
     const [found, setFound] = useState({})
+    const [disabled, setDisabled] = useState(true)
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/users?' + value + "=" + search, {
@@ -61,7 +65,7 @@ function Users() {
             .catch((err) => console.log(err));
     }
 
-    const HandleComment = (e) => {
+    const HandleUser = (e) => {
         const id = JSON.parse(e.target.dataset.id);
 
         fetch('https://users.behad.uz/api/v1/users?id=' + id, {
@@ -73,9 +77,28 @@ function Users() {
             .then(res => res.json())
             .then(data => {
                 if (data.status === 200) {
-                    setComment(data.data);
+                    setUser(data.data);
                     setShow(true)
                     setId(id)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+
+
+        fetch('https://users.behad.uz/api/v1/appUsers?userId=' + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    console.log(data.data);
+                    setAppUser(data.data)
                 } else if (data.status === 401) {
                     setToken(false);
                 }
@@ -142,6 +165,49 @@ function Users() {
             .catch((err) => console.log(err));
     }
 
+    const HandleLimitNext = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://users.behad.uz/api/v1/users?position=next&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setDisabled(false)
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    const HandleLimitPrev = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://users.behad.uz/api/v1/users?position=prev&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
     return (
         <>
             <Header />
@@ -161,7 +227,7 @@ function Users() {
                                     <th>Who</th>
                                     <th>Phone</th>
                                     <th>Country</th>
-                                    <th>Capital</th>
+                                    <th>City</th>
                                     <th>Comment</th>
                                     <th></th>
                                     <th></th>
@@ -184,7 +250,7 @@ function Users() {
                                                 <button
                                                     className='more__btn'
                                                     data-id={e.user_id}
-                                                    onClick={HandleComment}>
+                                                    onClick={HandleUser}>
                                                     •••
                                                 </button>
                                             </td>
@@ -223,16 +289,55 @@ function Users() {
                             </tbody>
                         </table>
 
+                        <div className="pagination__btnbox">
+                            <button
+                                className="prev_btn add__btn"
+                                data-id={data[0]?.user_id}
+                                onClick={HandleLimitPrev}
+                                disabled={disabled}
+                            >Prev</button>
+                            <button
+                                className="next_btn add__btn"
+                                data-id={data[data.length - 1]?.user_id}
+                                onClick={HandleLimitNext}
+                                disabled={data.length >= 50 ? false : true}
+                            >Next</button>
+                        </div>
 
                         <div className={show ? "modal" : "modal--close"}>
                             <div className='modal__item' style={{ "maxWidth": "500px" }}>
+                                <h2 style={{ "marginBottom": "10px" }}>User data {user[0]?.user_id}</h2>
+                                <p>{`Name: ${user[0]?.user_name}`}</p>
+                                <p>{`Surname: ${user[0]?.user_surname}`}</p>
+                                <p>{`Age: ${user[0]?.user_age}`}</p>
+                                <p>{`Who: ${user[0]?.user_who}`}</p>
+                                <p>Tel: <a href={`tel:${user[0]?.user_phone}`}>{user[0]?.user_phone}</a></p>
+                                <p>{`Cauntry: ${user[0]?.user_country}`}</p>
+                                <p>{`City: ${user[0]?.user_capital}`}</p>
+                                <p>{`Balance: ${user[0]?.user_balance}`}</p>
+                                <p style={{ "marginBottom": "20px" }}>{`Date: ${user[0]?.to_char}`}</p>
+                                <h3 style={{ "marginBottom": "5px" }}>User apps</h3>
+                                {
+                                    appUser && appUser.map((e, i) => (
+                                        <div key={i}
+                                            style={{"display" : "flex", "maxWidth" : "200px", "justifyContent" : "space-between"}}
+                                        >
+                                            <p>{e.app_name}</p>
+                                            <button 
+                                            onClick={() => {
+                                                setShow(false)
+                                                navigate(`/tracking/${user[0]?.user_id}/${e.app_key}`)
+                                            }}>Tracking</button>
+                                        </div>
+                                    ))
+                                }
                                 <h2 style={{ "marginBottom": "10px" }}>User comment</h2>
                                 <form onSubmit={AddComment}>
                                     <textarea
                                         cols={45}
                                         rows={15}
                                         style={{ "display": "block", "marginBottom": "20px", "padding": "10px", "fontSize": "17px" }}
-                                        defaultValue={comment ? comment[0]?.user_comment : ""}
+                                        defaultValue={user ? user[0]?.user_comment : ""}
                                         name="comment"></textarea>
                                     <button style={{ "marginBottom": "10px" }} className='login__btn'>Save</button>
                                 </form>

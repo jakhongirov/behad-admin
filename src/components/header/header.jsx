@@ -11,7 +11,7 @@ function Header() {
                 <div className="nav-bar_wrapper_inner">
                     <div className="logo_wrapper">
                         <Link to="/" className="title">
-                            BEAHAD
+                            BEHAD
                         </Link>
                     </div>
                     <nav>
@@ -22,14 +22,6 @@ function Header() {
                                     to="/"
                                 >
                                     Users
-                                </NavLink>
-                            </li>
-                            <li className="nav_list_item">
-                                <NavLink
-                                    className="nav_link"
-                                    to="/tracking"
-                                >
-                                    Tracking
                                 </NavLink>
                             </li>
                             <li className="nav_list_item">

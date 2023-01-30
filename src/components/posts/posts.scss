@@ -1,0 +1,16 @@
+.pagination__btnbox{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 20px;   
+}
+
+.next_btn, .prev_btn {
+    width: 80px;
+    padding: 10px;
+}
+
+.next_btn:disabled, .prev_btn:disabled{
+    opacity: 0.7;
+}

@@ -8,7 +8,7 @@ import AppPost from "../appPost/appPost";
 // import Header from "../header/header"
 // import Search from '../search/search';
 
-function Category() {
+function Category({ SetAppKey }) {
     const { app_key } = useParams()
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
@@ -19,9 +19,11 @@ function Category() {
     const [id, setId] = useState(0)
     const [found, setFound] = useState({})
     const [edit, setEdit] = useState(false)
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
-        fetch('https://posts.behad.uz/api/v1/categories', {
+        SetAppKey(app_key)
+        fetch('https://posts.behad.uz/api/v1/categories?key=' + app_key, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -133,6 +135,49 @@ function Category() {
             .catch((err) => console.log(err));
     }
 
+    const HandleLimitNext = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch('https://posts.behad.uz/api/v1/categories?key=' + app_key + "&position=next&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setDisabled(false)
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    const HandleLimitPrev = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch('https://posts.behad.uz/api/v1/categories?key=' + app_key + "&position=prev&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
     return (
         <>
             <AppPost />
@@ -187,6 +232,21 @@ function Category() {
                                 }
                             </tbody>
                         </table>
+
+                        <div className="pagination__btnbox">
+                            <button
+                                className="prev_btn add__btn"
+                                data-id={data[0]?.category_id}
+                                onClick={HandleLimitPrev}
+                                disabled={disabled}
+                            >Prev</button>
+                            <button
+                                className="next_btn add__btn"
+                                data-id={data[data.length - 1]?.category_id}
+                                onClick={HandleLimitNext}
+                                disabled={data.length === 50 ? false : true}
+                            >Next</button>
+                        </div>
 
                         <div className="add__btn-box">
                             <button className="add__btn" onClick={() => setAdd(!add)}>Add App</button>

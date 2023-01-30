@@ -7,7 +7,7 @@ import Search from '../search/search';
 
 
 function Answers() {
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
     const [token, setToken] = useToken()
     const [value, setValue] = useState('')
     const [search, setSearch] = useState('')
@@ -19,6 +19,7 @@ function Answers() {
     const [v5, setV5] = useState()
     const [v6, setV6] = useState()
     const [status, setStatus] = useState(false)
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
         fetch('https://survey.behad.uz/api/v1/survaysAdmin?' + "id" + "=" + search, {
@@ -61,7 +62,7 @@ function Answers() {
             setStatus(true)
 
         } else {
-          await  fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=1', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=1', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -162,6 +163,48 @@ function Answers() {
         }
     }
 
+    const HandleLimitNext = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://survey.behad.uz/api/v1/answers?position=next&answerId=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setDisabled(false)
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    const HandleLimitPrev = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://survey.behad.uz/api/v1/answers?position=prev&answerId=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
 
     return (
         <>
@@ -203,6 +246,21 @@ function Answers() {
                                 }
                             </tbody>
                         </table>
+
+                        <div className="pagination__btnbox">
+                            <button
+                                className="prev_btn add__btn"
+                                data-id={data[0]?.survay_user_id}
+                                onClick={HandleLimitPrev}
+                                disabled={disabled}
+                            >Prev</button>
+                            <button
+                                className="next_btn add__btn"
+                                data-id={data[data.length - 1]?.survay_user_id}
+                                onClick={HandleLimitNext}
+                                disabled={data.length >= 50 ? false : true}
+                            >Next</button>
+                        </div>
 
                         <div className={status ? "modal" : "modal--close"}>
                             <div className="modal__item">

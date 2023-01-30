@@ -7,7 +7,7 @@ import Header from "../header/header"
 import Search from '../search/search';
 
 function Apps() {
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
     const [token, setToken] = useToken()
     const [value, setValue] = useState('id')
     const [search, setSearch] = useState('')
@@ -17,8 +17,7 @@ function Apps() {
     const [add, setAdd] = useState(false)
     const [edit, setEdit] = useState(false)
     const navigate = useNavigate()
-
-
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/apps?' + value + "=" + search, {
@@ -128,6 +127,49 @@ function Apps() {
             .catch((err) => console.log(err));
     }
 
+    const HandleLimitNext = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://users.behad.uz/api/v1/apps?position=next&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setDisabled(false)
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    const HandleLimitPrev = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://users.behad.uz/api/v1/apps?position=prev&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
     return (
         <>
             <Header />
@@ -198,8 +240,8 @@ function Apps() {
                                                     e.app_post ? (
                                                         <button
                                                             className='edit__btn'
-                                                            style={{"background" : "green"}}
-                                                            onClick={()=> navigate('/category/' + e.app_key)}
+                                                            style={{ "background": "green" }}
+                                                            onClick={() => navigate('/category/' + e.app_key)}
                                                         >
                                                             Post
                                                         </button>
@@ -211,6 +253,21 @@ function Apps() {
                                 }
                             </tbody>
                         </table>
+
+                        <div className={"pagination__btnbox"}>
+                            <button
+                                className="prev_btn add__btn"
+                                data-id={data[0]?.app_id}
+                                onClick={HandleLimitPrev}
+                                disabled={disabled}
+                            >Prev</button>
+                            <button
+                                className="next_btn add__btn"
+                                data-id={data[data.length - 1]?.app_id}
+                                onClick={HandleLimitNext}
+                                disabled={data.length === 50 ? false : true}
+                            >Next</button>
+                        </div>
 
                         <div className="add__btn-box">
                             <button className="add__btn" onClick={() => setAdd(!add)}>Add App</button>

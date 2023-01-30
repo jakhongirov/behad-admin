@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Users from "./components/users/users";
@@ -11,6 +12,8 @@ import News from "./components/news/news";
 import Tracking from "./components/tracking/tracking";
 
 function AuthenticatedApp() {
+  const [appKey, SetAppKey] = useState()
+
   return (
     <Routes>
       <Route path="/" element={<Users />} />
@@ -19,9 +22,9 @@ function AuthenticatedApp() {
       <Route path="/survays" element={<Survays />} />
       <Route path="/answers" element={<Answers />} />
       <Route path="/news" element={<News />} />
-      <Route path="/category/:app_key" element={<Category />} />
-      <Route path="/post" element={<Posts />} />
-      <Route path="/tracking" element={<Tracking />} />
+      <Route path="/category/:app_key" element={<Category SetAppKey={SetAppKey} />} />
+      <Route path="/post" element={<Posts appKey={appKey} />} />
+      <Route path="/tracking/:userId/:key" element={<Tracking />} />
     </Routes>
   );
 }

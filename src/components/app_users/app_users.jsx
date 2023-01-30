@@ -6,13 +6,11 @@ import Search from "../search/search";
 
 
 function AppUser() {
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
     const [token, setToken] = useToken()
     const [value, setValue] = useState('')
     const [search, setSearch] = useState('')
-
-
-    console.log(value, search);
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/appUsers?' + value + "=" + search, {
@@ -57,6 +55,49 @@ function AppUser() {
                 }
             })
             .catch((err) => console.log(err));
+    }
+
+    const HandleLimitNext = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://users.behad.uz/api/v1/appUsers?position=next&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setDisabled(false)
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    const HandleLimitPrev = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch("https://users.behad.uz/api/v1/appUsers?position=prev&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
     }
 
     return (
@@ -115,6 +156,21 @@ function AppUser() {
                                     }
                                 </tbody>
                             </table>
+
+                            <div className={"pagination__btnbox"}>
+                                <button
+                                    className="prev_btn add__btn"
+                                    data-id={data[0]?.app_user_id}
+                                    onClick={HandleLimitPrev}
+                                    disabled={disabled}
+                                >Prev</button>
+                                <button
+                                    className="next_btn add__btn"
+                                    data-id={data[data.length - 1]?.app_user_id}
+                                    onClick={HandleLimitNext}
+                                    disabled={data.length >= 50 ? false : true}
+                                >Next</button>
+                            </div>
                         </div>
                     </section>
                 </main>

@@ -1,3 +1,4 @@
+import './posts.scss'
 import { useState, useEffect } from "react";
 import useToken from '../../Hooks/useToken';
 import axios from "axios";
@@ -8,8 +9,8 @@ import AppPost from "../appPost/appPost";
 // import Header from "../header/header"
 // import Search from '../search/search';
 
-function Posts() {
-    const [data, setData] = useState()
+function Posts({ appKey }) {
+    const [data, setData] = useState([])
     const [categories, setCategoties] = useState([])
     const [token, setToken] = useToken()
     const [add, setAdd] = useState(false)
@@ -21,10 +22,10 @@ function Posts() {
     const [edit, setEdit] = useState(false)
     const [found, setFound] = useState({})
     const [post, setPost] = useState({})
-
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
-        fetch('https://posts.behad.uz/api/v1/posts', {
+        fetch('https://posts.behad.uz/api/v1/posts?key=' + appKey, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -43,7 +44,7 @@ function Posts() {
     }, [token, deleted])
 
     useEffect(() => {
-        fetch('https://posts.behad.uz/api/v1/categories', {
+        fetch('https://posts.behad.uz/api/v1/categories?key=' + appKey, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -183,6 +184,49 @@ function Posts() {
             .catch((e) => console.log(e))
     }
 
+    const HandleLimitNext = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch('https://posts.behad.uz/api/v1/posts?key=' + appKey + "&position=next&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setDisabled(false)
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    const HandleLimitPrev = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch('https://posts.behad.uz/api/v1/posts?key=' + appKey + "&position=prev&id=" + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
     return (
         <>
             <AppPost />
@@ -254,6 +298,21 @@ function Posts() {
                                 }
                             </tbody>
                         </table>
+
+                        <div className="pagination__btnbox">
+                            <button
+                                className="prev_btn add__btn"
+                                data-id={data[0]?.post_id}
+                                onClick={HandleLimitPrev}
+                                disabled={disabled}
+                            >Prev</button>
+                            <button
+                                className="next_btn add__btn"
+                                data-id={data[data.length - 1]?.post_id}
+                                onClick={HandleLimitNext}
+                                disabled={data.length === 50 ? false : true}
+                            >Next</button>
+                        </div>
 
                         <div className="add__btn-box">
                             <button className="add__btn" onClick={() => setAdd(!add)}>Add App</button>
