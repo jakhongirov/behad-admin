@@ -10,9 +10,8 @@ function Tracking() {
     const { userId, key } = useParams()
     const [disabled, setDisabled] = useState(true)
 
-
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/trackingUsers?userId=' + userId + "&key" + key, {
+        fetch('https://users.behad.uz/api/v1/trackingUsers?userId=' + userId + "&key=" + key, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -98,7 +98,6 @@ function Users() {
             .then(res => res.json())
             .then(data => {
                 if (data.status === 200) {
-                    console.log(data.data);
                     setAppUser(data.data)
                 } else if (data.status === 401) {
                     setToken(false);
