@@ -7,7 +7,7 @@ import Header from "../header/header"
 import Search from '../search/search';
 
 function Survays() {
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
     const [apps, setApps] = useState()
     const [token, setToken] = useToken()
     const [value, setValue] = useState('')
