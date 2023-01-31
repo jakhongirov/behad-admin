@@ -20,6 +20,7 @@ function Survays() {
     const [single, setSingle] = useState([])
     const [info, setInfo] = useState(false)
     const [disabled, setDisabled] = useState(true)
+    const [delModal, setDelModal] = useState(false)
 
     useEffect(() => {
         fetch("https://survey.behad.uz/api/v1/survaysAdmin?id=" + search, {
@@ -194,9 +195,7 @@ function Survays() {
             .catch((err) => console.log(err));
     }
 
-    const HandleDelete = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
-
+    const HandleDelete = () => {
         fetch("https://survey.behad.uz/api/v1/deletesurvay", {
             method: "Delete",
             body: JSON.stringify({
@@ -208,6 +207,7 @@ function Survays() {
             .then((data) => {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
+                    setDelModal(false)
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
@@ -390,8 +390,10 @@ function Survays() {
                                             <td>
                                                 <button
                                                     className='delete__btn'
-                                                    data-id={e.survay_id}
-                                                    onClick={HandleDelete}
+                                                    onClick={() => {
+                                                        setId(e.survay_id)
+                                                        setDelModal(!delModal)
+                                                    }}
                                                 >
                                                     Delete
                                                 </button>
@@ -417,6 +419,21 @@ function Survays() {
                             >Next</button>
                         </div>
 
+                        <div className={delModal ? "modal" : "modal--close"}>
+                            <div className="modal__item" style={{ "maxWidth": "300px" , "height" : "120px" }}>
+                                <h4 style={{ "textAlign": "center", "marginBottom": "15px" }}>Do you want to delete this survey</h4>
+                                <div className={"pagination__btnbox"} style={{ "margin": "0 auto" }}>
+                                    <button
+                                        className="prev_btn add__btn"
+                                        onClick={() => setDelModal(!delModal)}
+                                    >Not</button>
+                                    <button
+                                        className="delete__btn"
+                                        onClick={HandleDelete}
+                                    >Yes</button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div className="add__btn-box">
                             <button className="add__btn" onClick={() => setAdd(!add)}>Add App</button>

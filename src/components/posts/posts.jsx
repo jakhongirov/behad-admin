@@ -23,6 +23,7 @@ function Posts({ appKey }) {
     const [found, setFound] = useState({})
     const [post, setPost] = useState({})
     const [disabled, setDisabled] = useState(true)
+    const [delModal, setDelModal] = useState(false)
 
     useEffect(() => {
         fetch('https://posts.behad.uz/api/v1/posts?key=' + appKey, {
@@ -140,8 +141,7 @@ function Posts({ appKey }) {
             });
     }
 
-    const HandleDelete = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
+    const HandleDelete = () => {
         fetch("https://posts.behad.uz/api/v1/deletePost", {
             method: "Delete",
             body: JSON.stringify({
@@ -153,6 +153,7 @@ function Posts({ appKey }) {
             .then((data) => {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
+                    setDelModal(false)
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
@@ -287,8 +288,10 @@ function Posts({ appKey }) {
                                                 </button>
                                                 <button
                                                     className='delete__btn'
-                                                    data-id={e.post_id}
-                                                    onClick={HandleDelete}
+                                                    onClick={() => {
+                                                        setId(e.post_id)
+                                                        setDelModal(!delModal)
+                                                    }}
                                                 >
                                                     Delete
                                                 </button>
@@ -316,6 +319,22 @@ function Posts({ appKey }) {
 
                         <div className="add__btn-box">
                             <button className="add__btn" onClick={() => setAdd(!add)}>Add App</button>
+                        </div>
+
+                        <div className={delModal ? "modal" : "modal--close"}>
+                            <div className="modal__item" style={{ "maxWidth": "300px", "height": "120px" }}>
+                                <h4 style={{ "textAlign": "center", "marginBottom": "15px" }}>Do you want to delete this post</h4>
+                                <div className={"pagination__btnbox"} style={{ "margin": "0 auto" }}>
+                                    <button
+                                        className="prev_btn add__btn"
+                                        onClick={() => setDelModal(!delModal)}
+                                    >Not</button>
+                                    <button
+                                        className="delete__btn"
+                                        onClick={HandleDelete}
+                                    >Yes</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div className={add ? "modal" : "modal--close"}>

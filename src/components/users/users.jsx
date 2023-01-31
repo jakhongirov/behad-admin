@@ -6,7 +6,7 @@ import useToken from '../../Hooks/useToken';
 
 import Header from "../header/header"
 import Search from '../search/search';
- 
+
 
 function Users() {
     const [data, setData] = useState([])
@@ -22,6 +22,7 @@ function Users() {
     const [found, setFound] = useState({})
     const [disabled, setDisabled] = useState(true)
     const navigate = useNavigate()
+    const [delModal, setDelModal] = useState(false)
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/users?' + value + "=" + search, {
@@ -42,8 +43,7 @@ function Users() {
             .catch((e) => console.log(e))
     }, [value, search, token, deleted])
 
-    const HandleDelete = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
+    const HandleDelete = () => {
 
         fetch("https://users.behad.uz/api/v1/deleteUser", {
             method: "Delete",
@@ -56,6 +56,7 @@ function Users() {
             .then((data) => {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
+                    setDelModal(false)
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
@@ -277,8 +278,10 @@ function Users() {
                                             <td>
                                                 <button
                                                     className='delete__btn'
-                                                    data-id={e.user_id}
-                                                    onClick={HandleDelete}
+                                                    onClick={() => {
+                                                        setId(e.user_id)
+                                                        setDelModal(!delModal)
+                                                    }}
                                                 >
                                                     Delete
                                                 </button>
@@ -304,6 +307,22 @@ function Users() {
                             >Next</button>
                         </div>
 
+                        <div className={delModal ? "modal" : "modal--close"}>
+                            <div className="modal__item" style={{ "maxWidth": "300px" }}>
+                                <h4 style={{ "textAlign": "center", "marginBottom": "15px" }}>Do you want to delete this user</h4>
+                                <div className={"pagination__btnbox"} style={{ "margin": "0 auto" }}>
+                                    <button
+                                        className="prev_btn add__btn"
+                                        onClick={() => setDelModal(!delModal)}
+                                    >Not</button>
+                                    <button
+                                        className="delete__btn"
+                                        onClick={HandleDelete}
+                                    >Yes</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className={show ? "modal" : "modal--close"}>
                             <div className='modal__item' style={{ "maxWidth": "500px" }}>
                                 <h2 style={{ "marginBottom": "10px" }}>User data {user[0]?.user_id}</h2>
@@ -320,14 +339,14 @@ function Users() {
                                 {
                                     appUser && appUser.map((e, i) => (
                                         <div key={i}
-                                            style={{"display" : "flex", "maxWidth" : "200px", "justifyContent" : "space-between"}}
+                                            style={{ "display": "flex", "maxWidth": "200px", "justifyContent": "space-between" }}
                                         >
                                             <p>{e.app_name}</p>
-                                            <button 
-                                            onClick={() => {
-                                                setShow(false)
-                                                navigate(`/tracking/${user[0]?.user_id}/${e.app_key}`)
-                                            }}>Tracking</button>
+                                            <button
+                                                onClick={() => {
+                                                    setShow(false)
+                                                    navigate(`/tracking/${user[0]?.user_id}/${e.app_key}`)
+                                                }}>Tracking</button>
                                         </div>
                                     ))
                                 }
