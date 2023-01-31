@@ -73,6 +73,7 @@ function Users() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "token": token
             },
         })
             .then(res => res.json())

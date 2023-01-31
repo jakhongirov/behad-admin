@@ -26,7 +26,8 @@ function Survays() {
         fetch("https://survey.behad.uz/api/v1/survaysAdmin?id=" + search, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                token: token
             },
         })
             .then(res => res.json())
@@ -224,6 +225,7 @@ function Survays() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "token": token
             },
         })
             .then(res => res.json())
