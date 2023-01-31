@@ -304,6 +304,7 @@ function Survays() {
                                     <th>limit</th>
                                     <th>Active</th>
                                     <th>Main</th>
+                                    <th>Views</th>
                                     <th>Status</th>
                                     <th></th>
                                     <th></th>
@@ -343,6 +344,7 @@ function Survays() {
                                                 </div>
                                             </td>
                                             <td>{e.survay_main ? "On" : "Off"}</td>
+                                            <td>{e.survay_views}</td>
                                             <td>
                                                 <button
                                                     className='more__btn'
