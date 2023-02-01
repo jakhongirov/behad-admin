@@ -100,7 +100,7 @@ function TestQuestion() {
             .then((data) => {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
-                    setEdit(false)
+                    setAdd(false)
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
