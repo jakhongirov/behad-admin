@@ -77,7 +77,6 @@ function TestQuestion() {
             answer_6
         } = e.target.elements
 
-
         formData.append("title", title.value.trim());
         formData.append("testId", testId.value);
         formData.append("answer_1", answer_1.value);
@@ -156,7 +155,7 @@ function TestQuestion() {
         formData.append("point_5", point_5.value);
         formData.append("point_6", point_6.value);
 
-        axios.put("https://psychology.behad.uz/api/v1/addQuestion", formData, {
+        axios.put("https://psychology.behad.uz/api/v1/updateQuestion", formData, {
             headers: {
                 'Content-Type': 'form-data',
                 "type": "formData",
