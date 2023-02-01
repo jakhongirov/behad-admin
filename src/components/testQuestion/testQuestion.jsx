@@ -59,7 +59,6 @@ function TestQuestion() {
 
     const HandlePost = (e) => {
         e.preventDefault();
-        const formData = new FormData();
         const {
             title,
             testId,
@@ -77,51 +76,43 @@ function TestQuestion() {
             answer_6
         } = e.target.elements
 
-        formData.append("title", title.value.trim());
-        formData.append("testId", testId.value);
-        formData.append("answer_1", answer_1.value);
-        formData.append("answer_2", answer_2.value);
-        formData.append("answer_3", answer_3.value);
-        formData.append("answer_4", answer_4.value);
-        formData.append("answer_5", answer_5.value);
-        formData.append("answer_6", answer_6.value);
-        formData.append("point_1", point_1.value);
-        formData.append("point_2", point_2.value);
-        formData.append("point_3", point_3.value);
-        formData.append("point_4", point_4.value);
-        formData.append("point_5", point_5.value);
-        formData.append("point_6", point_6.value);
-
-        axios.post("https://psychology.behad.uz/api/v1/addQuestion", formData, {
-            headers: {
-                'Content-Type': 'form-data',
-                "type": "formData",
-                'Accept': 'application/json',
-                "Access-Control-Allow-Origin": "*",
-                token: token
-            }
+        fetch("https://psychology.behad.uz/api/v1/addQuestion", {
+            method: "POST",
+            body: JSON.stringify({
+                title: title.value.trim(),
+                testId: testId.value,
+                answer_1: answer_1.value,
+                answer_2: answer_2.value,
+                answer_3: answer_3.value,
+                answer_4: answer_4.value,
+                answer_5: answer_5.value,
+                answer_6: answer_6.value,
+                point_1: point_1.value,
+                point_2: point_2.value,
+                point_3: point_3.value,
+                point_4: point_4.value,
+                point_5: point_5.value,
+                point_6: point_6.value
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
         })
+            .then((res) => res.json())
             .then((data) => {
-                if (data) {
-                    setDelete(Number(deleted) + 1)
-                    if (data.status === 200) {
-                        console.log(data.status);
-                        setAdd(false)
-                    }
-                    if (data.data.status === 401) {
-                        setToken(false)
-                    }
-                    else {
-                        console.log(data);
-                    }
+                if (data.status === 200) {
+                    setDelete(deleted + 1)
+                    setEdit(false)
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
                 }
-            });
+            })
+            .catch((err) => console.log(err));
 
     }
 
     const HandlePut = (e) => {
         e.preventDefault();
-        const formData = new FormData();
         const {
             title,
             testId,
@@ -139,46 +130,39 @@ function TestQuestion() {
             answer_6
         } = e.target.elements
 
-        formData.append("id", id);
-        formData.append("title", title.value.trim());
-        formData.append("testId", testId.value);
-        formData.append("answer_1", answer_1.value);
-        formData.append("answer_2", answer_2.value);
-        formData.append("answer_3", answer_3.value);
-        formData.append("answer_4", answer_4.value);
-        formData.append("answer_5", answer_5.value);
-        formData.append("answer_6", answer_6.value);
-        formData.append("point_1", point_1.value);
-        formData.append("point_2", point_2.value);
-        formData.append("point_3", point_3.value);
-        formData.append("point_4", point_4.value);
-        formData.append("point_5", point_5.value);
-        formData.append("point_6", point_6.value);
-
-        axios.put("https://psychology.behad.uz/api/v1/updateQuestion", formData, {
-            headers: {
-                'Content-Type': 'form-data',
-                "type": "formData",
-                'Accept': 'application/json',
-                "Access-Control-Allow-Origin": "*",
-                token: token
-            }
+        fetch("https://psychology.behad.uz/api/v1/updateQuestion", {
+            method: "PUT",
+            body: JSON.stringify({
+                id: id,
+                title: title.value.trim(),
+                testId: testId.value,
+                answer_1: answer_1.value,
+                answer_2: answer_2.value,
+                answer_3: answer_3.value,
+                answer_4: answer_4.value,
+                answer_5: answer_5.value,
+                answer_6: answer_6.value,
+                point_1: point_1.value,
+                point_2: point_2.value,
+                point_3: point_3.value,
+                point_4: point_4.value,
+                point_5: point_5.value,
+                point_6: point_6.value
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
         })
+            .then((res) => res.json())
             .then((data) => {
-                if (data) {
-                    setDelete(Number(deleted) + 1)
-                    if (data.status === 200) {
-                        console.log(data.status);
-                        setAdd(false)
-                    }
-                    if (data.data.status === 401) {
-                        setToken(false)
-                    }
-                    else {
-                        console.log(data);
-                    }
+                if (data.status === 200) {
+                    setDelete(deleted + 1)
+                    setEdit(false)
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
                 }
-            });
+            })
+            .catch((err) => console.log(err));
 
     }
 
