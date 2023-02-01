@@ -350,59 +350,14 @@ function TestQuestion() {
                                     >Yes</button>
                                 </div>
                             </div>
-
-                            <div className={add ? "modal" : "modal--close"}>
-                                <div className="modal__item">
-                                    <form onSubmit={HandlePost}>
-                                        <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' required />
-
-                                        <select name="testId" style={{ 'marginBottom': "10px", "padding": "10px" }}>
-                                            {
-                                                test.map((e, i) => (
-                                                    <option key={i} value={e.test_id}>{e.test_title}</option>
-                                                ))
-                                            }
-                                        </select>
-
-                                        <div className='app__form-box'>
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='point_1' placeholder='point_1' required />
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='answer_1' placeholder='answer_1' required />
-                                        </div>
-                                        <div className='app__form-box'>
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='point_2' placeholder='point_2' required />
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='answer_2' placeholder='answer_2' required />
-                                        </div>
-                                        <div className='app__form-box'>
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='point_3' placeholder='point_3' />
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='answer_3' placeholder='answer_3' />
-                                        </div>
-                                        <div className='app__form-box'>
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='point_4' placeholder='point_4' />
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='answer_4' placeholder='answer_4' />
-                                        </div>
-                                        <div className='app__form-box'>
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='point_5' placeholder='point_5' />
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='answer_5' placeholder='answer_5' />
-                                        </div>
-                                        <div className='app__form-box'>
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='point_6' placeholder='point_6' />
-                                            <input className='login__phone__input app__input app__input--width' type="text" name='answer_6' placeholder='answer_6' />
-                                        </div>
-
-
-                                        <button className='login__btn'>Add</button>
-                                    </form>
-                                    <button className='login__btn' onClick={() => setAdd(!add)}>Close</button>
-                                </div>
-                            </div>
                         </div>
 
-                        <div className={edit ? "modal" : "modal--close"}>
+                        <div className={add ? "modal" : "modal--close"}>
                             <div className="modal__item">
-                                <form onSubmit={HandlePut}>
-                                    <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
+                                <form onSubmit={HandlePost}>
+                                    <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' required />
 
-                                    <select name="testId" style={{ 'marginBottom': "10px", "padding": "10px" }} defaultValue={found?.testId}>
+                                    <select name="testId" style={{ 'marginBottom': "10px", "padding": "10px" }}>
                                         {
                                             test.map((e, i) => (
                                                 <option key={i} value={e.test_id}>{e.test_title}</option>
@@ -411,34 +366,79 @@ function TestQuestion() {
                                     </select>
 
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_1' placeholder='point_1' defaultValue={found?.answer_1 && Object.keys(found?.answer_1)[0]} />
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_1' placeholder='answer_1' defaultValue={found?.answer_1 && found?.answer_1[Object.keys(found?.answer_1)[0]]} />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_1' placeholder='point_1' required />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_1' placeholder='answer_1' required />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_2' placeholder='point_2' defaultValue={found?.answer_2 && Object.keys(found?.answer_2)[0]} />
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_2' placeholder='answer_2' defaultValue={found?.answer_2 && found?.answer_2[Object.keys(found?.answer_2)[0]]} />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_2' placeholder='point_2' required />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_2' placeholder='answer_2' required />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_3' placeholder='point_3' defaultValue={found?.answer_3 && Object.keys(found?.answer_3)[0]} />
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_3' placeholder='answer_3' defaultValue={found?.answer_3 && found?.answer_3[Object.keys(found?.answer_3)[0]]} />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_3' placeholder='point_3' />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_3' placeholder='answer_3' />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_4' placeholder='point_4' defaultValue={found?.answer_4 && Object.keys(found?.answer_4)[0]} />
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_4' placeholder='answer_4' defaultValue={found?.answer_4 && found?.answer_4[Object.keys(found?.answer_4)[0]]} />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_4' placeholder='point_4' />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_4' placeholder='answer_4' />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_5' placeholder='point_5' defaultValue={found?.answer_5 && Object.keys(found?.answer_5)[0]} />
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_5' placeholder='answer_5' defaultValue={found?.answer_5 && found?.answer_5[Object.keys(found?.answer_5)[0]]} />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_5' placeholder='point_5' />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_5' placeholder='answer_5' />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_6' placeholder='point_6' defaultValue={found?.answer_6 && Object.keys(found?.answer_6)[0]} />
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_6' placeholder='answer_6' defaultValue={found?.answer_6 && found?.answer_6[Object.keys(found?.answer_6)[0]]} />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_6' placeholder='point_6' />
+                                        <input className='login__phone__input app__input app__input--width' type="text" name='answer_6' placeholder='answer_6' />
                                     </div>
 
-                                    <button className='login__btn'>Edit</button>
+
+                                    <button className='login__btn'>Add</button>
                                 </form>
-                                <button className='login__btn' onClick={() => setEdit(!edit)}>Close</button>
+                                <button className='login__btn' onClick={() => setAdd(!add)}>Close</button>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className={edit ? "modal" : "modal--close"}>
+                        <div className="modal__item">
+                            <form onSubmit={HandlePut}>
+                                <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
+
+                                <select name="testId" style={{ 'marginBottom': "10px", "padding": "10px" }} defaultValue={found?.testId}>
+                                    {
+                                        test.map((e, i) => (
+                                            <option key={i} value={e.test_id}>{e.test_title}</option>
+                                        ))
+                                    }
+                                </select>
+
+                                <div className='app__form-box'>
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='point_1' placeholder='point_1' defaultValue={found?.answer_1 && Object.keys(found?.answer_1)[0]} />
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='answer_1' placeholder='answer_1' defaultValue={found?.answer_1 && found?.answer_1[Object.keys(found?.answer_1)[0]]} />
+                                </div>
+                                <div className='app__form-box'>
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='point_2' placeholder='point_2' defaultValue={found?.answer_2 && Object.keys(found?.answer_2)[0]} />
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='answer_2' placeholder='answer_2' defaultValue={found?.answer_2 && found?.answer_2[Object.keys(found?.answer_2)[0]]} />
+                                </div>
+                                <div className='app__form-box'>
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='point_3' placeholder='point_3' defaultValue={found?.answer_3 && Object.keys(found?.answer_3)[0]} />
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='answer_3' placeholder='answer_3' defaultValue={found?.answer_3 && found?.answer_3[Object.keys(found?.answer_3)[0]]} />
+                                </div>
+                                <div className='app__form-box'>
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='point_4' placeholder='point_4' defaultValue={found?.answer_4 && Object.keys(found?.answer_4)[0]} />
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='answer_4' placeholder='answer_4' defaultValue={found?.answer_4 && found?.answer_4[Object.keys(found?.answer_4)[0]]} />
+                                </div>
+                                <div className='app__form-box'>
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='point_5' placeholder='point_5' defaultValue={found?.answer_5 && Object.keys(found?.answer_5)[0]} />
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='answer_5' placeholder='answer_5' defaultValue={found?.answer_5 && found?.answer_5[Object.keys(found?.answer_5)[0]]} />
+                                </div>
+                                <div className='app__form-box'>
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='point_6' placeholder='point_6' defaultValue={found?.answer_6 && Object.keys(found?.answer_6)[0]} />
+                                    <input className='login__phone__input app__input app__input--width' type="text" name='answer_6' placeholder='answer_6' defaultValue={found?.answer_6 && found?.answer_6[Object.keys(found?.answer_6)[0]]} />
+                                </div>
+
+                                <button className='login__btn'>Edit</button>
+                            </form>
+                            <button className='login__btn' onClick={() => setEdit(!edit)}>Close</button>
                         </div>
                     </div>
                 </section>

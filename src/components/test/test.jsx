@@ -31,7 +31,6 @@ function Test() {
             .then(data => {
                 if (data.status === 200) {
                     setData(data.data)
-                    console.log(data.data[0]);
                 } else if (data.status === 401) {
                     setToken(false);
                 }
