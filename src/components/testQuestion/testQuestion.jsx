@@ -77,28 +77,21 @@ function TestQuestion() {
             answer_6
         } = e.target.elements
 
-        let obj1 = {}
-        let obj2 = {}
-        let obj3 = {}
-        let obj4 = {}
-        let obj5 = {}
-        let obj6 = {}
-
-        obj1[point_1.value] = answer_1.value
-        obj2[point_2.value] = answer_2.value
-        obj3[point_3.value] = answer_3.value
-        obj4[point_4.value] = answer_4.value
-        obj5[point_5.value] = answer_5.value
-        obj6[point_6.value] = answer_6.value
 
         formData.append("title", title.value.trim());
         formData.append("testId", testId.value);
-        formData.append("answer_1", obj1);
-        formData.append("answer_2", obj2);
-        formData.append("answer_3", obj3);
-        formData.append("answer_4", obj4);
-        formData.append("answer_5", obj5);
-        formData.append("answer_6", obj6);
+        formData.append("answer_1", answer_1.value);
+        formData.append("answer_2", answer_2.value);
+        formData.append("answer_3", answer_3.value);
+        formData.append("answer_4", answer_4.value);
+        formData.append("answer_5", answer_5.value);
+        formData.append("answer_6", answer_6.value);
+        formData.append("point_1", point_1.value);
+        formData.append("point_2", point_2.value);
+        formData.append("point_3", point_3.value);
+        formData.append("point_4", point_4.value);
+        formData.append("point_5", point_5.value);
+        formData.append("point_6", point_6.value);
 
         axios.post("https://psychology.behad.uz/api/v1/addQuestion", formData, {
             headers: {
@@ -147,29 +140,21 @@ function TestQuestion() {
             answer_6
         } = e.target.elements
 
-        let obj1 = {}
-        let obj2 = {}
-        let obj3 = {}
-        let obj4 = {}
-        let obj5 = {}
-        let obj6 = {}
-
-        obj1[point_1.value] = answer_1.value
-        obj2[point_2.value] = answer_2.value
-        obj3[point_3.value] = answer_3.value
-        obj4[point_4.value] = answer_4.value
-        obj5[point_5.value] = answer_5.value
-        obj6[point_6.value] = answer_6.value
-
         formData.append("id", id);
         formData.append("title", title.value.trim());
         formData.append("testId", testId.value);
-        formData.append("answer_1", obj1);
-        formData.append("answer_2", obj2);
-        formData.append("answer_3", obj3);
-        formData.append("answer_4", obj4);
-        formData.append("answer_5", obj5);
-        formData.append("answer_6", obj6);
+        formData.append("answer_1", answer_1.value);
+        formData.append("answer_2", answer_2.value);
+        formData.append("answer_3", answer_3.value);
+        formData.append("answer_4", answer_4.value);
+        formData.append("answer_5", answer_5.value);
+        formData.append("answer_6", answer_6.value);
+        formData.append("point_1", point_1.value);
+        formData.append("point_2", point_2.value);
+        formData.append("point_3", point_3.value);
+        formData.append("point_4", point_4.value);
+        formData.append("point_5", point_5.value);
+        formData.append("point_6", point_6.value);
 
         axios.put("https://psychology.behad.uz/api/v1/addQuestion", formData, {
             headers: {

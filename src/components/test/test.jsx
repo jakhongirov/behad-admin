@@ -31,12 +31,14 @@ function Test() {
             .then(data => {
                 if (data.status === 200) {
                     setData(data.data)
+                    console.log(data.data[0]);
                 } else if (data.status === 401) {
                     setToken(false);
                 }
             })
             .catch((e) => console.log(e))
     }, [value, search, token, deleted])
+
 
     useEffect(() => {
         fetch('https://psychology.behad.uz/api/v1/testCategories?position=all', {
@@ -79,30 +81,23 @@ function Test() {
             photo
         } = e.target.elements
 
-        let obj1 = {}
-        let obj2 = {}
-        let obj3 = {}
-        let obj4 = {}
-        let obj5 = {}
-        let obj6 = {}
-
-        obj1[point_1.value] = result_1.value
-        obj2[point_2.value] = result_2.value
-        obj3[point_3.value] = result_3.value
-        obj4[point_4.value] = result_4.value
-        obj5[point_5.value] = result_5.value
-        obj6[point_6.value] = result_6.value
 
         formData.append("photo", photo.files[0]);
         formData.append("title", title.value.trim());
         formData.append("description", desc.value.trim());
         formData.append("category_id", categoryId.value);
-        formData.append("result_1", obj1);
-        formData.append("result_2", obj2);
-        formData.append("result_3", obj3);
-        formData.append("result_4", obj4);
-        formData.append("result_5", obj5);
-        formData.append("result_6", obj6);
+        formData.append("result_1", result_1.value);
+        formData.append("result_2", result_2.value);
+        formData.append("result_3", result_3.value);
+        formData.append("result_4", result_4.value);
+        formData.append("result_5", result_5.value);
+        formData.append("result_6", result_6.value);
+        formData.append("point_1", point_1.value);
+        formData.append("point_2", point_2.value);
+        formData.append("point_3", point_3.value);
+        formData.append("point_4", point_4.value);
+        formData.append("point_5", point_5.value);
+        formData.append("point_6", point_6.value);
 
         axios.post("https://psychology.behad.uz/api/v1/addTest", formData, {
             headers: {
@@ -153,31 +148,23 @@ function Test() {
             photo
         } = e.target.elements
 
-        let obj1 = {}
-        let obj2 = {}
-        let obj3 = {}
-        let obj4 = {}
-        let obj5 = {}
-        let obj6 = {}
-
-        obj1[point_1.value] = result_1.value
-        obj2[point_2.value] = result_2.value
-        obj3[point_3.value] = result_3.value
-        obj4[point_4.value] = result_4.value
-        obj5[point_5.value] = result_5.value
-        obj6[point_6.value] = result_6.value
-
         formData.append("id", id);
         formData.append("photo", photo.files[0]);
         formData.append("title", title.value.trim());
         formData.append("description", desc.value.trim());
         formData.append("category_id", categoryId.value);
-        formData.append("result_1", obj1);
-        formData.append("result_2", obj2);
-        formData.append("result_3", obj3);
-        formData.append("result_4", obj4);
-        formData.append("result_5", obj5);
-        formData.append("result_6", obj6);
+        formData.append("result_1", result_1.value);
+        formData.append("result_2", result_2.value);
+        formData.append("result_3", result_3.value);
+        formData.append("result_4", result_4.value);
+        formData.append("result_5", result_5.value);
+        formData.append("result_6", result_6.value);
+        formData.append("point_1", point_1.value);
+        formData.append("point_2", point_2.value);
+        formData.append("point_3", point_3.value);
+        formData.append("point_4", point_4.value);
+        formData.append("point_5", point_5.value);
+        formData.append("point_6", point_6.value);
 
         axios.put("https://psychology.behad.uz/api/v1/updateTest", formData, {
             headers: {
