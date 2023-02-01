@@ -110,8 +110,6 @@ function Category({ SetAppKey }) {
                     }
                 }
             });
-
-
     }
 
     const HandleDelete = () => {
@@ -252,7 +250,7 @@ function Category({ SetAppKey }) {
                         </div>
 
                         <div className="add__btn-box">
-                            <button className="add__btn" onClick={() => setAdd(!add)}>Add App</button>
+                            <button className="add__btn" onClick={() => setAdd(!add)}>Add Category</button>
                         </div>
 
                         <div className={delModal ? "modal" : "modal--close"}>

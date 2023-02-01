@@ -10,6 +10,9 @@ import Answers from "./components/answers/answers";
 import Category from "./components/category/category";
 import News from "./components/news/news";
 import Tracking from "./components/tracking/tracking";
+import TestCategory from "./components/testCategory/testCategory";
+import Test from "./components/test/test";
+import TestQuestion from "./components/testQuestion/testQuestion";
 
 function AuthenticatedApp() {
   const [appKey, SetAppKey] = useState()
@@ -25,6 +28,9 @@ function AuthenticatedApp() {
       <Route path="/category/:app_key" element={<Category SetAppKey={SetAppKey} />} />
       <Route path="/post" element={<Posts appKey={appKey} />} />
       <Route path="/tracking/:userId/:key" element={<Tracking />} />
+      <Route path="/testCategories" element={<TestCategory />} />
+      <Route path="/test" element={<Test />} />
+      <Route path="/testQuestion" element={<TestQuestion />} />
     </Routes>
   );
 }

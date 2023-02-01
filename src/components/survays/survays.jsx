@@ -440,7 +440,7 @@ function Survays() {
                         </div>
 
                         <div className="add__btn-box">
-                            <button className="add__btn" onClick={() => setAdd(!add)}>Add App</button>
+                            <button className="add__btn" onClick={() => setAdd(!add)}>Add Survey</button>
                         </div>
 
                         <div className={add ? "modal" : "modal--close"}>

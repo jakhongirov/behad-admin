@@ -174,7 +174,6 @@ function Apps() {
     return (
         <>
             <Header />
-
             <main className='main'>
                 <Search link={"app"} value={value} setValue={setValue} setSearch={setSearch} />
                 <section className="users">
@@ -250,6 +249,18 @@ function Apps() {
                                                         </button>
                                                     ) : ""
                                                 }
+
+                                                {
+                                                    e.app_key === 'psixologiya' ? (
+                                                        <button
+                                                            className='edit__btn'
+                                                            style={{ "background": "#0496ff" }}
+                                                            onClick={() => navigate('/testCategories')}
+                                                        >
+                                                            Test
+                                                        </button>
+                                                    ) : ""
+                                                }
                                             </td>
                                         </tr>
                                     ))
@@ -278,8 +289,8 @@ function Apps() {
 
                         <div className={delModal ? "modal" : "modal--close"}>
                             <div className="modal__item" style={{ "maxWidth": "300px" }}>
-                                <h4 style={{"textAlign" : "center", "marginBottom" : "15px"}}>Do you want to delete this app</h4>
-                                <div className={"pagination__btnbox"} style={{"margin" : "0 auto"}}>
+                                <h4 style={{ "textAlign": "center", "marginBottom": "15px" }}>Do you want to delete this app</h4>
+                                <div className={"pagination__btnbox"} style={{ "margin": "0 auto" }}>
                                     <button
                                         className="prev_btn add__btn"
                                         onClick={() => setDelModal(!delModal)}
