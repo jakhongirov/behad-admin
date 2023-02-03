@@ -373,7 +373,7 @@ function Posts({ appKey }) {
                                 <form onSubmit={HandlePut}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
 
-                                    <select name="categoryId" defaultValue={found?.categoryId} style={{ 'marginBottom': "10px", "padding": "10px" }}>
+                                    <select name="categoryId" value={found?.categoryId} style={{ 'marginBottom': "10px", "padding": "10px" }}>
                                         {
                                             categories.map((e, i) => (
                                                 <option key={i} value={e.category_id}>{e.category_name}</option>

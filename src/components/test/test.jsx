@@ -425,7 +425,7 @@ function Test() {
                                 <form onSubmit={HandlePut}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
 
-                                    <select name="categoryId" style={{ 'marginBottom': "10px", "padding": "10px" }} defaultValue={found?.categoryId}>
+                                    <select name="categoryId" style={{ 'marginBottom': "10px", "padding": "10px" }} value={found?.categoryId}>
                                         {
                                             categories.map((e, i) => (
                                                 <option key={i} value={e.test_category_id}>{e.test_category_title}</option>
