@@ -179,7 +179,7 @@ function Test() {
                     setDelete(Number(deleted) + 1)
                     if (data.status === 200) {
                         console.log(data.status);
-                        setAdd(false)
+                        setEdit(false)
                     }
                     if (data.data.status === 401) {
                         setToken(false)
