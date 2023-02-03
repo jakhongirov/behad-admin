@@ -177,6 +177,28 @@ function Category({ SetAppKey }) {
             .catch((e) => console.log(e))
     }
 
+    const HandleUpdateAppVersion = () => {
+
+        fetch("https://users.behad.uz/api/v1/updeteContentVersionApp", {
+            method: "PUT",
+            body: JSON.stringify({
+                app_key: app_key
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status === 200) {
+                    console.log(data)
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
     return (
         <>
             <AppPost />
@@ -184,6 +206,16 @@ function Category({ SetAppKey }) {
                 {/* <Search link={"none"} value={value} setValue={setValue} setSearch={setSearch} /> */}
                 <section className="category">
                     <div className="container">
+
+
+                        <button
+                            className="edit__btn"
+                            style={{ "border": "none", "background": "green" }}
+                            onClick={HandleUpdateAppVersion}
+                        >
+                            Update App version
+                        </button>
+
                         <table>
                             <thead>
                                 <tr>

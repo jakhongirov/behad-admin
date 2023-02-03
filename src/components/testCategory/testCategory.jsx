@@ -170,6 +170,28 @@ function TestCategory() {
             .catch((e) => console.log(e))
     }
 
+    const HandleUpdateAppVersion = () => {
+
+        fetch("https://users.behad.uz/api/v1/updeteContentVersionApp", {
+            method: "PUT",
+            body: JSON.stringify({
+                app_key: "psixologiya"
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status === 200) {
+                    console.log(data)
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
     return (
         <>
             <TestNavbar />
@@ -177,6 +199,15 @@ function TestCategory() {
             <main className="main">
                 <section className="test">
                     <div className="container">
+
+                        <button
+                            className="edit__btn"
+                            style={{ "border": "none", "background": "green" }}
+                            onClick={HandleUpdateAppVersion}
+                        >
+                            Update App version
+                        </button>
+
                         <table>
                             <thead>
                                 <tr>
@@ -258,7 +289,7 @@ function TestCategory() {
                                     >Not</button>
                                     <button
                                         className="delete__btn"
-                                    onClick={HandleDelete}
+                                        onClick={HandleDelete}
                                     >Yes</button>
                                 </div>
                             </div>

@@ -13,6 +13,9 @@ import Tracking from "./components/tracking/tracking";
 import TestCategory from "./components/testCategory/testCategory";
 import Test from "./components/test/test";
 import TestQuestion from "./components/testQuestion/testQuestion";
+import UserCount from "./components/userCount/userCount";
+import UserCity from "./components/userCity/userCity";
+import UserByCity from "./components/usersByCity/usersByCity";
 
 function AuthenticatedApp() {
   const [appKey, SetAppKey] = useState()
@@ -22,6 +25,9 @@ function AuthenticatedApp() {
       <Route path="/" element={<Users />} />
       <Route path="/apps" element={<Apps />} />
       <Route path="/app-user" element={<AppUser />} />
+      <Route path="/userCount" element={<UserCount />} />
+      <Route path="/userCountry-City/:country/:city" element={<UserByCity />} />
+      <Route path="/userCity/:country" element={<UserCity />} />
       <Route path="/survays" element={<Survays />} />
       <Route path="/answers" element={<Answers />} />
       <Route path="/news" element={<News />} />
