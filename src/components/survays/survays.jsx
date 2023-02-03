@@ -548,7 +548,7 @@ function Survays() {
                                         </div>
                                     </div>
 
-                                    <select name="app_key" value={found?.app_key} multiple style={{ 'marginBottom': "10px" }}>
+                                    <select name="app_key" defaultValue={found?.app_key} multiple style={{ 'marginBottom': "10px" }}>
                                         <option value="all">Hammasi</option>
                                         {
                                             apps && apps.map((e, i) => (
