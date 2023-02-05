@@ -58,6 +58,7 @@ function TestQuestion() {
     }, [value, search, token, deleted])
 
     const HandlePost = (e) => {
+        const formData = new FormData();
         e.preventDefault();
         const {
             title,
@@ -73,46 +74,56 @@ function TestQuestion() {
             point_5,
             answer_5,
             point_6,
-            answer_6
+            answer_6,
+            photo
         } = e.target.elements
 
-        fetch("https://psychology.behad.uz/api/v1/addQuestion", {
-            method: "POST",
-            body: JSON.stringify({
-                title: title.value.trim(),
-                testId: testId.value,
-                answer_1: answer_1.value,
-                answer_2: answer_2.value,
-                answer_3: answer_3.value,
-                answer_4: answer_4.value,
-                answer_5: answer_5.value,
-                answer_6: answer_6.value,
-                point_1: point_1.value,
-                point_2: point_2.value,
-                point_3: point_3.value,
-                point_4: point_4.value,
-                point_5: point_5.value,
-                point_6: point_6.value
-            }),
-            headers: { token: token, "Content-Type": "application/json", },
+        formData.append("photo", photo.files[0]);
+        formData.append("title", title.value.trim());
+        formData.append("testId", testId.value.trim());
+        formData.append("point_1", point_1.value.trim());
+        formData.append("point_2", point_2.value.trim());
+        formData.append("point_3", point_3.value.trim());
+        formData.append("point_4", point_4.value.trim());
+        formData.append("point_5", point_5.value.trim());
+        formData.append("point_6", point_6.value.trim());
+        formData.append("answer_1", answer_1.value.trim());
+        formData.append("answer_2", answer_2.value.trim());
+        formData.append("answer_3", answer_3.value.trim());
+        formData.append("answer_4", answer_4.value.trim());
+        formData.append("answer_5", answer_5.value.trim());
+        formData.append("answer_6", answer_6.value.trim());
+
+        axios.post("https://psychology.behad.uz/api/v1/addQuestion", formData, {
+            headers: {
+                'Content-Type': 'form-data',
+                "type": "formData",
+                'Accept': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                token: token
+            }
         })
-            .then((res) => res.json())
             .then((data) => {
-                if (data.status === 200) {
-                    setDelete(deleted + 1)
-                    setAdd(false)
-                } else if (data.status === 401) {
-                    setToken(false)
-                } else {
-                    console.log(data);
+                if (data) {
+                    setDelete(Number(deleted) + 1)
+                    if (data.status === 200) {
+                        console.log(data.status);
+                        setAdd(false)
+                    }
+                    if (data.data.status === 401) {
+                        setToken(false)
+                    }
+                    else {
+                        console.log(data);
+                    }
                 }
-            })
-            .catch((err) => console.log(err));
+            });
 
     }
 
     const HandlePut = (e) => {
         e.preventDefault();
+        const formData = new FormData();
         const {
             title,
             testId,
@@ -127,42 +138,50 @@ function TestQuestion() {
             point_5,
             answer_5,
             point_6,
-            answer_6
+            answer_6,
+            photo
         } = e.target.elements
 
-        fetch("https://psychology.behad.uz/api/v1/updateQuestion", {
-            method: "PUT",
-            body: JSON.stringify({
-                id: id,
-                title: title.value.trim(),
-                testId: testId.value,
-                answer_1: answer_1.value,
-                answer_2: answer_2.value,
-                answer_3: answer_3.value,
-                answer_4: answer_4.value,
-                answer_5: answer_5.value,
-                answer_6: answer_6.value,
-                point_1: point_1.value,
-                point_2: point_2.value,
-                point_3: point_3.value,
-                point_4: point_4.value,
-                point_5: point_5.value,
-                point_6: point_6.value
-            }),
-            headers: { token: token, "Content-Type": "application/json", },
+        formData.append("photo", photo.files[0]);
+        formData.append("title", title.value.trim());
+        formData.append("testId", testId.value.trim());
+        formData.append("point_1", point_1.value.trim());
+        formData.append("point_2", point_2.value.trim());
+        formData.append("point_3", point_3.value.trim());
+        formData.append("point_4", point_4.value.trim());
+        formData.append("point_5", point_5.value.trim());
+        formData.append("point_6", point_6.value.trim());
+        formData.append("answer_1", answer_1.value.trim());
+        formData.append("answer_2", answer_2.value.trim());
+        formData.append("answer_3", answer_3.value.trim());
+        formData.append("answer_4", answer_4.value.trim());
+        formData.append("answer_5", answer_5.value.trim());
+        formData.append("answer_6", answer_6.value.trim());
+
+        axios.put("https://psychology.behad.uz/api/v1/updateQuestion", formData, {
+            headers: {
+                'Content-Type': 'form-data',
+                "type": "formData",
+                'Accept': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                token: token
+            }
         })
-            .then((res) => res.json())
             .then((data) => {
-                if (data.status === 200) {
-                    setDelete(deleted + 1)
-                    setEdit(false)
-                } else if (data.status === 401) {
-                    setToken(false)
-                } else {
-                    console.log(data);
+                if (data) {
+                    setDelete(Number(deleted) + 1)
+                    if (data.status === 200) {
+                        console.log(data.status);
+                        setEdit(false)
+                    }
+                    if (data.data.status === 401) {
+                        setToken(false)
+                    }
+                    else {
+                        console.log(data);
+                    }
                 }
-            })
-            .catch((err) => console.log(err));
+            });
 
     }
 
@@ -373,6 +392,12 @@ function TestQuestion() {
                                         <input className='login__phone__input app__input app__input--width' type="text" name='answer_6' placeholder='answer_6' />
                                     </div>
 
+                                    <input
+                                        className='login__phone__input app__input'
+                                        type="file"
+                                        name="photo"
+                                        placeholder="Imge"
+                                    />
 
                                     <button className='login__btn'>Add</button>
                                 </form>
@@ -418,6 +443,13 @@ function TestQuestion() {
                                     <input className='login__phone__input app__input app__input--width' type="text" name='point_6' placeholder='point_6' defaultValue={found?.answer_6 && Object.keys(found?.answer_6)[0]} />
                                     <input className='login__phone__input app__input app__input--width' type="text" name='answer_6' placeholder='answer_6' defaultValue={found?.answer_6 && found?.answer_6[Object.keys(found?.answer_6)[0]]} />
                                 </div>
+
+                                <input
+                                    className='login__phone__input app__input'
+                                    type="file"
+                                    name="photo"
+                                    placeholder="Imge"
+                                />
 
                                 <button className='login__btn'>Edit</button>
                             </form>
