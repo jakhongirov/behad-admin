@@ -51,6 +51,14 @@ function Header() {
                             <li className="nav_list_item">
                                 <NavLink
                                     className="nav_link"
+                                    to="/appUserCount"
+                                >
+                                    App Users Count
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
                                     to="/survays"
                                 >
                                     Surveys

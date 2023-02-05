@@ -16,6 +16,8 @@ import TestQuestion from "./components/testQuestion/testQuestion";
 import UserCount from "./components/userCount/userCount";
 import UserCity from "./components/userCity/userCity";
 import UserByCity from "./components/usersByCity/usersByCity";
+import AppUserFilter from "./components/appUserFilter/appUserFilter";
+import AppUserByKey from "./components/appUserByKey/appUserByKey";
 
 function AuthenticatedApp() {
   const [appKey, SetAppKey] = useState()
@@ -25,6 +27,8 @@ function AuthenticatedApp() {
       <Route path="/" element={<Users />} />
       <Route path="/apps" element={<Apps />} />
       <Route path="/app-user" element={<AppUser />} />
+      <Route path="/appUserCount" element={<AppUserFilter />} />
+      <Route path="/appUserBy/:key" element={<AppUserByKey />} />
       <Route path="/userCount" element={<UserCount />} />
       <Route path="/userCountry-City/:country/:city" element={<UserByCity />} />
       <Route path="/userCity/:country" element={<UserCity />} />
