@@ -18,6 +18,7 @@ import UserCity from "./components/userCity/userCity";
 import UserByCity from "./components/usersByCity/usersByCity";
 import AppUserFilter from "./components/appUserFilter/appUserFilter";
 import AppUserByKey from "./components/appUserByKey/appUserByKey";
+import TrackingFilter from "./components/trackingFilter/trackingFilter";
 
 function AuthenticatedApp() {
   const [appKey, SetAppKey] = useState()
@@ -38,6 +39,7 @@ function AuthenticatedApp() {
       <Route path="/category/:app_key" element={<Category SetAppKey={SetAppKey} />} />
       <Route path="/post" element={<Posts appKey={appKey} />} />
       <Route path="/tracking/:userId/:key" element={<Tracking />} />
+      <Route path="/trackingFilter" element={<TrackingFilter />} />
       <Route path="/testCategories" element={<TestCategory />} />
       <Route path="/test" element={<Test />} />
       <Route path="/testQuestion" element={<TestQuestion />} />

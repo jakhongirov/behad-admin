@@ -6,7 +6,7 @@ function Search({ link, value, setValue, setSearch }) {
         <>
             <section className="search">
                 <div className='search__box'>
-                    <select className=''
+                    <select className={link == 'trackingFilter' ? "modal--close" : ""}
                         defaultValue={"phone"}
                         onChange={(evt) => {
                             setValue(evt.target.value);
@@ -26,7 +26,7 @@ function Search({ link, value, setValue, setSearch }) {
                                         <option value="id">id</option>
                                     </>
                                 )
-                                : (
+                                :  (
                                     <>
                                         <option value="id">id</option>
                                         <option value="name">Name</option>

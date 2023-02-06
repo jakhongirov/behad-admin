@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import useToken from '../../Hooks/useToken';
 
+import Header from '../header/header';
+import Search from '../search/search';
 
-function Tracking() {
+function TrackingFilter() {
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
-    const navigate = useNavigate()
-    const { userId, key } = useParams()
+    const [search, setSearch] = useState('')
     const [disabled, setDisabled] = useState(true)
+    const [day, setDay] = useState(3)
 
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/trackingUsers?userId=' + userId + "&key=" + key, {
+        console.log(day);
+        fetch('https://users.behad.uz/api/v1/trackingUsersFilter?day=' + day + '&key=' + search, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -22,18 +24,17 @@ function Tracking() {
             .then(data => {
                 if (data.status === 200) {
                     setData(data.data)
-                    console.log(data.data);
                 } else if (data.status === 401) {
                     setToken(false);
                 }
             })
             .catch((e) => console.log(e))
-    }, [token])
+    }, [token, day, search])
 
     const HandleLimitNext = (e) => {
         const id = JSON.parse(e.target.dataset.id);
 
-        fetch("https://users.behad.uz/api/v1/trackingUsers?position=next&id=" + id + "&userId=" + userId + '&key=' + key, {
+        fetch('https://users.behad.uz/api/v1/trackingUsersFilter?position=next&day=' + day + '&key=' + search + '&id=' + id, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -55,7 +56,7 @@ function Tracking() {
     const HandleLimitPrev = (e) => {
         const id = JSON.parse(e.target.dataset.id);
 
-        fetch("https://users.behad.uz/api/v1/trackingUsers?position=prev&id=" + id + "&userId=" + userId + '&key=' + key, {
+        fetch('https://users.behad.uz/api/v1/trackingUsersFilter?position=prev&day=' + day + '&key=' + search + '&id=' + id, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -75,10 +76,37 @@ function Tracking() {
 
     return (
         <>
+            <Header />
+
             <main className="main">
+                <Search link={"trackingFilter"} setSearch={setSearch} />
                 <section className="tracking">
                     <div className="container">
-                        <h1>User Tracking {data[0]?.user_id}</h1>
+
+                        <div
+                            className='search__box'
+                            style={{
+                                "marginBottom" : "10px",
+                            }}
+                        >
+                            <select
+                                defaultValue={day}
+                                onChange={(evt) => {
+                                    setDay(evt.target.value);
+                                }}
+                                style={{
+                                    "padding" : "10px"
+                                }}
+                            >
+                                <option value="3">3 days</option>
+                                <option value="7">7 days</option>
+                                <option value="10">10 days</option>
+                                <option value="14">14 days</option>
+                                <option value="30">30 days</option>
+                                <option value="60">60 days</option>
+                            </select>
+                        </div>
+
                         <table>
                             <thead>
                                 <tr>
@@ -119,10 +147,6 @@ function Tracking() {
                                 disabled={data.length >= 50 ? false : true}
                             >Next</button>
                         </div>
-
-                        <div className="add__btn-box">
-                            <button className="add__btn" onClick={() => navigate(-1)}>Back</button>
-                        </div>
                     </div>
                 </section>
             </main>
@@ -130,4 +154,4 @@ function Tracking() {
     )
 }
 
-export default Tracking
+export default TrackingFilter;

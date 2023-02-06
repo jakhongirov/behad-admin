@@ -7,7 +7,6 @@ import useToken from '../../Hooks/useToken';
 import Header from "../header/header"
 import Search from '../search/search';
 
-
 function Users() {
     const [data, setData] = useState([])
     const [user, setUser] = useState([])
