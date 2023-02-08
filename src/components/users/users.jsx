@@ -239,12 +239,12 @@ function Users() {
 
                         <p
                             style={{
-                                "display" : "inline-block",
+                                "display": "inline-block",
                                 "marginBottom": "20px",
                                 "padding": "10px",
                                 "background": "green",
-                                "color" : "white",
-                                "borderRadius" : "10px" 
+                                "color": "white",
+                                "borderRadius": "10px"
                             }}
                         >{`Users count: ${count}`}</p>
 
@@ -365,6 +365,10 @@ function Users() {
                                 <p>{`Cauntry: ${user[0]?.user_country}`}</p>
                                 <p>{`City: ${user[0]?.user_capital}`}</p>
                                 <p>{`Balance: ${user[0]?.user_balance}`}</p>
+                                <p>{`Phone Brand: ${user[0]?.user_phone_brand}`}</p>
+                                <p>{`Phone Model: ${user[0]?.user_phone_model}`}</p>
+                                <p>{`Phone Language: ${user[0]?.user_phone_lang}`}</p>
+                                <p>{`Phone Android version: ${user[0]?.user_phone_android_version ? user[0]?.user_phone_android_version.join(', ') : "-"}`}</p>
                                 <p style={{ "marginBottom": "20px" }}>{`Date: ${user[0]?.to_char}`}</p>
                                 <h3 style={{ "marginBottom": "5px" }}>User apps</h3>
                                 {
