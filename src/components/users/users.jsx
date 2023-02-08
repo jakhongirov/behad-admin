@@ -22,6 +22,7 @@ function Users() {
     const [disabled, setDisabled] = useState(true)
     const navigate = useNavigate()
     const [delModal, setDelModal] = useState(false)
+    const [count, setCount] = useState(0)
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/users?' + value + "=" + search, {
@@ -41,6 +42,25 @@ function Users() {
             })
             .catch((e) => console.log(e))
     }, [value, search, token, deleted])
+
+    useEffect(() => {
+        fetch('https://users.behad.uz/api/v1/userCount', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setCount(data.count)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [token])
 
     const HandleDelete = () => {
 
@@ -216,6 +236,18 @@ function Users() {
                 <Search link={"users"} value={value} setValue={setValue} setSearch={setSearch} />
                 <section className="users">
                     <div className="container">
+
+                        <p
+                            style={{
+                                "display" : "inline-block",
+                                "marginBottom": "20px",
+                                "padding": "10px",
+                                "background": "green",
+                                "color" : "white",
+                                "borderRadius" : "10px" 
+                            }}
+                        >{`Users count: ${count}`}</p>
+
                         <table>
                             <thead>
                                 <tr>
