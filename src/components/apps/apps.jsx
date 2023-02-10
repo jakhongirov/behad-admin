@@ -259,6 +259,14 @@ function Apps() {
                                                         >
                                                             Test
                                                         </button>
+                                                    ) : e.app_key === "tibbiyot" ? (
+                                                        <button
+                                                            className='edit__btn'
+                                                            style={{ "background": "#0496ff" }}
+                                                            onClick={() => navigate('/pills')}
+                                                        >
+                                                            Pill
+                                                        </button>
                                                     ) : ""
                                                 }
                                             </td>

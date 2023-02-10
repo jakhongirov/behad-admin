@@ -19,6 +19,7 @@ import UserByCity from "./components/usersByCity/usersByCity";
 import AppUserFilter from "./components/appUserFilter/appUserFilter";
 import AppUserByKey from "./components/appUserByKey/appUserByKey";
 import TrackingFilter from "./components/trackingFilter/trackingFilter";
+import Pill from "./components/pills/pills";
 
 function AuthenticatedApp() {
   const [appKey, SetAppKey] = useState()
@@ -43,6 +44,7 @@ function AuthenticatedApp() {
       <Route path="/testCategories" element={<TestCategory />} />
       <Route path="/test" element={<Test />} />
       <Route path="/testQuestion" element={<TestQuestion />} />
+      <Route path="/pills" element={<Pill />} />
     </Routes>
   );
 }

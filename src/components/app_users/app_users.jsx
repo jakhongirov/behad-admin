@@ -11,6 +11,7 @@ function AppUser() {
     const [value, setValue] = useState('')
     const [search, setSearch] = useState('')
     const [disabled, setDisabled] = useState(true)
+    const [refresh, setRefresh] = useState(0)
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/appUsers?' + value + "=" + search, {
@@ -31,23 +32,24 @@ function AppUser() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [value, search, token])
+    }, [value, search, token, refresh])
 
     const checkboxChange = (e) => {
         const id = JSON.parse(e.target.dataset.id);
-        const status = e.target.checked
+        const status = JSON.parse(e.target.dataset.checked);
 
         fetch("https://users.behad.uz/api/v1/editProVersion", {
             method: "PUT",
             body: JSON.stringify({
                 id: id,
-                pro_v: status
+                pro_v: !status
             }),
             headers: { token: token, "Content-Type": "application/json", },
         })
             .then((res) => res.json())
             .then((data) => {
                 if (data.status === 200) {
+                    setRefresh(refresh + 1)
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
@@ -134,21 +136,15 @@ function AppUser() {
                                                 <td>{e.app_min_version}</td>
                                                 <td>{e.app_user_interested_to_buy}</td>
                                                 <td>
-                                                    <div className="customers_checkbox_wrapper">
-                                                        <label className="checkbox-container customers_checkbox-container">
-                                                            <input
-                                                                defaultChecked={e.app_user_ispayed}
-                                                                required
-                                                                className="customer_input"
-                                                                type="checkbox"
-                                                                data-id={e.app_user_id}
-                                                                onChange={checkboxChange}
-                                                            />
-                                                            <span className="checkmark customers_checkmark">
-                                                                <div></div>
-                                                            </span>
-                                                        </label>
-                                                    </div>
+                                                    <button
+                                                        className='edit__btn'
+                                                        style={{ "background": "green" }}
+                                                        data-checked={e.app_user_ispayed}
+                                                        data-id={e.app_user_id}
+                                                        onClick={checkboxChange}
+                                                    >
+                                                        {e.app_user_ispayed ? "To'lgan" : "Yo'q"}
+                                                    </button>
                                                 </td>
                                                 <td style={{ "paddingRight": "5px" }}>{e.to_char}</td>
                                             </tr>
