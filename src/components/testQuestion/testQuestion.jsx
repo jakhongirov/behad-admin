@@ -355,7 +355,7 @@ function TestQuestion() {
                         </div>
 
                         <div className={add ? "modal" : "modal--close"}>
-                            <div className="modal__item">
+                            <div className="modal__item" style={{ "maxWidth": "435px" }}>
                                 <form onSubmit={HandlePost}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' required />
 
@@ -408,7 +408,7 @@ function TestQuestion() {
 
                     <div className={edit ? "modal" : "modal--close"}>
                         <div className="modal__item">
-                            <form onSubmit={HandlePut}>
+                            <form onSubmit={HandlePut} style={{ "maxWidth": "435px" }}>
                                 <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
 
                                 <select name="testId" style={{ 'marginBottom': "10px", "padding": "10px" }} defaultValue={found?.testId}>

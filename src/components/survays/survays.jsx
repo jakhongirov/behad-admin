@@ -21,6 +21,14 @@ function Survays() {
     const [info, setInfo] = useState(false)
     const [disabled, setDisabled] = useState(true)
     const [delModal, setDelModal] = useState(false)
+    const [answers, setAnswers] = useState()
+    const [v1, setV1] = useState()
+    const [v2, setV2] = useState()
+    const [v3, setV3] = useState()
+    const [v4, setV4] = useState()
+    const [v5, setV5] = useState()
+    const [v6, setV6] = useState()
+    const [status, setStatus] = useState(false)
 
     useEffect(() => {
         fetch("https://survey.behad.uz/api/v1/survaysAdmin?id=" + search, {
@@ -283,12 +291,143 @@ function Survays() {
             .catch((e) => console.log(e))
     }
 
+    const HandleSurveyAnswer = async (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setAnswers(data);
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+
+        if (answers?.data.survay_iscomment) {
+            setStatus(true)
+
+        } else {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=1', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setV1(data);
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=2', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setV2(data);
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=3', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setV3(data);
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=4', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setV4(data);
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=5', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setV5(data);
+                        setStatus(true)
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=6', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.status === 200) {
+                        setV6(data);
+                        setStatus(true)
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+        }
+    }
+
     return (
         <>
             <Header />
             <main className="main">
                 <Search link={"survey"} value={value} setValue={setValue} setSearch={setSearch} />
-                <section className="survays">
+                <section className="users">
                     <div className="container">
                         <table>
                             <thead>
@@ -308,6 +447,7 @@ function Survays() {
                                     <th>Main</th>
                                     <th>Views</th>
                                     <th>Status</th>
+                                    <th>Answers</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -354,6 +494,16 @@ function Survays() {
                                                     onClick={HandleSurvey}
                                                 >
                                                     •••
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    className='delete__btn'
+                                                    style={{ "background": "#0496ff" }}
+                                                    data-id={e.survay_id}
+                                                    onClick={HandleSurveyAnswer}
+                                                >
+                                                    Answers
                                                 </button>
                                             </td>
                                             <td>
@@ -424,7 +574,7 @@ function Survays() {
                         </div>
 
                         <div className={delModal ? "modal" : "modal--close"}>
-                            <div className="modal__item" style={{ "maxWidth": "300px" , "height" : "120px" }}>
+                            <div className="modal__item" style={{ "maxWidth": "300px", "height": "120px" }}>
                                 <h4 style={{ "textAlign": "center", "marginBottom": "15px" }}>Do you want to delete this survey</h4>
                                 <div className={"pagination__btnbox"} style={{ "margin": "0 auto" }}>
                                     <button
@@ -592,6 +742,59 @@ function Survays() {
                                 <p>{`Status: ${single[0]?.survay_active ? "active" : 'disactive'}`}</p>
                                 <p>{`Date: ${single[0]?.to_char}`}</p>
                                 <button className='login__btn' style={{ "marginTop": "20px" }} onClick={() => setInfo(!info)}>Close</button>
+                            </div>
+                        </div>
+
+                        <div className={status ? "modal" : "modal--close"}>
+                            <div className="modal__item">
+
+                                <h2 style={{ "marginBottom": "16px" }}>{answers?.data.length > 0 ? answers?.data[0].survay_title : "No answers"}</h2>
+
+                                {
+                                    answers?.data.length > 0 ? answers?.data[0].survay_iscomment ? (
+                                        <>
+                                            <h3 style={{ "marginBottom": "5px" }}>{`Comment: ${answers?.data[0].survay_iscomment ? "on" : "off"}`}</h3>
+                                            <p>{`count : ${answers?.count}`}</p>
+                                            <p>{`male : ${answers?.male}`}</p>
+                                            <p>{`female : ${answers?.female}`}</p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 1</h3>
+                                            <p>{`count : ${v1?.count}`}</p>
+                                            <p>{`male : ${v1?.male}`}</p>
+                                            <p style={{ "marginBottom": "5px" }}>{`female : ${v1?.female}`}</p>
+
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 2</h3>
+                                            <p>{`count : ${v2?.count}`}</p>
+                                            <p>{`male : ${v2?.male}`}</p>
+                                            <p style={{ "marginBottom": "5px" }}>{`female : ${v2?.female}`}</p>
+
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 3</h3>
+                                            <p>{`count : ${v3?.count}`}</p>
+                                            <p>{`male : ${v3?.male}`}</p>
+                                            <p style={{ "marginBottom": "5px" }}>{`female : ${v3?.female}`}</p>
+
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 4</h3>
+                                            <p>{`count : ${v4?.count}`}</p>
+                                            <p>{`male : ${v4?.male}`}</p>
+                                            <p style={{ "marginBottom": "5px" }}>{`female : ${v4?.female}`}</p>
+
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 5</h3>
+                                            <p>{`count : ${v5?.count}`}</p>
+                                            <p>{`male : ${v5?.male}`}</p>
+                                            <p style={{ "marginBottom": "5px" }}>{`female : ${v5?.female}`}</p>
+
+                                            <h3 style={{ "marginBottom": "5px" }}>Opiton 6</h3>
+                                            <p>{`count : ${v6?.count}`}</p>
+                                            <p>{`male : ${v6?.male}`}</p>
+                                            <p style={{ "marginBottom": "5px" }}>{`female : ${v6?.female}`}</p>
+
+                                        </>
+                                    ) : "none"
+                                }
+
+                                <button className='login__btn' style={{ "marginTop": "20px" }} onClick={() => setStatus(!status)}>Close</button>
                             </div>
                         </div>
                     </div>

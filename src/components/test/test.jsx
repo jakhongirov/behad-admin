@@ -65,21 +65,33 @@ function Test() {
             title,
             categoryId,
             desc,
-            point_1,
+            point_1_1,
+            point_1_2,
             result_1,
-            point_2,
+            point_2_1,
+            point_2_2,
             result_2,
-            point_3,
+            point_3_1,
+            point_3_2,
             result_3,
-            point_4,
+            point_4_1,
+            point_4_2,
             result_4,
-            point_5,
+            point_5_1,
+            point_5_2,
             result_5,
-            point_6,
+            point_6_1,
+            point_6_2,
             result_6,
             photo
         } = e.target.elements
 
+        const point_1 = `${point_1_1.value.trim()}-${point_1_2.value.trim()}`
+        const point_2 = `${point_2_1.value.trim()}-${point_2_2.value.trim()}`
+        const point_3 = `${point_3_1.value.trim()}-${point_3_2.value.trim()}`
+        const point_4 = `${point_4_1.value.trim()}-${point_4_2.value.trim()}`
+        const point_5 = `${point_5_1.value.trim()}-${point_5_2.value.trim()}`
+        const point_6 = `${point_6_1.value.trim()}-${point_6_2.value.trim()}`
 
         formData.append("photo", photo.files[0]);
         formData.append("title", title.value.trim());
@@ -91,12 +103,12 @@ function Test() {
         formData.append("result_4", result_4.value);
         formData.append("result_5", result_5.value);
         formData.append("result_6", result_6.value);
-        formData.append("point_1", point_1.value);
-        formData.append("point_2", point_2.value);
-        formData.append("point_3", point_3.value);
-        formData.append("point_4", point_4.value);
-        formData.append("point_5", point_5.value);
-        formData.append("point_6", point_6.value);
+        formData.append("point_1", point_1.trim());
+        formData.append("point_2", point_2.trim());
+        formData.append("point_3", point_3.trim());
+        formData.append("point_4", point_4.trim());
+        formData.append("point_5", point_5.trim());
+        formData.append("point_6", point_6.trim());
 
         axios.post("https://psychology.behad.uz/api/v1/addTest", formData, {
             headers: {
@@ -132,38 +144,51 @@ function Test() {
             title,
             categoryId,
             desc,
-            point_1,
+            point_1_1,
+            point_1_2,
             result_1,
-            point_2,
+            point_2_1,
+            point_2_2,
             result_2,
-            point_3,
+            point_3_1,
+            point_3_2,
             result_3,
-            point_4,
+            point_4_1,
+            point_4_2,
             result_4,
-            point_5,
+            point_5_1,
+            point_5_2,
             result_5,
-            point_6,
+            point_6_1,
+            point_6_2,
             result_6,
             photo
         } = e.target.elements
+
+        const point_1 = `${point_1_1.value.trim()}-${point_1_2.value.trim()}`
+        const point_2 = `${point_2_1.value.trim()}-${point_2_2.value.trim()}`
+        const point_3 = `${point_3_1.value.trim()}-${point_3_2.value.trim()}`
+        const point_4 = `${point_4_1.value.trim()}-${point_4_2.value.trim()}`
+        const point_5 = `${point_5_1.value.trim()}-${point_5_2.value.trim()}`
+        const point_6 = `${point_6_1.value.trim()}-${point_6_2.value.trim()}`
 
         formData.append("id", id);
         formData.append("photo", photo.files[0]);
         formData.append("title", title.value.trim());
         formData.append("description", desc.value.trim());
         formData.append("category_id", categoryId.value);
-        formData.append("result_1", result_1.value);
-        formData.append("result_2", result_2.value);
-        formData.append("result_3", result_3.value);
-        formData.append("result_4", result_4.value);
-        formData.append("result_5", result_5.value);
-        formData.append("result_6", result_6.value);
-        formData.append("point_1", point_1.value);
-        formData.append("point_2", point_2.value);
-        formData.append("point_3", point_3.value);
-        formData.append("point_4", point_4.value);
-        formData.append("point_5", point_5.value);
-        formData.append("point_6", point_6.value);
+        formData.append("result_1", result_1.value.trim());
+        formData.append("result_2", result_2.value.trim());
+        formData.append("result_3", result_3.value.trim());
+        formData.append("result_4", result_4.value.trim());
+        formData.append("result_5", result_5.value.trim());
+        formData.append("result_6", result_6.value.trim());
+        formData.append("point_1", point_1.trim());
+        formData.append("point_2", point_2.trim());
+        formData.append("point_3", point_3.trim());
+        formData.append("point_4", point_4.trim());
+        formData.append("point_5", point_5.trim());
+        formData.append("point_6", point_6.trim());
 
         axios.put("https://psychology.behad.uz/api/v1/updateTest", formData, {
             headers: {
@@ -365,7 +390,7 @@ function Test() {
                         </div>
 
                         <div className={add ? "modal" : "modal--close"}>
-                            <div className="modal__item">
+                            <div className="modal__item" style={{ "maxWidth": "435px" }}>
                                 <form onSubmit={HandlePost}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' required />
 
@@ -378,27 +403,33 @@ function Test() {
                                     </select>
 
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_1' placeholder='point_1' required />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_1_1' placeholder='point_1' required />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_1_2' placeholder='point_1' required />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_1' placeholder='result_1' required />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_2' placeholder='point_2' required />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_2_1' placeholder='point_2' required />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_2_2' placeholder='point_2' required />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_2' placeholder='result_2' required />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_3' placeholder='point_3' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_3_1' placeholder='point_3' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_3_2' placeholder='point_3' />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_3' placeholder='result_3' />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_4' placeholder='point_4' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_4_1' placeholder='point_4' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_4_2' placeholder='point_4' />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_4' placeholder='result_4' />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_5' placeholder='point_5' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_5_1' placeholder='point_5' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_5_2' placeholder='point_5' />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_5' placeholder='result_5' />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_6' placeholder='point_6' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_6_1' placeholder='point_6' />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_6_2' placeholder='point_6' />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_6' placeholder='result_6' />
                                     </div>
 
@@ -421,7 +452,7 @@ function Test() {
                         </div>
 
                         <div className={edit ? "modal" : "modal--close"}>
-                            <div className="modal__item">
+                            <div className="modal__item" style={{ "maxWidth": "435px" }}>
                                 <form onSubmit={HandlePut}>
                                     <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' defaultValue={found?.title} required />
 
@@ -434,27 +465,33 @@ function Test() {
                                     </select>
 
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_1' placeholder='point_1' defaultValue={found?.result_1 && Object.keys(found?.result_1)[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_1_1' placeholder='point_1' defaultValue={found?.result_1 && Object.keys(found?.result_1)[0].split('-')[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_1_2' placeholder='point_1' defaultValue={found?.result_1 && Object.keys(found?.result_1)[0].split('-')[1]} />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_1' placeholder='result_1' defaultValue={found?.result_1 && found?.result_1[Object.keys(found?.result_1)[0]]} />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_2' placeholder='point_2' defaultValue={found?.result_2 && Object.keys(found?.result_2)[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_2_1' placeholder='point_2' defaultValue={found?.result_2 && Object.keys(found?.result_2)[0].split('-')[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_2_2' placeholder='point_2' defaultValue={found?.result_2 && Object.keys(found?.result_2)[0].split('-')[1]} />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_2' placeholder='result_2' defaultValue={found?.result_2 && found?.result_2[Object.keys(found?.result_2)[0]]} />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_3' placeholder='point_3' defaultValue={found?.result_3 && Object.keys(found?.result_3)[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_3' placeholder='point_3' defaultValue={found?.result_3 && Object.keys(found?.result_3)[0].split('-')[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_3' placeholder='point_3' defaultValue={found?.result_3 && Object.keys(found?.result_3)[0].split('-')[1]} />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_3' placeholder='result_3' defaultValue={found?.result_3 && found?.result_3[Object.keys(found?.result_3)[0]]} />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_4' placeholder='point_4' defaultValue={found?.result_4 && Object.keys(found?.result_4)[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_4_1' placeholder='point_4' defaultValue={found?.result_4 && Object.keys(found?.result_4)[0].split('-')[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_4_2' placeholder='point_4' defaultValue={found?.result_4 && Object.keys(found?.result_4)[0].split('-')[1]} />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_4' placeholder='result_4' defaultValue={found?.result_4 && found?.result_4[Object.keys(found?.result_4)[0]]} />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_5' placeholder='point_5' defaultValue={found?.result_5 && Object.keys(found?.result_5)[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_5_1' placeholder='point_5' defaultValue={found?.result_5 && Object.keys(found?.result_5)[0].split('-')[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_5_2' placeholder='point_5' defaultValue={found?.result_5 && Object.keys(found?.result_5)[0].split('-')[1]} />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_5' placeholder='result_5' defaultValue={found?.result_5 && found?.result_5[Object.keys(found?.result_5)[0]]} />
                                     </div>
                                     <div className='app__form-box'>
-                                        <input className='login__phone__input app__input app__input--width' type="text" name='point_6' placeholder='point_6' defaultValue={found?.result_6 && Object.keys(found?.result_6)[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_6_1' placeholder='point_6' defaultValue={found?.result_6 && Object.keys(found?.result_6)[0].split('-')[0]} />
+                                        <input className='login__phone__input app__input app__input--width' style={{ "maxWidth": "72px" }} type="text" name='point_6_2' placeholder='point_6' defaultValue={found?.result_6 && Object.keys(found?.result_6)[0].split('-')[1]} />
                                         <input className='login__phone__input app__input app__input--width' type="text" name='result_6' placeholder='result_6' defaultValue={found?.result_6 && found?.result_6[Object.keys(found?.result_6)[0]]} />
                                     </div>
 

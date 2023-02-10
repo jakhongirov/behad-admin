@@ -6,7 +6,6 @@ import Apps from "./components/apps/apps";
 import AppUser from "./components/app_users/app_users";
 import Survays from "./components/survays/survays";
 import Posts from "./components/posts/posts";
-import Answers from "./components/answers/answers";
 import Category from "./components/category/category";
 import News from "./components/news/news";
 import Tracking from "./components/tracking/tracking";
@@ -35,7 +34,6 @@ function AuthenticatedApp() {
       <Route path="/userCountry-City/:country/:city" element={<UserByCity />} />
       <Route path="/userCity/:country" element={<UserCity />} />
       <Route path="/survays" element={<Survays />} />
-      <Route path="/answers" element={<Answers />} />
       <Route path="/news" element={<News />} />
       <Route path="/category/:app_key" element={<Category SetAppKey={SetAppKey} />} />
       <Route path="/post" element={<Posts appKey={appKey} />} />
