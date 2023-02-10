@@ -33,7 +33,7 @@ function Pill() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [token, search])
+    }, [token, search, deleted])
 
     const HandlePost = (e) => {
         e.preventDefault();

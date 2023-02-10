@@ -138,12 +138,18 @@ function AppUser() {
                                                 <td>
                                                     <button
                                                         className='edit__btn'
-                                                        style={{ "background": "green" }}
+                                                        style={e.app_user_ispayed ? {
+                                                            "background": "green"
+                                                        } : {
+                                                            "background": "none",
+                                                            "color": "black",
+                                                            "border": "1px solid red"
+                                                        }}
                                                         data-checked={e.app_user_ispayed}
                                                         data-id={e.app_user_id}
                                                         onClick={checkboxChange}
                                                     >
-                                                        {e.app_user_ispayed ? "To'lgan" : "Yo'q"}
+                                                        {e.app_user_ispayed ? "To'lagan" : "Yo'q"}
                                                     </button>
                                                 </td>
                                                 <td style={{ "paddingRight": "5px" }}>{e.to_char}</td>
