@@ -75,14 +75,6 @@ function Header() {
                             <li className="nav_list_item">
                                 <NavLink
                                     className="nav_link"
-                                    to="/answers"
-                                >
-                                    Answers
-                                </NavLink>
-                            </li>
-                            <li className="nav_list_item">
-                                <NavLink
-                                    className="nav_link"
                                     to="/news"
                                 >
                                     News

@@ -2,9 +2,9 @@ import "./survays.scss"
 import { useState, useEffect } from "react";
 import useToken from '../../Hooks/useToken';
 
-
 import Header from "../header/header"
 import Search from '../search/search';
+import { useNavigate } from "react-router-dom";
 
 function Survays() {
     const [data, setData] = useState([])
@@ -29,6 +29,7 @@ function Survays() {
     const [v5, setV5] = useState()
     const [v6, setV6] = useState()
     const [status, setStatus] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch("https://survey.behad.uz/api/v1/survaysAdmin?id=" + search, {
@@ -760,32 +761,122 @@ function Survays() {
                                         </>
                                     ) : (
                                         <>
-                                            <h3 style={{ "marginBottom": "5px" }}>Option 1</h3>
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 1
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "grey",
+                                                        "border": "none",
+                                                        "padding": "5px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/1")}
+                                                >
+                                                    Users
+                                                </button>
+                                            </h3>
                                             <p>{`count : ${v1?.count}`}</p>
                                             <p>{`male : ${v1?.male}`}</p>
                                             <p style={{ "marginBottom": "5px" }}>{`female : ${v1?.female}`}</p>
 
-                                            <h3 style={{ "marginBottom": "5px" }}>Option 2</h3>
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 2
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "grey",
+                                                        "border": "none",
+                                                        "padding": "5px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/2")}
+                                                >
+                                                    Users
+                                                </button>
+                                            </h3>
                                             <p>{`count : ${v2?.count}`}</p>
                                             <p>{`male : ${v2?.male}`}</p>
                                             <p style={{ "marginBottom": "5px" }}>{`female : ${v2?.female}`}</p>
 
-                                            <h3 style={{ "marginBottom": "5px" }}>Option 3</h3>
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 3
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "grey",
+                                                        "border": "none",
+                                                        "padding": "5px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/3")}
+                                                >
+                                                    Users
+                                                </button>
+                                            </h3>
                                             <p>{`count : ${v3?.count}`}</p>
                                             <p>{`male : ${v3?.male}`}</p>
                                             <p style={{ "marginBottom": "5px" }}>{`female : ${v3?.female}`}</p>
 
-                                            <h3 style={{ "marginBottom": "5px" }}>Option 4</h3>
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 4
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "grey",
+                                                        "border": "none",
+                                                        "padding": "5px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/4")}
+                                                >
+                                                    Users
+                                                </button>
+                                            </h3>
                                             <p>{`count : ${v4?.count}`}</p>
                                             <p>{`male : ${v4?.male}`}</p>
                                             <p style={{ "marginBottom": "5px" }}>{`female : ${v4?.female}`}</p>
 
-                                            <h3 style={{ "marginBottom": "5px" }}>Option 5</h3>
+                                            <h3 style={{ "marginBottom": "5px" }}>Option 5
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "grey",
+                                                        "border": "none",
+                                                        "padding": "5px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/5")}
+                                                >
+                                                    Users
+                                                </button>
+                                            </h3>
                                             <p>{`count : ${v5?.count}`}</p>
                                             <p>{`male : ${v5?.male}`}</p>
                                             <p style={{ "marginBottom": "5px" }}>{`female : ${v5?.female}`}</p>
 
-                                            <h3 style={{ "marginBottom": "5px" }}>Opiton 6</h3>
+                                            <h3 style={{ "marginBottom": "5px" }}>Opiton 6
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "grey",
+                                                        "border": "none",
+                                                        "padding": "5px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/6")}
+                                                >
+                                                    Users
+                                                </button>
+                                            </h3>
                                             <p>{`count : ${v6?.count}`}</p>
                                             <p>{`male : ${v6?.male}`}</p>
                                             <p style={{ "marginBottom": "5px" }}>{`female : ${v6?.female}`}</p>
