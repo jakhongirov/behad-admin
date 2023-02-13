@@ -24,6 +24,37 @@ function Users() {
     const [delModal, setDelModal] = useState(false)
     const [count, setCount] = useState(0)
 
+    const sortFns = {
+        0: (a, b) => {
+            if (a.user_name < b.user_name) {
+                return -1;
+            }
+
+            if (a.user_name > b.user_name) {
+                return 1;
+            }
+
+            return 0;
+        },
+
+        1: (a, b) => {
+            if (a.user_name < b.user_name) {
+                return 1;
+            }
+
+            if (a.user_name > b.user_name) {
+                return -1;
+            }
+
+            return 0;
+        },
+
+        2: (a, b) => a.release_date - b.release_date,
+
+        3: (a, b) => b.release_date - a.release_date,
+    }
+
+    
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/users?' + value + "=" + search, {
             method: "GET",
@@ -32,10 +63,11 @@ function Users() {
                 "token": token
             },
         })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setData(data.data)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 200) {
+                setData(data.data)
+                console.log(data.data.sort(sortFns[1]));
                 } else if (data.status === 401) {
                     setToken(false);
                 }

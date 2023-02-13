@@ -428,7 +428,7 @@ function Survays() {
             <Header />
             <main className="main">
                 <Search link={"survey"} value={value} setValue={setValue} setSearch={setSearch} />
-                <section className="users">
+                <section className="survays users">
                     <div className="container">
                         <table>
                             <thead>
@@ -754,7 +754,22 @@ function Survays() {
                                 {
                                     answers?.data.length > 0 ? answers?.data[0].survay_iscomment ? (
                                         <>
-                                            <h3 style={{ "marginBottom": "5px" }}>{`Comment: ${answers?.data[0].survay_iscomment ? "on" : "off"}`}</h3>
+                                            <h3 style={{ "marginBottom": "5px" }}>{`Comment: ${answers?.data[0].survay_iscomment ? "on" : "off"}`}
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "grey",
+                                                        "border": "none",
+                                                        "padding": "5px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/1")}
+                                                >
+                                                    Users
+                                                </button>
+                                            </h3>
                                             <p>{`count : ${answers?.count}`}</p>
                                             <p>{`male : ${answers?.male}`}</p>
                                             <p>{`female : ${answers?.female}`}</p>
