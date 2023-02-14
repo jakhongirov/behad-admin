@@ -9,11 +9,13 @@ function AnswerUsers() {
     const [data, setData] = useState([])
     const [comment, setComment] = useState()
     const [model, setModel] = useState()
+    const [min, setMin] = useState('')
+    const [max, setMax] = useState('')
     const [token, setToken] = useToken()
 
     useEffect(() => {
         if (answer === 'commnet') {
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + surveyId, {
+            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + surveyId + '&max=' + max + '&min=' + min, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -30,7 +32,7 @@ function AnswerUsers() {
                 })
                 .catch((e) => console.log(e))
         } else {
-            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + surveyId + '&answer=' + answer, {
+            fetch('https://survey.behad.uz/api/v1/answers?survayId=' + surveyId + '&answer=' + answer + '&max=' + max + '&min=' + min, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,7 +50,7 @@ function AnswerUsers() {
                 .catch((e) => console.log(e))
         }
 
-    }, [surveyId, answer])
+    }, [surveyId, answer, max, min])
 
     const HandleUserComment = async (e) => {
         const id = JSON.parse(e.target.dataset.id);
@@ -71,6 +73,10 @@ function AnswerUsers() {
             <main className="main">
                 <section className="users">
                     <div className="container">
+
+                        <input className="login__phone__input app__input app__input--width" type="number" placeholder="min age" onChange={(e) => setMin(e.target.value)} />
+                        <input className="login__phone__input app__input app__input--width" type="number" placeholder="max age" onChange={(e) => setMax(e.target.value)} />
+
                         <table>
                             <thead>
                                 <tr>

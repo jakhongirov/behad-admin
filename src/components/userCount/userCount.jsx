@@ -7,11 +7,12 @@ import Header from "../header/header"
 
 function UserCount() {
     const [data, setData] = useState([])
+    const [sort, setSort] = useState('users_count desc')
     const [token, setToken] = useToken()
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/userCountry', {
+        fetch('https://users.behad.uz/api/v1/userCountry?sort=' + sort, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -27,8 +28,8 @@ function UserCount() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [token])
-    
+    }, [token, sort])
+
     return (
         <>
             <Header />
@@ -40,7 +41,12 @@ function UserCount() {
                             <thead>
                                 <tr>
                                     <th>Users Country</th>
-                                    <th>Users Count</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'users_count' ? 'users_count desc' : 'users_count')}
+                                    >Users Count</th>
                                     <th>Country's cities</th>
                                 </tr>
                             </thead>

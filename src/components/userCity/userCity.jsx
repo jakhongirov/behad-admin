@@ -8,10 +8,11 @@ function UserCity() {
     const { country } = useParams()
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
+    const [sort, setSort] = useState('users_count desc')
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/userCity?country=' + country , {
+        fetch('https://users.behad.uz/api/v1/userCity?country=' + country + '&sort=' + sort, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -26,8 +27,8 @@ function UserCity() {
                     setToken(false);
                 }
             })
-            .catch((e) => console.log(e)) 
-    }, [token])
+            .catch((e) => console.log(e))
+    }, [token, sort])
 
 
 
@@ -41,7 +42,12 @@ function UserCity() {
                             <thead>
                                 <tr>
                                     <th>Users Cities</th>
-                                    <th>Users Count</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'users_count' ? 'users_count desc' : 'users_count')}
+                                    >Users Count</th>
                                     <th>Users</th>
                                 </tr>
                             </thead>
