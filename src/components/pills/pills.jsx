@@ -92,13 +92,12 @@ function Pill() {
 
     const HandlePut = (e) => {
         e.preventDefault();
-        const id = JSON.parse(e.target.dataset.id);
         const { name, type, producer, ingredient, category, instruction } = e.target.elements
 
         fetch('https://posts.behad.uz/api/v1/putPill', {
             method: "PUT",
             body: JSON.stringify({
-                id: id,
+                id: found[0]?.pill_id,
                 name: name.value.trim(),
                 type: type.value.trim(),
                 producer: producer.value.trim(),
@@ -115,7 +114,7 @@ function Pill() {
             .then((data) => {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
-                    setAdd(false)
+                    setEdit(false)
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
@@ -217,7 +216,7 @@ function Pill() {
                                             <td>{++i}</td>
                                             <td>{e.pill_id}</td>
                                             <td>{e.pill_name}</td>
-                                            <td>{e.pill_category}</td>
+                                            <td>{e.pill_category.split(' ').length > 3 ? e.pill_category.split(' ').slice(0, 3).join(' ') + '...' : e.pill_category}</td>
                                             <td>
                                                 <button
                                                     className='edit__btn'
@@ -231,7 +230,7 @@ function Pill() {
                                                 <button
                                                     className='delete__btn'
                                                     onClick={() => {
-                                                        setId(e.app_id)
+                                                        setId(e.pill_id)
                                                         setDelModal(!delModal)
                                                     }}
                                                 >
@@ -297,7 +296,7 @@ function Pill() {
 
                         <div className={edit && found.length > 0 ? "modal" : "modal--close"}>
                             <div className="modal__item">
-                                <form onSubmit={HandlePut}>
+                                <form onSubmit={HandlePut} data-id={found[0]?.pill_id}>
                                     <input className='login__phone__input app__input' type="text" name='name' placeholder='Pill name' defaultValue={found[0]?.pill_name} />
                                     <input className='login__phone__input app__input' type="text" name='type' placeholder='Pill type' defaultValue={found[0]?.pill_type} />
                                     <input className='login__phone__input app__input' type="text" name='producer' placeholder='Pill producer' defaultValue={found[0]?.pill_producer} />
@@ -305,7 +304,7 @@ function Pill() {
                                     <input className='login__phone__input app__input' type="text" name='category' placeholder='Pill category' defaultValue={found[0]?.pill_category} />
                                     <textarea cols="46" rows="10" className='login__phone__input app__input' type="text" name='instruction' placeholder='Pill instruction' defaultValue={found[0]?.pill_instruction} />
 
-                                    <button className='login__btn' data-id={found[0]?.pill_id}>Edit</button>
+                                    <button className='login__btn'>Edit</button>
                                 </form>
                                 <button className='login__btn' onClick={() => setEdit(!edit)}>Close</button>
                             </div>
