@@ -19,29 +19,30 @@ function Users() {
     const [id, setId] = useState(0)
     const [edit, setEdit] = useState(false)
     const [found, setFound] = useState({})
-    const [disabled, setDisabled] = useState(true)
     const navigate = useNavigate()
     const [delModal, setDelModal] = useState(false)
     const [count, setCount] = useState(0)
-    
+    const [offset, setOffset] = useState(0)
+    const [sort, setSort] = useState('')
+
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/users?' + value + "=" + search, {
+        fetch('https://users.behad.uz/api/v1/users?' + value + "=" + search + "&offset=" + offset + '&sort=' + sort, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "token": token
             },
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 200) {
-                setData(data.data)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setData(data.data)
                 } else if (data.status === 401) {
                     setToken(false);
                 }
             })
             .catch((e) => console.log(e))
-    }, [value, search, token, deleted])
+    }, [value, search, token, deleted, offset, sort])
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/userCount', {
@@ -185,49 +186,6 @@ function Users() {
             .catch((err) => console.log(err));
     }
 
-    const HandleLimitNext = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
-
-        fetch("https://users.behad.uz/api/v1/users?position=next&id=" + id, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setDisabled(false)
-                    setData(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }
-
-    const HandleLimitPrev = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
-
-        fetch("https://users.behad.uz/api/v1/users?position=prev&id=" + id, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setData(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }
-
     return (
         <>
             <Header />
@@ -255,7 +213,12 @@ function Users() {
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Surname</th>
-                                    <th>Age</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'user_age' ? 'user_age desc' : 'user_age')}
+                                    >Age</th>
                                     <th>Who</th>
                                     <th>Phone</th>
                                     <th>Country</th>
@@ -326,14 +289,12 @@ function Users() {
                         <div className="pagination__btnbox">
                             <button
                                 className="prev_btn add__btn"
-                                data-id={data[0]?.user_id}
-                                onClick={HandleLimitPrev}
-                                disabled={disabled}
+                                onClick={() => setOffset(Number(offset) - 50)}
+                                disabled={offset === 0 ? true : false}
                             >Prev</button>
                             <button
                                 className="next_btn add__btn"
-                                data-id={data[data.length - 1]?.user_id}
-                                onClick={HandleLimitNext}
+                                onClick={() => setOffset(Number(offset) + 50)}
                                 disabled={data.length >= 50 ? false : true}
                             >Next</button>
                         </div>

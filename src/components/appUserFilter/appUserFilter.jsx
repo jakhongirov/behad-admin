@@ -8,9 +8,10 @@ function AppUserFilter() {
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
     const navigate = useNavigate()
+    const [sort, setSort] = useState('count desc')
 
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/appUsersCount', {
+        fetch('https://users.behad.uz/api/v1/appUsersCount?sort=' + sort, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +27,7 @@ function AppUserFilter() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [token])
+    }, [token, sort])
 
     return (
         <>
@@ -35,11 +36,16 @@ function AppUserFilter() {
             <main className="main">
                 <section className="app_user">
                     <div className="container">
-                    <table>
+                        <table>
                             <thead>
                                 <tr>
                                     <th>App Key</th>
-                                    <th>App Users Count</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'count' ? 'count desc' : 'count')}
+                                    >App Users Count</th>
                                     <th>Users</th>
                                 </tr>
                             </thead>
@@ -53,7 +59,7 @@ function AppUserFilter() {
                                             <td>
                                                 <button
                                                     className="edit__btn"
-                                                    style={{"background" : "darkcyan"}}
+                                                    style={{ "background": "darkcyan" }}
                                                     onClick={() => navigate('/appUserBy/' + e.app_key)}
                                                 >
                                                     Users
