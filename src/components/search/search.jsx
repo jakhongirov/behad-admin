@@ -26,7 +26,14 @@ function Search({ link, value, setValue, setSearch }) {
                                         <option value="id">id</option>
                                     </>
                                 )
-                                :  (
+                                : link === 'app_user' ? (
+                                    <>
+                                        <option value="userId">id</option>
+                                        <option value="name">Name</option>
+                                        <option value="key">Key</option>
+                                        <option value="phone">Phone</option>
+                                    </>
+                                ) : (
                                     <>
                                         <option value="id">id</option>
                                         <option value="name">Name</option>

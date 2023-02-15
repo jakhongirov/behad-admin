@@ -8,7 +8,7 @@ import Search from "../search/search";
 function AppUser() {
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState('phone')
     const [search, setSearch] = useState('')
     const [disabled, setDisabled] = useState(true)
     const [refresh, setRefresh] = useState(0)
@@ -23,9 +23,9 @@ function AppUser() {
                 token: token
             },
         })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 200) {
                     setData(data.data)
                 } else if (data.status === 401) {
                     setToken(false);
@@ -106,7 +106,7 @@ function AppUser() {
         <>
             <Header />
             <main className="main">
-                <Search link={"app"} value={value} setValue={setValue} setSearch={setSearch} />
+                <Search link={"app_user"} value={value} setValue={setValue} setSearch={setSearch} />
                 <main className="main">
                     <section className="apps_user">
                         <div className="container">
