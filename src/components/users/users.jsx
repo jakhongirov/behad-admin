@@ -61,7 +61,7 @@ function Users() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [token])
+    }, [token, deleted])
 
     const HandleDelete = () => {
 
@@ -210,16 +210,36 @@ function Users() {
                             <thead>
                                 <tr>
                                     <th>№</th>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Surname</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'user_id' ? 'user_id desc' : 'user_id')}
+                                    >Id</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'user_name' ? 'user_name desc' : 'user_name')}
+                                    >Name</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'user_surname' ? 'user_surname desc' : 'user_surname')}
+                                    >Surname</th>
                                     <th
                                         style={{
                                             "cursor": "pointer"
                                         }}
                                         onClick={() => setSort(sort === 'user_age' ? 'user_age desc' : 'user_age')}
                                     >Age</th>
-                                    <th>Who</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'user_who' ? 'user_who desc' : 'user_who')}
+                                    >Who</th>
                                     <th>Phone</th>
                                     <th>Country</th>
                                     <th>City</th>
@@ -350,7 +370,7 @@ function Users() {
                                 <form onSubmit={AddComment}>
                                     <textarea
                                         cols={45}
-                                        rows={15}
+                                        rows={5}
                                         style={{ "display": "block", "marginBottom": "20px", "padding": "10px", "fontSize": "17px" }}
                                         defaultValue={user ? user[0]?.user_comment : ""}
                                         name="comment"></textarea>

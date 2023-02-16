@@ -40,7 +40,12 @@ function UserCount() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Users Country</th>
+                                    <th
+                                        style={{
+                                            "cursor": "pointer"
+                                        }}
+                                        onClick={() => setSort(sort === 'user_country' ? 'user_country desc' : 'user_country')}
+                                    >Users Country</th>
                                     <th
                                         style={{
                                             "cursor": "pointer"
