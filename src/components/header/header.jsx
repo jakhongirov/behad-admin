@@ -21,6 +21,14 @@ function Header() {
                                     className="nav_link"
                                     to="/"
                                 >
+                                    Graphs
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
+                                    to="/users"
+                                >
                                     Users
                                 </NavLink>
                             </li>

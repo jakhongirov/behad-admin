@@ -300,7 +300,7 @@ function Pill() {
                                     <input className='login__phone__input app__input' type="text" name='name' placeholder='Pill name' defaultValue={found[0]?.pill_name} />
                                     <input className='login__phone__input app__input' type="text" name='type' placeholder='Pill type' defaultValue={found[0]?.pill_type} />
                                     <input className='login__phone__input app__input' type="text" name='producer' placeholder='Pill producer' defaultValue={found[0]?.pill_producer} />
-                                    <input className='login__phone__input app__input' type="text" name='ingredient' placeholder='Pill ingredient' defaultValue={found[0]?.pill_pill_active_ingredient} />
+                                    <input className='login__phone__input app__input' type="text" name='ingredient' placeholder='Pill ingredient' defaultValue={found[0]?.pill_active_ingredient} />
                                     <input className='login__phone__input app__input' type="text" name='category' placeholder='Pill category' defaultValue={found[0]?.pill_category} />
                                     <textarea cols="46" rows="10" className='login__phone__input app__input' type="text" name='instruction' placeholder='Pill instruction' defaultValue={found[0]?.pill_instruction} />
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
+import Home from "./components/home/home";
 import Users from "./components/users/users";
 import Apps from "./components/apps/apps";
 import AppUser from "./components/app_users/app_users";
@@ -26,7 +27,8 @@ function AuthenticatedApp() {
 
   return (
     <Routes>
-      <Route path="/" element={<Users />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/users" element={<Users />} />
       <Route path="/apps" element={<Apps />} />
       <Route path="/app-user" element={<AppUser />} />
       <Route path="/appUserCount" element={<AppUserFilter />} />
