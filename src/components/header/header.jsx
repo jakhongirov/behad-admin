@@ -53,7 +53,7 @@ function Header() {
                                     className="nav_link"
                                     to="/userCount"
                                 >
-                                    Users Count
+                                    Users Country
                                 </NavLink>
                             </li>
                             <li className="nav_list_item">
