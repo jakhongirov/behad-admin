@@ -12,6 +12,7 @@ function AnswerUsers() {
     const [min, setMin] = useState('')
     const [max, setMax] = useState('')
     const [token, setToken] = useToken()
+    const [tracking, setTracking] = useState([])
 
     useEffect(() => {
         if (answer === 'commnet') {
@@ -50,7 +51,26 @@ function AnswerUsers() {
                 .catch((e) => console.log(e))
         }
 
-    }, [surveyId, answer, max, min])
+    }, [token, surveyId, answer, max, min])
+
+    useEffect(() => {
+        fetch('https://users.behad.uz/api/v1/trackingUsersCount', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setTracking(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [token])
 
     const HandleUserComment = async (e) => {
         const id = JSON.parse(e.target.dataset.id);
@@ -80,7 +100,6 @@ function AnswerUsers() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>№</th>
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Surname</th>
@@ -89,6 +108,7 @@ function AnswerUsers() {
                                     <th>Phone</th>
                                     <th>Country</th>
                                     <th>City</th>
+                                    <th>Tracking</th>
                                     {
                                         answer === '6' || answer === 'comment' ? (<th>Survey comment</th>) : ""
                                     }
@@ -99,7 +119,6 @@ function AnswerUsers() {
                                 {
                                     data && data.map((e, i) => (
                                         <tr key={i}>
-                                            <td>{++i}</td>
                                             <td>{e.id}</td>
                                             <td>{e.user_name}</td>
                                             <td>{e.user_surname}</td>
@@ -108,6 +127,9 @@ function AnswerUsers() {
                                             <td>{e.user_phone}</td>
                                             <td>{e.user_country}</td>
                                             <td>{e.user_capital}</td>
+                                            <td>
+                                                {tracking.filter((a) => a.user_id == e.id)[0]?.count}
+                                            </td>
                                             {
                                                 answer === '6' || answer === 'comment' ? (
                                                     <>

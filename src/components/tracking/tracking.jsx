@@ -5,13 +5,13 @@ import useToken from '../../Hooks/useToken';
 
 function Tracking() {
     const [data, setData] = useState([])
+    const [offset, setOffset] = useState(0)
     const [token, setToken] = useToken()
     const navigate = useNavigate()
     const { userId, key } = useParams()
-    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/trackingUsers?userId=' + userId + "&key=" + key, {
+        fetch('https://users.behad.uz/api/v1/trackingUsers?userId=' + userId + "&key=" + key + "&offset=" + offset, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -28,50 +28,7 @@ function Tracking() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [token])
-
-    const HandleLimitNext = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
-
-        fetch("https://users.behad.uz/api/v1/trackingUsers?position=next&id=" + id + "&userId=" + userId + '&key=' + key, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setDisabled(false)
-                    setData(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }
-
-    const HandleLimitPrev = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
-
-        fetch("https://users.behad.uz/api/v1/trackingUsers?position=prev&id=" + id + "&userId=" + userId + '&key=' + key, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setData(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }
+    }, [token, offset])
 
     return (
         <>
@@ -108,14 +65,12 @@ function Tracking() {
                         <div className="pagination__btnbox">
                             <button
                                 className="prev_btn add__btn"
-                                data-id={data[0]?.tracking_user_id}
-                                onClick={HandleLimitPrev}
-                                disabled={disabled}
+                                onClick={() => setOffset(Number(offset) - 50)}
+                                disabled={offset === 0 ? true : false}
                             >Prev</button>
                             <button
                                 className="next_btn add__btn"
-                                data-id={data[data.length - 1]?.tracking_user_id}
-                                onClick={HandleLimitNext}
+                                onClick={() => setOffset(Number(offset) + 50)}
                                 disabled={data.length >= 50 ? false : true}
                             >Next</button>
                         </div>

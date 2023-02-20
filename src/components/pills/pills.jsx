@@ -7,7 +7,7 @@ import Search from '../search/search';
 function Pill() {
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
-    const [search, setSearch] = useState('d')
+    const [search, setSearch] = useState('')
     const [disabled, setDisabled] = useState(true)
     const [delModal, setDelModal] = useState(false)
     const [deleted, setDelete] = useState(0)

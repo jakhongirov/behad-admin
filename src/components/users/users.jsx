@@ -9,6 +9,7 @@ import Search from '../search/search';
 
 function Users() {
     const [data, setData] = useState([])
+    const [tracking, setTracking] = useState([])
     const [user, setUser] = useState([])
     const [appUser, setAppUser] = useState([])
     const [token, setToken] = useToken()
@@ -43,6 +44,25 @@ function Users() {
             })
             .catch((e) => console.log(e))
     }, [value, search, token, deleted, offset, sort])
+
+    useEffect(() => {
+        fetch('https://users.behad.uz/api/v1/trackingUsersCount', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setTracking(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [token, deleted])
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/userCount', {
@@ -209,7 +229,6 @@ function Users() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>№</th>
                                     <th
                                         style={{
                                             "cursor": "pointer"
@@ -243,6 +262,7 @@ function Users() {
                                     <th>Phone</th>
                                     <th>Country</th>
                                     <th>City</th>
+                                    <th>Tracking</th>
                                     <th>Comment</th>
                                     <th></th>
                                     <th></th>
@@ -252,7 +272,6 @@ function Users() {
                                 {
                                     data && data.map((e, i) => (
                                         <tr key={i}>
-                                            <td>{++i}</td>
                                             <td>{e.user_id}</td>
                                             <td>{e.user_name}</td>
                                             <td>{e.user_surname}</td>
@@ -261,6 +280,7 @@ function Users() {
                                             <td>{e.user_phone}</td>
                                             <td>{e.user_country}</td>
                                             <td>{e.user_capital}</td>
+                                            <td>{Number(tracking.filter((a) => a.user_id == e.user_id)[0]?.count) + 1}</td>
                                             <td>
                                                 <button
                                                     className='more__btn'

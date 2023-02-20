@@ -1,12 +1,14 @@
-import { Colors } from "chart.js";
 import { useState, useEffect } from "react";
 import useToken from '../../Hooks/useToken';
 
 import PieChart from "../dashboards/pieChart";
 import Header from "../header/header";
+import BarChart from "../dashboards/barChart";
 
 function Home() {
     const [data, setData] = useState([])
+    const [survey, setSurvey] = useState([])
+    const [surveyId, setSurveyId] = useState(0)
     const [userAge, setUserAge] = useState([])
     const [token, setToken] = useToken()
     const [appKey, setAppKey] = useState('')
@@ -35,6 +37,25 @@ function Home() {
             .catch((e) => console.log(e))
     }, [token])
 
+    useEffect(() => {
+        fetch('https://survey.behad.uz/api/v1/survaysAdmin/data', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setSurvey(data.data)
+                    setSurveyId(data.data[0]?.survay_id)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [token])
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/userCountAge', {
@@ -63,6 +84,7 @@ function Home() {
                 token: token
             },
         })
+        
             .then(res => res.json())
             .then(data => {
                 if (data.status === 200) {
@@ -152,10 +174,25 @@ function Home() {
                         </div>
                     </div>
 
-                <hr/>
+                    <hr />
 
-            </section>
-        </main>
+                    <div className="container">
+                        <h2 style={{ "textAlign": "center", "fontSize": "36px", "marginBottom": "20px" }}>Surveys</h2>
+                        <select
+                            style={{ "display": "block", "marginBottom": "30px", "padding": "10px" }}
+                            onChange={(e) => setSurveyId(e.target.value) }
+                            defaultValue={survey[0]?.survay_id}
+                        >
+                            {
+                                survey && survey.map((e, i) => (
+                                    <option key={i} value={e.survay_id}>{e.survay_title}</option>
+                                ))
+                            }
+                        </select>
+                        <BarChart surveyId={surveyId} />
+                    </div>
+                </section>
+            </main>
         </>
     )
 }
