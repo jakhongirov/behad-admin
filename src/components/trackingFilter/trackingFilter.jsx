@@ -8,28 +8,50 @@ function TrackingFilter() {
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
     const [search, setSearch] = useState('')
+    const [filter, setFilter] = useState('apps')
     const [day, setDay] = useState(3)
     const [offset, setOffset] = useState(0)
+    const [sort, setSort] = useState('count desc')
 
     useEffect(() => {
-        console.log(search);
-        fetch('https://users.behad.uz/api/v1/trackingUsersFilter?day=' + day + '&key=' + search + '&offset=' + offset, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setData(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
+
+        if (filter === 'apps') {
+            fetch('https://users.behad.uz/api/v1/trackingUsersFilter/apps?day=' + day + '&key=' + search + '&offset=' + offset + "&sort=" + sort, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: token
+                },
             })
-            .catch((e) => console.log(e))
-    }, [token, day, search, offset])
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setData(data.data)
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+        } else if (filter === 'users') {
+            fetch('https://users.behad.uz/api/v1/trackingUsersFilter/users?day=' + day + '&key=' + search + '&offset=' + offset + "&sort=" + sort, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        setData(data.data)
+                    } else if (data.status === 401) {
+                        setToken(false);
+                    }
+                })
+                .catch((e) => console.log(e))
+        }
+
+    }, [token, day, search, offset, filter, sort])
 
     return (
         <>
@@ -39,6 +61,14 @@ function TrackingFilter() {
                 <Search link={"trackingFilter"} setSearch={setSearch} />
                 <section className="tracking">
                     <div className="container">
+
+                        <button
+                            className="edit__btn"
+                            style={{ "border": "none", "background": "green", 'marginBottom': "20px" }}
+                            onClick={() => setFilter(filter === 'apps' ? "users" : "apps")}
+                        >
+                            Change table
+                        </button>
 
                         <div
                             className='search__box'
@@ -72,31 +102,67 @@ function TrackingFilter() {
                                 onChange={(e) => setDay(e.target.value)} />
                         </div>
 
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>№</th>
-                                    <th>id</th>
-                                    <th>Name</th>
-                                    <th>App key</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {
-                                    data && data.map((e, i) => (
-                                        <tr key={i}>
-                                            <td>{++i}</td>
-                                            <td>{e.user_id}</td>
-                                            <td>{e.user_name}</td>
-                                            <td>{e.app_key}</td>
-                                            <td>{e.to_char}</td>
+                        {
+                            filter === 'users' ? (
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>id</th>
+                                            <th>Name</th>
+                                            <th>App key</th>
+                                            <th
+                                                style={{
+                                                    "cursor": "pointer"
+                                                }}
+                                                onClick={() => setSort(sort === 'count' ? 'count desc' : 'count')}
+                                            >Count</th>
                                         </tr>
-                                    ))
-                                }
-                            </tbody>
-                        </table>
+                                    </thead>
+
+                                    <tbody>
+                                        {
+                                            data && data.map((e, i) => (
+                                                <tr key={i}>
+                                                    <td>{++i}</td>
+                                                    <td>{e.user_id}</td>
+                                                    <td>{e.user_name}</td>
+                                                    <td>{e.app_key}</td>
+                                                    <td>{e.count}</td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>App key</th>
+                                            <th
+                                                style={{
+                                                    "cursor": "pointer"
+                                                }}
+                                                onClick={() => setSort(sort === 'count' ? 'count desc' : 'count')}
+                                            >Count</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {
+                                            data && data.map((e, i) => (
+                                                <tr key={i}>
+                                                    <td>{++i}</td>
+                                                    <td>{e.app_key}</td>
+                                                    <td>{e.count}</td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            )
+                        }
 
 
                         <div className="pagination__btnbox">

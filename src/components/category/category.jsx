@@ -207,7 +207,6 @@ function Category({ SetAppKey }) {
                 <section className="category">
                     <div className="container">
 
-
                         <button
                             className="edit__btn"
                             style={{ "border": "none", "background": "green" }}
