@@ -110,15 +110,25 @@ function AnswerUsers() {
                                             <td>{e.user_capital}</td>
                                             {
                                                 answer === '6' || answer === 'comment' ? (
-                                                    <td>
-                                                        <button
-                                                            className='more__btn'
-                                                            data-id={e.id}
-                                                            onClick={HandleUserComment}
-                                                        >
-                                                            •••
-                                                        </button>
-                                                    </td>
+                                                    <>
+                                                        <td>
+                                                            {
+                                                                answer === 'comment' ?
+                                                                    e.survay_comment.split(' ').length > 5 ? e.survay_comment.split(' ').slice(0, 3).join(' ') + '...' : e.survay_comment
+                                                                    : answer === '6' ?
+                                                                        e.v6_comment.split(' ').length > 5 ? e.v6_comment.split(' ').slice(0, 3).join(' ') + '...' : e.v6_comment
+                                                                        : ""
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                className='more__btn'
+                                                                data-id={e.id}
+                                                                onClick={HandleUserComment}
+                                                            >
+                                                                •••
+                                                            </button>
+                                                        </td></>
                                                 ) : ""
                                             }
                                         </tr>

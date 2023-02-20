@@ -7,7 +7,7 @@ import Search from '../search/search';
 function Pill() {
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState('d')
     const [disabled, setDisabled] = useState(true)
     const [delModal, setDelModal] = useState(false)
     const [deleted, setDelete] = useState(0)
@@ -28,6 +28,7 @@ function Pill() {
             .then(data => {
                 if (data.status === 200) {
                     setData(data.data)
+                    console.log(data);
                 } else if (data.status === 401) {
                     setToken(false);
                 }
