@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useToken from '../../Hooks/useToken';
 
 import Header from "../header/header"
@@ -13,6 +13,10 @@ function AnswerUsers() {
     const [max, setMax] = useState('')
     const [token, setToken] = useToken()
     const [tracking, setTracking] = useState([])
+    const [show, setShow] = useState(false)
+    const [user, setUser] = useState([])
+    const [appUser, setAppUser] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (answer === 'commnet') {
@@ -87,6 +91,46 @@ function AnswerUsers() {
 
     }
 
+    const HandleUser = (e) => {
+        const id = JSON.parse(e.target.dataset.id);
+
+        fetch('https://users.behad.uz/api/v1/users?id=' + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setUser(data.data);
+                    setShow(true)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+
+
+        fetch('https://users.behad.uz/api/v1/appUsers?userId=' + id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setAppUser(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
     return (
         <>
             <Header />
@@ -109,6 +153,7 @@ function AnswerUsers() {
                                     <th>Country</th>
                                     <th>City</th>
                                     <th>Tracking</th>
+                                    <th>More</th>
                                     {
                                         answer === '6' || answer === 'comment' ? (<th>Survey comment</th>) : ""
                                     }
@@ -129,6 +174,14 @@ function AnswerUsers() {
                                             <td>{e.user_capital}</td>
                                             <td>
                                                 {tracking.filter((a) => a.user_id == e.id)[0]?.count}
+                                            </td>
+                                            <td>
+                                                <button
+                                                    className='more__btn'
+                                                    data-id={e.id}
+                                                    onClick={HandleUser}>
+                                                    •••
+                                                </button>
                                             </td>
                                             {
                                                 answer === '6' || answer === 'comment' ? (
@@ -167,6 +220,40 @@ function AnswerUsers() {
                             </div>
                         </div>
 
+                        <div className={show ? "modal" : "modal--close"}>
+                            <div className='modal__item' style={{ "maxWidth": "500px" }}>
+                                <h2 style={{ "marginBottom": "10px" }}>User data {user[0]?.user_id}</h2>
+                                <p>{`Name: ${user[0]?.user_name}`}</p>
+                                <p>{`Surname: ${user[0]?.user_surname}`}</p>
+                                <p>{`Age: ${user[0]?.user_age}`}</p>
+                                <p>{`Who: ${user[0]?.user_who}`}</p>
+                                <p>Tel: <a href={`tel:${user[0]?.user_phone}`}>{user[0]?.user_phone}</a></p>
+                                <p>{`Cauntry: ${user[0]?.user_country}`}</p>
+                                <p>{`City: ${user[0]?.user_capital}`}</p>
+                                <p>{`Balance: ${user[0]?.user_balance}`}</p>
+                                <p>{`Phone Brand: ${user[0]?.user_phone_brand}`}</p>
+                                <p>{`Phone Model: ${user[0]?.user_phone_model}`}</p>
+                                <p>{`Phone Language: ${user[0]?.user_phone_lang}`}</p>
+                                <p>{`Phone Android version: ${user[0]?.user_phone_android_version ? user[0]?.user_phone_android_version.join(', ') : "-"}`}</p>
+                                <p style={{ "marginBottom": "20px" }}>{`Date: ${user[0]?.to_char}`}</p>
+                                <h3 style={{ "marginBottom": "5px" }}>User apps</h3>
+                                {
+                                    appUser && appUser.map((e, i) => (
+                                        <div key={i}
+                                            style={{ "display": "flex", "maxWidth": "200px", "justifyContent": "space-between", "marginBottom": "10px" }}
+                                        >
+                                            <p>{e.app_name}</p>
+                                            <button
+                                                onClick={() => {
+                                                    setShow(false)
+                                                    navigate(`/tracking/${user[0]?.user_id}/${e.app_key}`)
+                                                }}>Tracking</button>
+                                        </div>
+                                    ))
+                                }
+                                <button style={{ "marginBottom": "0px" }} className='login__btn' onClick={() => setShow(!show)}>Close</button>
+                            </div>
+                        </div>
 
                     </div>
                 </section>

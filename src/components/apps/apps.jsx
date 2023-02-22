@@ -41,7 +41,7 @@ function Apps() {
 
     const HandlePost = (e) => {
         e.preventDefault();
-        const { name, key, cur_vs, min_vs, price, payment, app_post } = e.target.elements
+        const { name, key, cur_vs, min_vs, price, six_monthly, yearly, payment, app_post } = e.target.elements
 
         fetch("https://users.behad.uz/api/v1/addApp", {
             method: "POST",
@@ -51,6 +51,8 @@ function Apps() {
                 min_vs: min_vs.value.trim(),
                 key: key.value.trim(),
                 price: price.value.trim(),
+                six_monthly: six_monthly.value.trim(),
+                yearly: yearly.value.trim(),
                 payment: payment.value.trim(),
                 app_post: app_post.checked
             }),
@@ -75,7 +77,7 @@ function Apps() {
 
     const HandlePut = (e) => {
         e.preventDefault();
-        const { name, key, cur_vs, min_vs, price, payment, app_post } = e.target.elements
+        const { name, key, cur_vs, min_vs, price, six_monthly, yearly, payment, app_post } = e.target.elements
 
         fetch("https://users.behad.uz/api/v1/updeteApp", {
             method: "PUT",
@@ -86,6 +88,8 @@ function Apps() {
                 min_vs: min_vs.value.trim(),
                 key: key.value.trim(),
                 price: price.value.trim(),
+                six_monthly: six_monthly.value.trim(),
+                yearly: yearly.value.trim(),
                 payment: payment.value.trim(),
                 app_post: app_post.checked
             }),
@@ -216,6 +220,8 @@ function Apps() {
                                                                 min_vs: e.app_min_version,
                                                                 key: e.app_key,
                                                                 price: e.app_price,
+                                                                six_monthly: e.app_price_six_monthly,
+                                                                yearly: e.app_price_yearly,
                                                                 payment: e.app_payment,
                                                                 app_post: e.app_post
                                                             }
@@ -321,7 +327,11 @@ function Apps() {
                                         <input className='login__phone__input app__input app__input--width' type="number" name='cur_vs' placeholder='current version' required />
                                         <input className='login__phone__input app__input app__input--width' type="number" name='min_vs' placeholder='min version' required />
                                     </div>
+
                                     <input className='login__phone__input app__input' type="text" name='price' placeholder='Price' required />
+                                    <input className='login__phone__input app__input' type="text" name='six_monthly' placeholder='6 monthly' required />
+                                    <input className='login__phone__input app__input' type="text" name='yearly' placeholder='Yearly' required />
+
                                     <div style={{ "marginBottom": "15px", "display": "flex", "alignItems": "center", 'maxWidth': "90px", "justifyContent": "space-between" }}>
                                         <label htmlFor="app_post">App post</label>
                                         <input type="checkbox" id='app_post' name='app_post' defaultChecked={found?.app_post} />
@@ -347,6 +357,9 @@ function Apps() {
                                     </div>
 
                                     <input className='login__phone__input app__input' type="text" name='price' placeholder='Price' defaultValue={found?.price} required />
+                                    <input className='login__phone__input app__input' type="text" name='six_monthly' placeholder='6 monthly' defaultValue={found?.six_monthly} required />
+                                    <input className='login__phone__input app__input' type="text" name='yearly' placeholder='Yearly' defaultValue={found?.yearly} required />
+
                                     <div style={{ "marginBottom": "15px", "display": "flex", "alignItems": "center", 'maxWidth': "90px", "justifyContent": "space-between" }}>
                                         <label htmlFor="app_post">App post</label>
                                         <input type="checkbox" id='app_post' name='app_post' defaultChecked={found?.app_post} />

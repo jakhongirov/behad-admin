@@ -12,6 +12,7 @@ function Users() {
     const [tracking, setTracking] = useState([])
     const [user, setUser] = useState([])
     const [appUser, setAppUser] = useState([])
+    const [usersApp, setUsersApp] = useState([])
     const [token, setToken] = useToken()
     const [value, setValue] = useState('phone')
     const [search, setSearch] = useState('')
@@ -57,6 +58,25 @@ function Users() {
             .then(data => {
                 if (data.status === 200) {
                     setTracking(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [token, deleted])
+
+    useEffect(() => {
+        fetch(`https://users.behad.uz/api/v1/usersAppsCount`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setUsersApp(data.data)
                 } else if (data.status === 401) {
                     setToken(false);
                 }
@@ -121,7 +141,6 @@ function Users() {
                 if (data.status === 200) {
                     setUser(data.data);
                     setShow(true)
-                    setId(id)
                 } else if (data.status === 401) {
                     setToken(false);
                 }
@@ -260,8 +279,8 @@ function Users() {
                                         onClick={() => setSort(sort === 'user_who' ? 'user_who desc' : 'user_who')}
                                     >Who</th>
                                     <th>Phone</th>
-                                    <th>Country</th>
-                                    <th>City</th>
+                                    <th>Location</th>
+                                    <th>Apps</th>
                                     <th>Tracking</th>
                                     <th>Comment</th>
                                     <th></th>
@@ -278,9 +297,9 @@ function Users() {
                                             <td>{e.user_age}</td>
                                             <td>{e.user_who}</td>
                                             <td>{e.user_phone}</td>
-                                            <td>{e.user_country}</td>
-                                            <td>{e.user_capital}</td>
-                                            <td>{Number(tracking.filter((a) => a.user_id == e.user_id)[0]?.count) + 1}</td>
+                                            <td>{e.user_country} / {e.user_capital}</td>
+                                            <td>{Number(usersApp.filter((a) => a.user_id == e.user_id)[0]?.count)}</td>
+                                            <td>{Number(tracking.filter((a) => a.user_id == e.user_id)[0]?.count)}</td>
                                             <td>
                                                 <button
                                                     className='more__btn'

@@ -11,6 +11,8 @@ function TrackingFilter() {
     const [filter, setFilter] = useState('apps')
     const [day, setDay] = useState(3)
     const [offset, setOffset] = useState(0)
+    const [resultCount, setResultCount] = useState(0)
+    const [resultTrackingCount, setResultTrackingCount] = useState(0)
     const [sort, setSort] = useState('count desc')
 
     useEffect(() => {
@@ -27,6 +29,17 @@ function TrackingFilter() {
                 .then(data => {
                     if (data.status === 200) {
                         setData(data.data)
+                        let result1 = 0
+                        let result2 = 0
+
+                        for (let i = 0; i < data.data.length; i++) {
+                            result1 += Number(data.data[i].count)
+                            result2 += Number(data.data[i].tracking_count)
+                        }
+
+                        setResultCount(result1);
+                        setResultTrackingCount(result2);
+
                     } else if (data.status === 401) {
                         setToken(false);
                     }
@@ -138,24 +151,34 @@ function TrackingFilter() {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>№</th>
                                             <th>App key</th>
                                             <th
                                                 style={{
                                                     "cursor": "pointer"
                                                 }}
                                                 onClick={() => setSort(sort === 'count' ? 'count desc' : 'count')}
-                                            >Count</th>
+                                            >User Count</th>
+                                            <th
+                                                style={{
+                                                    "cursor": "pointer"
+                                                }}
+                                                onClick={() => setSort(sort === 'tracking_count' ? 'tracking_count desc' : 'tracking_count')}
+                                            >Tracking count</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
+                                        <tr>
+                                            <td>All</td>
+                                            <td>{resultCount}</td>
+                                            <td>{resultTrackingCount}</td>
+                                        </tr>
                                         {
                                             data && data.map((e, i) => (
                                                 <tr key={i}>
-                                                    <td>{++i}</td>
                                                     <td>{e.app_key}</td>
                                                     <td>{e.count}</td>
+                                                    <td>{e.tracking_count}</td>
                                                 </tr>
                                             ))
                                         }
