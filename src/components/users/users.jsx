@@ -184,6 +184,7 @@ function Users() {
                 if (data.status === 200) {
                     setDelete(deleted + 1)
                     setShow(false)
+                    setId(id)
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
