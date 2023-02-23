@@ -13,6 +13,8 @@ function AppUser() {
     const [search, setSearch] = useState('')
     const [refresh, setRefresh] = useState(0)
     const [sort, setSort] = useState('')
+    const [userId, setUserId] = useState('')
+    const [appKey, setAppKey] = useState('')
     const [offset, setOffset] = useState(0)
     const [show, setShow] = useState(false)
     const [user, setUser] = useState([])
@@ -68,6 +70,8 @@ function AppUser() {
 
     const HandleUser = (e) => {
         const id = JSON.parse(e.target.dataset.id);
+        const key = e.target.dataset.key;
+
 
         fetch('https://users.behad.uz/api/v1/users?id=' + id, {
             method: "GET",
@@ -81,6 +85,8 @@ function AppUser() {
                 if (data.status === 200) {
                     setUser(data.data);
                     setShow(true)
+                    setAppKey(key)
+                    setUserId(id)
                 } else if (data.status === 401) {
                     setToken(false);
                 }
@@ -104,6 +110,34 @@ function AppUser() {
                 }
             })
             .catch((e) => console.log(e))
+    }
+
+    const SendMessage = (e) => {
+        e.preventDefault();
+        const { title, message } = e.target.elements
+
+        fetch("https://users.behad.uz/api/v1/sendNotification", {
+            method: "PUT",
+            body: JSON.stringify({
+                id: userId,
+                key: appKey,
+                title: title.value.trim(),
+                message: message.value.trim()
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status === 200) {
+                    setShow(false)
+                    message.value = null
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch((err) => console.log(err));
     }
 
     return (
@@ -181,6 +215,7 @@ function AppUser() {
                                                 <button
                                                     className='more__btn'
                                                     data-id={e.user_id}
+                                                    data-key={e.app_key}
                                                     onClick={HandleUser}>
                                                     •••
                                                 </button>
@@ -237,6 +272,16 @@ function AppUser() {
                                         </div>
                                     ))
                                 }
+                                <form onSubmit={SendMessage}>
+                                    <input className='login__phone__input app__input' type="text" name='title' placeholder='Title' />
+                                    <textarea
+                                        cols={45}
+                                        rows={5}
+                                        placeholder={'Description'}
+                                        style={{ "display": "block", "marginBottom": "20px", "padding": "10px", "fontSize": "17px" }}
+                                        name="message"></textarea>
+                                    <button style={{ "display": "block", "marginBottom": "15px", "padding": "10px" }}>Send</button>
+                                </form>
                                 <button style={{ "marginBottom": "0px" }} className='login__btn' onClick={() => setShow(!show)}>Close</button>
                             </div>
                         </div>

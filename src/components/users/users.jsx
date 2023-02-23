@@ -299,8 +299,8 @@ function Users() {
                                             <td>{e.user_who}</td>
                                             <td>{e.user_phone}</td>
                                             <td>{e.user_country} / {e.user_capital}</td>
-                                            <td>{Number(usersApp.filter((a) => a.user_id === e.user_id)[0]?.count)}</td>
-                                            <td>{Number(tracking.filter((a) => a.user_id === e.user_id)[0]?.count)}</td>
+                                            <td>{Number(usersApp.filter((a) => a.user_id == e.user_id)[0]?.count)}</td>
+                                            <td>{Number(tracking.filter((a) => a.user_id == e.user_id)[0]?.count)}</td>
                                             <td>
                                                 <button
                                                     className='more__btn'
