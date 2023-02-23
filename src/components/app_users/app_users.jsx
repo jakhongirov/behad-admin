@@ -131,6 +131,7 @@ function AppUser() {
                 if (data.status === 200) {
                     setShow(false)
                     message.value = null
+                    title.value = null
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
