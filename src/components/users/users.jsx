@@ -226,6 +226,8 @@ function Users() {
             .catch((err) => console.log(err));
     }
 
+    console.log(usersApp.filter(e => e.count == 1).length);
+
     return (
         <>
             <Header />

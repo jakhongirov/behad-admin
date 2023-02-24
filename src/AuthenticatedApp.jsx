@@ -7,6 +7,9 @@ import Apps from "./components/apps/apps";
 import AppUser from "./components/app_users/app_users";
 import Survays from "./components/survays/survays";
 import AnswerUsers from "./components/answerUser/answerUser";
+import AnswerUsersFilter from "./components/answerUsersFilter/answerUsersFilter";
+import AnswerUsersCity from "./components/answerUsersCity/answerUsersCity";
+import AnswerCityUsers from "./components/answerCityUsers/answerCityUsers";
 import Posts from "./components/posts/posts";
 import Category from "./components/category/category";
 import News from "./components/news/news";
@@ -38,6 +41,9 @@ function AuthenticatedApp() {
       <Route path="/userCity/:country" element={<UserCity />} />
       <Route path="/survays" element={<Survays />} />
       <Route path="/answerUsers/:surveyId/:answer" element={<AnswerUsers />} />
+      <Route path="/answerUsersFilter/:surveyId/:answer" element={<AnswerUsersFilter />} />
+      <Route path="/answerUsersCity/:surveyId/:answer/:country" element={<AnswerUsersCity />} />
+      <Route path="/answerCityUsers/:surveyId/:answer/:city" element={<AnswerCityUsers />} />
       <Route path="/news" element={<News />} />
       <Route path="/category/:app_key" element={<Category SetAppKey={SetAppKey} />} />
       <Route path="/post" element={<Posts appKey={appKey} />} />

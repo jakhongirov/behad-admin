@@ -316,7 +316,7 @@ function Survays() {
             setStatus(true)
 
         } else {
-            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=1', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=1&sort=count', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -333,7 +333,7 @@ function Survays() {
                 })
                 .catch((e) => console.log(e))
 
-            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=2', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=2&sort=count', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -350,7 +350,7 @@ function Survays() {
                 })
                 .catch((e) => console.log(e))
 
-            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=3', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=3&sort=count', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -367,7 +367,7 @@ function Survays() {
                 })
                 .catch((e) => console.log(e))
 
-            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=4', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=4&sort=count', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -384,7 +384,7 @@ function Survays() {
                 })
                 .catch((e) => console.log(e))
 
-            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=5', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=5&sort=count', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -402,7 +402,7 @@ function Survays() {
                 })
                 .catch((e) => console.log(e))
 
-            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=6', {
+            await fetch('https://survey.behad.uz/api/v1/answers?survayId=' + id + '&answer=6&sort=count', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -765,9 +765,23 @@ function Survays() {
                                                         "padding": "5px",
                                                         "fontSize": "12px"
                                                     }}
-                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/1")}
+                                                    onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/0")}
                                                 >
                                                     Users
+                                                </button>
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "green",
+                                                        "border": "none",
+                                                        "padding": "8px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsersFilter/' + answers?.data[0].survay_id + "/0")}
+                                                >
+                                                    Filter
                                                 </button>
                                             </h3>
                                             <p>{`count : ${answers?.count}`}</p>
@@ -784,12 +798,26 @@ function Survays() {
                                                         "marginLeft": "10px",
                                                         "background": "grey",
                                                         "border": "none",
-                                                        "padding": "5px",
+                                                        "padding": "8px",
                                                         "fontSize": "12px"
                                                     }}
                                                     onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/1")}
                                                 >
                                                     Users
+                                                </button>
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "green",
+                                                        "border": "none",
+                                                        "padding": "8px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsersFilter/' + answers?.data[0].survay_id + "/1")}
+                                                >
+                                                    Filter
                                                 </button>
                                             </h3>
                                             <p>{`count : ${v1?.count}`}</p>
@@ -804,12 +832,26 @@ function Survays() {
                                                         "marginLeft": "10px",
                                                         "background": "grey",
                                                         "border": "none",
-                                                        "padding": "5px",
+                                                        "padding": "8px",
                                                         "fontSize": "12px"
                                                     }}
                                                     onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/2")}
                                                 >
                                                     Users
+                                                </button>
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "green",
+                                                        "border": "none",
+                                                        "padding": "8px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsersFilter/' + answers?.data[0].survay_id + "/2")}
+                                                >
+                                                    Filter
                                                 </button>
                                             </h3>
                                             <p>{`count : ${v2?.count}`}</p>
@@ -824,12 +866,26 @@ function Survays() {
                                                         "marginLeft": "10px",
                                                         "background": "grey",
                                                         "border": "none",
-                                                        "padding": "5px",
+                                                        "padding": "8px",
                                                         "fontSize": "12px"
                                                     }}
                                                     onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/3")}
                                                 >
                                                     Users
+                                                </button>
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "green",
+                                                        "border": "none",
+                                                        "padding": "8px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsersFilter/' + answers?.data[0].survay_id + "/3")}
+                                                >
+                                                    Filter
                                                 </button>
                                             </h3>
                                             <p>{`count : ${v3?.count}`}</p>
@@ -844,12 +900,26 @@ function Survays() {
                                                         "marginLeft": "10px",
                                                         "background": "grey",
                                                         "border": "none",
-                                                        "padding": "5px",
+                                                        "padding": "8px",
                                                         "fontSize": "12px"
                                                     }}
                                                     onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/4")}
                                                 >
                                                     Users
+                                                </button>
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "green",
+                                                        "border": "none",
+                                                        "padding": "8px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsersFilter/' + answers?.data[0].survay_id + "/4")}
+                                                >
+                                                    Filter
                                                 </button>
                                             </h3>
                                             <p>{`count : ${v4?.count}`}</p>
@@ -864,12 +934,26 @@ function Survays() {
                                                         "marginLeft": "10px",
                                                         "background": "grey",
                                                         "border": "none",
-                                                        "padding": "5px",
+                                                        "padding": "8px",
                                                         "fontSize": "12px"
                                                     }}
                                                     onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/5")}
                                                 >
                                                     Users
+                                                </button>
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "green",
+                                                        "border": "none",
+                                                        "padding": "8px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsersFilter/' + answers?.data[0].survay_id + "/5")}
+                                                >
+                                                    Filter
                                                 </button>
                                             </h3>
                                             <p>{`count : ${v5?.count}`}</p>
@@ -884,12 +968,26 @@ function Survays() {
                                                         "marginLeft": "10px",
                                                         "background": "grey",
                                                         "border": "none",
-                                                        "padding": "5px",
+                                                        "padding": "8px",
                                                         "fontSize": "12px"
                                                     }}
                                                     onClick={() => navigate('/answerUsers/' + answers?.data[0].survay_id + "/6")}
                                                 >
                                                     Users
+                                                </button>
+                                                <button
+                                                    className="edit__btn"
+                                                    style={{
+                                                        "display": "inline-block",
+                                                        "marginLeft": "10px",
+                                                        "background": "green",
+                                                        "border": "none",
+                                                        "padding": "8px",
+                                                        "fontSize": "12px"
+                                                    }}
+                                                    onClick={() => navigate('/answerUsersFilter/' + answers?.data[0].survay_id + "/6")}
+                                                >
+                                                    Filter
                                                 </button>
                                             </h3>
                                             <p>{`count : ${v6?.count}`}</p>
