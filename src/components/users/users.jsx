@@ -380,6 +380,15 @@ function Users() {
                         <div className={show ? "modal" : "modal--close"}>
                             <div className='modal__item' style={{ "maxWidth": "500px" }}>
                                 <h2 style={{ "marginBottom": "10px" }}>User data {user[0]?.user_id}</h2>
+                                <div className='users_img_box'>
+                                    {
+                                        user[0]?.user_image_url ? (
+                                            <img className='users_img' src={user[0]?.user_image_url} alt={user[0].user_image_name} width={200} height={200} />
+                                        ) : (
+                                            <p>not avatar</p>
+                                        )
+                                    }
+                                </div>
                                 <p>{`Name: ${user[0]?.user_name}`}</p>
                                 <p>{`Surname: ${user[0]?.user_surname}`}</p>
                                 <p>{`Age: ${user[0]?.user_age}`}</p>
