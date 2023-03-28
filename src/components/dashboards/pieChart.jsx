@@ -7,7 +7,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function PieChart({ count, label, colorChart }) {
 	const [data, setData] = useState(
 		{
-			labels: ['Red', 'Blue'],
+			// labels: ['Red', 'Blue'],
 			datasets: [
 				{
 					label: '# of Votes',
@@ -38,7 +38,7 @@ function PieChart({ count, label, colorChart }) {
 
 	return (
 		<>
-			<div style={{ 'width': "100%", "maxWidth": "400px" }}>
+			<div style={{ 'width': "100%", "maxWidth": "600px", "height" : "100%"}}>
 				{
 					count.split(',').length > 0 && label.split(',').length > 0 ? (
 						<Pie data={data} />

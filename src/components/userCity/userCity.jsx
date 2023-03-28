@@ -28,7 +28,7 @@ function UserCity() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [token, sort])
+    }, [token, country, sort])
 
 
 

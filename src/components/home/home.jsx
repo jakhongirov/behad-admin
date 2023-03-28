@@ -19,8 +19,10 @@ function Home() {
     const [appCount, setAppCount] = useState('')
     const [app, setApp] = useState([])
     const [app_key, setKey] = useState('namoz_ilovasi')
+    const [citiesList, setCitiesList] = useState('')
+    const [citiesCount, setCitiesCount] = useState('')
 
-    const Colors = 'Magenta,blue,green,yellow,orange,Gold,grey,cyan,pink,IndianRed,BlueViolet,LimeGreen,LightSeaGreen,Aqua'
+    const Colors = 'Magenta,blue,green,yellow,orange,Gold,grey,cyan,pink,IndianRed,BlueViolet,LimeGreen,LightSeaGreen,Aqua,SlateGray,MistyRose,AntiqueW'
 
     useEffect(() => {
         fetch('https://users.behad.uz/api/v1/userCountry?sort=users_count desc', {
@@ -167,6 +169,36 @@ function Home() {
             .catch((e) => console.log(e))
     }, [token])
 
+    useEffect(() => {
+        fetch(`https://users.behad.uz/api/v1/userCity?country=${country === 'all' ? 'UZ' : country}&sort=users_count desc`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    let city = []
+                    let cityCount = []
+
+                    for (let i = 0; i < data.data.length; i++) {
+                        city.push(data.data[i].user_capital)
+                        cityCount.push(data.data[i].users_count)
+                    }
+
+                    setCitiesList(city.join(','))
+                    setCitiesCount(cityCount.join(','))
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [token, country])
+
+    // console.log(citiesList, citiesCount);
+
     return (
         <>
             <Header />
@@ -219,7 +251,9 @@ function Home() {
                                 count={
                                     `${userAge[15]?.counts},${userAge[25]?.count},${userAge[40]?.count},${userAge[60]?.count},${userAge[80]?.count},${userAge['unlimit']?.count}`
                                 } />
+
                         </div>
+                            <PieChart label={citiesList} colorChart={Colors} count={citiesCount} />
 
                         <hr />
 
