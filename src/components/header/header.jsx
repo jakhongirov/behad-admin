@@ -75,6 +75,14 @@ function Header() {
                             <li className="nav_list_item">
                                 <NavLink
                                     className="nav_link"
+                                    to="/trackLogin"
+                                >
+                                    Tracking Login
+                                </NavLink>
+                            </li>
+                            <li className="nav_list_item">
+                                <NavLink
+                                    className="nav_link"
                                     to="/survays"
                                 >
                                     Surveys
