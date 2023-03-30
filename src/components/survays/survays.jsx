@@ -67,7 +67,7 @@ function Survays() {
                 }
             })
             .catch((e) => console.log(e))
-    }, [])
+    }, [token])
 
 
     const HandlePost = (e) => {

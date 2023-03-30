@@ -8,6 +8,7 @@ import Search from "../search/search";
 
 function AppUser() {
     const [data, setData] = useState([])
+    const [apps, setApps] = useState()
     const [token, setToken] = useToken()
     const [value, setValue] = useState('phone')
     const [search, setSearch] = useState('')
@@ -19,6 +20,7 @@ function AppUser() {
     const [show, setShow] = useState(false)
     const [user, setUser] = useState([])
     const [appUser, setAppUser] = useState([])
+    const [add, setAdd] = useState(false)
     const navigate = useNavigate()
 
 
@@ -42,6 +44,25 @@ function AppUser() {
             })
             .catch((e) => console.log(e))
     }, [value, search, token, sort, offset, refresh])
+
+    useEffect(() => {
+        fetch('https://users.behad.uz/api/v1/apps', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                token: token
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 200) {
+                    setApps(data.data)
+                } else if (data.status === 401) {
+                    setToken(false);
+                }
+            })
+            .catch((e) => console.log(e))
+    }, [token])
 
     const checkboxChange = (e) => {
         const id = JSON.parse(e.target.dataset.id);
@@ -132,6 +153,32 @@ function AppUser() {
                     setShow(false)
                     message.value = null
                     title.value = null
+                } else if (data.status === 401) {
+                    setToken(false)
+                } else {
+                    console.log(data);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const AddUserInterestBAppKey = (e) =>{
+        e.preventDefault();
+        const { app_key, text } = e.target.elements
+
+        fetch("https://users.behad.uz/api/v1/putUsersInterestByAppKey", {
+            method: "PUT",
+            body: JSON.stringify({
+                app_key: app_key,
+                text: text.value.trim()
+            }),
+            headers: { token: token, "Content-Type": "application/json", },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status === 200) {
+                    setAdd(false)
+                    text.value = null
                 } else if (data.status === 401) {
                     setToken(false)
                 } else {
@@ -240,6 +287,34 @@ function AppUser() {
                                 onClick={() => setOffset(Number(offset) + 50)}
                                 disabled={data.length >= 50 ? false : true}
                             >Next</button>
+                        </div>
+
+                        <div className="add__btn-box">
+                            <button className="add__btn" onClick={() => setAdd(!add)}>Add user interest</button>
+                        </div>
+                        <div className={add ? "modal" : "modal--close"}>
+                            <div className="modal__item">
+                                <form onSubmit={AddUserInterestBAppKey}>
+
+                                    <select name="app_key" style={{ 'marginBottom': "15px", "padding": "10px" }}>
+                                        {
+                                            apps && apps.map((e, i) => (
+                                                <option key={i} value={e.app_key}>{e.app_name}</option>
+                                            ))
+                                        }
+                                    </select>
+
+                                    <textarea
+                                        cols={35}
+                                        rows={5}
+                                        style={{ "display": "block", "marginBottom": "20px", "padding": "10px", "fontSize": "17px" }}
+                                        placeholder='user interest'
+                                        name="text"></textarea>
+
+                                    <button className='login__btn'>Add user interest</button>
+                                </form>
+                                <button className='login__btn' onClick={() => setAdd(!add)}>Close</button>
+                            </div>
                         </div>
 
                         <div className={show ? "modal" : "modal--close"}>
