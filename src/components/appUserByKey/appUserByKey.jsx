@@ -8,15 +8,15 @@ function AppUserByKey() {
     const { key } = useParams()
     const [data, setData] = useState([])
     const [token, setToken] = useToken()
-    const [disabled, setDisabled] = useState(true)
     const [refresh, setRefresh] = useState(0)
     const [show, setShow] = useState(false)
     const [user, setUser] = useState([])
+    const [offset, setOffset] = useState(0)
     const [appUser, setAppUser] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('https://users.behad.uz/api/v1/appUsersByKey?key=' + key, {
+        fetch('https://users.behad.uz/api/v1/appUsersByKey?key=' + key + "&offset=" + offset, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -58,50 +58,6 @@ function AppUserByKey() {
             })
             .catch((err) => console.log(err));
     }
-
-
-    const HandleLimitNext = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
-
-        fetch("https://users.behad.uz/api/v1/appUsersByKey?position=next&id=" + id + "&key=" + key, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setDisabled(false)
-                    setData(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }
-
-    const HandleLimitPrev = (e) => {
-        const id = JSON.parse(e.target.dataset.id);
-
-        fetch("https://users.behad.uz/api/v1/appUsersByKey?position=prev&id=" + id + "&key=" + key, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setData(data.data)
-                } else if (data.status === 401) {
-                    setToken(false);
-                }
-            })
-            .catch((e) => console.log(e))
-    }
     
     const HandleUser = (e) => {
         const id = JSON.parse(e.target.dataset.id);
@@ -142,6 +98,7 @@ function AppUserByKey() {
             })
             .catch((e) => console.log(e))
     }
+
 
     return (
         <>
@@ -204,17 +161,15 @@ function AppUserByKey() {
                             </tbody>
                         </table>
 
-                        <div className={"pagination__btnbox"}>
+                        <div className="pagination__btnbox">
                             <button
                                 className="prev_btn add__btn"
-                                data-id={data[0]?.app_user_id}
-                                onClick={HandleLimitPrev}
-                                disabled={disabled}
+                                onClick={() => setOffset(Number(offset) - 50)}
+                                disabled={offset === 0 ? true : false}
                             >Prev</button>
                             <button
                                 className="next_btn add__btn"
-                                data-id={data[data.length - 1]?.app_user_id}
-                                onClick={HandleLimitNext}
+                                onClick={() => setOffset(Number(offset) + 50)}
                                 disabled={data.length >= 50 ? false : true}
                             >Next</button>
                         </div>
