@@ -16,6 +16,7 @@ function AppUserByKey() {
     const navigate = useNavigate()
 
     useEffect(() => {
+        console.log(offset);
         fetch('https://users.behad.uz/api/v1/appUsersByKey?key=' + key + "&offset=" + offset, {
             method: "GET",
             headers: {
@@ -25,7 +26,7 @@ function AppUserByKey() {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.status === 200) {cd
+                if (data.status === 200) {
                     setData(data.data)
                 } else if (data.status === 401) {
                     setToken(false);
