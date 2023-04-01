@@ -25,14 +25,14 @@ function AppUserByKey() {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.status === 200) {
+                if (data.status === 200) {cd
                     setData(data.data)
                 } else if (data.status === 401) {
                     setToken(false);
                 }
             })
             .catch((e) => console.log(e))
-    }, [token, refresh, key])
+    }, [token, refresh, key, offset])
 
     const checkboxChange = (e) => {
         const id = JSON.parse(e.target.dataset.id);
