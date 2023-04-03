@@ -392,6 +392,7 @@ function Users() {
                                 <p>{`Name: ${user[0]?.user_name}`}</p>
                                 <p>{`Surname: ${user[0]?.user_surname}`}</p>
                                 <p>{`Age: ${user[0]?.user_age}`}</p>
+                                <p>{`Birthday: ${user[0]?.user_birthday}`}</p>
                                 <p>{`Who: ${user[0]?.user_who}`}</p>
                                 <p>Tel: <a href={`tel:${user[0]?.user_phone}`}>{user[0]?.user_phone}</a></p>
                                 <p>{`Cauntry: ${user[0]?.user_country}`}</p>
