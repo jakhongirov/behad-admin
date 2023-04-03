@@ -197,7 +197,7 @@ function Users() {
 
     const HandlePut = (e) => {
         e.preventDefault();
-        const { name, surname, age, phone, who, password } = e.target.elements
+        const { name, surname, age, date, phone, who, password } = e.target.elements
 
         fetch("https://users.behad.uz/api/v1/editUser", {
             method: "PUT",
@@ -206,6 +206,7 @@ function Users() {
                 name: name.value.trim(),
                 surname: surname.value.trim(),
                 age: age.value - 0,
+                date: date.value,
                 phone: phone.value,
                 who: who.value,
                 password: password.value ? password.value : null
@@ -323,6 +324,7 @@ function Users() {
                                                                 age: e.user_age,
                                                                 who: e.user_who,
                                                                 phone: e.user_phone,
+                                                                date: e.user_birthday
                                                             }
                                                         )
                                                         setEdit(!edit)
@@ -445,7 +447,8 @@ function Users() {
                                         <option value="erkak">Erkak</option>
                                         <option value="ayol">Ayol</option>
                                     </select>
-                                </div>
+                                </div> 
+                                <input className='login__phone__input app__input' type="text" name='date' placeholder='birthday' defaultValue={found?.date} required />
                                 <input className='login__phone__input app__input' type="tel" name='phone' placeholder='phone' defaultValue={found?.phone} required />
                                 <input className='login__phone__input app__input' type="tel" name='password' placeholder='password' />
                                 <button style={{ "marginBottom": "10px" }} className='login__btn'>Edit</button>
